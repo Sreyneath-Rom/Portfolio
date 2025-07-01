@@ -1,0 +1,29 @@
+<template>
+    <router-link :to="item.path"
+        class="flex items-center gap-2 px-3 py-2 border-b-2 border-transparent transition-all duration-300" :class="isActive
+            ? 'border-yellow-600 text-yellow-600 font-semibold'
+            : 'hover:border-yellow-600 hover:text-sky-400 text-sky-400'">
+        <span class="material-symbols-outlined transition-colors duration-300"
+            :class="isActive ? 'text-yellow-600' : 'text-sky-400'">
+            {{ item.icon }}
+        </span>
+        <span>{{ item.label }}</span>
+    </router-link>
+</template>
+
+<script setup>
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const props = defineProps({
+    item: {
+        type: Object,
+        required: true
+    }
+})
+
+const route = useRoute()
+
+const isActive = computed(() => route.path === props.item.path)
+</script>
+  
