@@ -28,7 +28,7 @@
           </p>
 
           <button @click="toggleDetails(index)"
-            class="bg-[#0974f1] text-[#e8e8e8] font-semibold rounded-md px-4 py-2 shadow-[0_5px_10px_rgba(0,0,0,0.2)] transition-all duration-300 hover:bg-transparent hover:text-[#e8e8e8] hover:outline hover:outline-2 hover:outline-[#e8e8e8] active:shadow-none">
+            class="bg-[#0974f1] text-[#e8e8e8] font-semibold rounded-md px-4 py-2 shadow-[0_5px_10px_rgba(0,0,0,0.2)] transition-all duration-300 hover:bg-transparent hover:text-[#e8e8e8]  hover:outline-[#e8e8e8] active:shadow-none">
             {{ showDetails[index] ? 'Hide Details' : 'Read more' }}
           </button>
 
