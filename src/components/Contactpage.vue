@@ -9,16 +9,16 @@
     </svg>
 
     <div
-        class="min-h-screen bg-gray-100 p-6 text-[12pt] font-[Verdana] leading-relaxed flex flex-col items-center justify-center">
+        class="min-h-screen bg-white p-6 text-[12pt] font-[Verdana] leading-relaxed flex flex-col items-center justify-center animate-fadeIn">
         <!-- Header -->
         <h1 class="text-3xl font-bold text-yellow-600 mb-6">Contact Me</h1>
-        <p class="text-lg text-gray-700 mb-8 text-center max-w-lg">
+        <p class="text-lg text-gray-700 mb-8 text-center max-w-lg animate-fadeIn">
             Feel free to reach out for inquiries, collaborations, or opportunities in the IT sector. I’m passionate
             about Vue.js, Laravel, and building innovative web solutions.
         </p>
 
         <!-- Contact Information Card -->
-        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow w-full max-w-md">
+     
             <h2 class="text-xl font-semibold text-sky-400 mb-4">Get in Touch</h2>
             <p class="text-gray-600 text-center mb-4">Click the icons below to connect with me:</p>
 
@@ -80,7 +80,7 @@
                     </div>
                 </a>
             </div>
-        </div>
+      
 
         <!-- Footer -->
         <div class="text-center mt-6">

@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Hero Section -->
-        <section class="bg-gray-700 text-white text-center py-20 px-4">
+        <section class="bg-gray-700 text-white text-center py-20 px-4 animate-fadeIn">
             <h1 class="text-3xl md:text-4xl font-bold mb-4">Welcome to My Professional Portfolio</h1>
             <p class="max-w-xl mx-auto mb-6">
                 A collection of my journey applying job search skills in the IT sector.
@@ -17,7 +17,7 @@
         </section>
 
         <!-- Project School Section -->
-        <section class="bg-white text-gray-700 text-center py-20 px-4 mt-10">
+        <section class="bg-white text-gray-700 text-center py-20 px-4 mt-10 animate-fadeIn">
             <h1 class="text-3xl md:text-4xl font-bold mb-4">Project School</h1>
             <p class="leading-relaxed text-sm text-gray-700 m-0">
                 I have learned HTML, CSS, Node.js, JavaScript, TypeScript, PHP, Python, Vue.js, Laravel,
@@ -56,11 +56,8 @@
         </section>
 
         <!-- Cards Section -->
-        <section class="flex flex-wrap justify-center gap-8 mt-10">
-            <!-- <CvCard id="cv-card" />
-            <ProgressCard id="progress-card" />
-            <AdviceCard id="advice-card" />
-            <ReflectionCard id="reflection-card" /> -->
+        <section class="max-w-7xl mx-auto flex flex-wrap justify-center gap-8 mt-10 animate-fadeIn">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Experience</h1>
             <Card/>
         </section>
 
@@ -77,10 +74,7 @@
 
 <script setup>
 import { ref } from 'vue'
-// import CvCard from '@/components/CvCard.vue'
-// import ProgressCard from '@/components/ProgressCard.vue'
-// import AdviceCard from '@/components/AdviceCard.vue'
-// import ReflectionCard from '@/components/ReflectionCard.vue'
+
 import Card from '@/components/Card.vue'
 import Footer from '@/components/Footer.vue'
 
