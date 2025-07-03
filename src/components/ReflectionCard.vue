@@ -1,8 +1,9 @@
 <template>
-    <div :id="id" class="relative flex w-full flex-col rounded-xl bg-white text-gray-700 shadow-md overflow-hidden">
-        <!-- Header -->
+    <div :id="id"
+        class="relative flex w-80 flex-col rounded-xl bg-white text-gray-700  overflow-hidden border-2 border-sky-200  shadow-[0_10px_20px_rgba(0,0,0,0.2)] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-[0_0_20px_rgba(9,117,241,0.8)] hover:border-sky-400">
+        <!-- Header / Title Section -->
         <div
-            class="relative mx-4 -mt-6 h-40 flex items-end px-6 py-4 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg shadow-blue-500/40">
+            class="relative mx-4 -mt-6 h-40 flex items-end px-6 py-4 rounded-xl bg-gradient-to-r from-yellow-700 to-yellow-400 shadow-lg shadow-sky-500/40">
             <h5 class="text-xl font-semibold text-white leading-snug">
                 4. Reflection on Internal Mock Interview
             </h5>
@@ -38,7 +39,7 @@
         <!-- Toggle Button -->
         <div class="p-6 pt-0">
             <button type="button" @click="toggleSection"
-                class="w-full rounded-lg bg-blue-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300">
+                class="w-30 rounded-lg bg-sky-500 py-3 px-2 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 mt-10">
                 {{ isOpen ? 'Hide' : 'Read More' }}
             </button>
         </div>

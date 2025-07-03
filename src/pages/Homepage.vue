@@ -1,51 +1,249 @@
 <template>
   <div
-    class="min-h-screen mt-25 text-[12pt] font-[Verdana] leading-relaxed p-6 text-black dark:text-white dark:bg-gray-900">
+    class="min-h-screen mt-16 sm:mt-24 text-[12pt] font-[Verdana] leading-relaxed p-3 sm:p-6 text-black dark:text-white dark:bg-gray-900">
     <!-- Welcome Section -->
-    <div class="flex justify-start mb-[80px] sm:mb-20 ml-30">
-      <div>
-        <h1 id="welcome-title" class="text-4xl font-bold text-yellow-600 mb-2"></h1>
-        <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
+    <div class="flex flex-col sm:flex-row justify-start items-center mb-10 sm:mb-20">
+      <div class="sm:mr-20 w-full sm:w-auto text-center sm:text-left mb-6 sm:mb-0">
+        <h1 id="welcome-title" class="text-2xl sm:text-4xl font-bold text-yellow-600 mb-2"></h1>
+        <p class="text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-4 sm:mb-6">
           Explore my journey in preparing for a career in the IT sector.
         </p>
       </div>
-      <div class="ml-80">
+
+      <div class="relative mt-4 sm:mt-0 flex justify-center items-center w-full sm:w-auto">
+        <!-- Glow background -->
+        <div
+          class="absolute w-40 h-40 sm:w-60 sm:h-60 rounded-full bg-gradient-to-tr from-yellow-300 via-pink-300 to-purple-400 blur-2xl opacity-70 animate-pulse">
+        </div>
+        <!-- Profile image -->
         <img
           src="https://scontent.fpnh19-1.fna.fbcdn.net/v/t39.30808-6/469514138_1224431698646039_3343655745036244234_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=a5f93a&_nc_ohc=pC2ybbwtYiwQ7kNvwGj1-0m&_nc_oc=AdllyPa2FRWSyZEbVW-dO2xU7By65wq6CZD-M5-ZK_86lzLev-AyO8RgCe2_ETUqAeY&_nc_zt=23&_nc_ht=scontent.fpnh19-1.fna&_nc_gid=FXZXTwiSM5hYmjJScT2b9g&oh=00_AfNImfy2RR10N5r83nh9DB1azL2Ur0FO9-vkLg8nZpNBzA&oe=6867CD92"
-          alt="Profile picture" class="w-70 h-70 rounded-full mb-4 shadow-md object-cover" />
+          alt="Profile picture" class="relative w-32 h-32 sm:w-48 sm:h-48 rounded-full shadow-md object-cover" />
       </div>
     </div>
-    <hr class="border-yellow-500 dark:border-gray-600 mb-10" />
 
-    <!-- Project Cards -->
-    <div class="max-w-7xl mx-auto flex flex-wrap justify-center gap-8 mt-10">
-      <div v-for="(project, index) in projects" :key="project.title"
-        class="flex items-start justify-center w-[320px] min-h-[420px] p-8 rounded-lg border-2 border-gray-700 bg-[#212121] shadow-[0_10px_20px_rgba(0,0,0,0.2)] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:shadow-[0_0_20px_rgba(9,117,241,0.8)] hover:border-[#0974f1]">
-        <div class="flex flex-col items-start gap-5 text-[#e8e8e8] w-full">
-          <p class="font-bold text-2xl m-0">{{ project.title }}</p>
-          <p class="leading-relaxed text-sm text-gray-300 m-0">
-            {{ project.role }} | {{ project.duration }}
-          </p>
+    <!-- Programming Languages & Tools Marquee -->
+    <div class="mt-8 space-y-4">
 
-          <button @click="toggleDetails(index)"
-            class="bg-[#0974f1] text-[#e8e8e8] font-semibold rounded-md px-4 py-2 shadow-[0_5px_10px_rgba(0,0,0,0.2)] transition-all duration-300 hover:bg-transparent hover:text-[#e8e8e8]  hover:outline-[#e8e8e8] active:shadow-none">
-            {{ showDetails[index] ? 'Hide Details' : 'Read more' }}
-          </button>
+      <!-- Programming Languages Row -->
+      <div class="marquee-container bg-gray-100 py-3 overflow-hidden relative rounded-lg">
 
-          <transition name="fade">
-            <div v-if="showDetails[index]" class="mt-2 text-sm text-gray-400 max-h-[120px] overflow-y-auto pr-1">
-              <ul class="list-disc list-inside">
-                <li v-for="(task, i) in project.tasks" :key="i">{{ task }}</li>
-              </ul>
-            </div>
-          </transition>
+        <div class="marquee-content whitespace-nowrap animate-marquee text-gray-700 font-medium inline-block">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+            alt="JavaScript" class="inline h-6 mx-2 align-middle" />
+          JavaScript •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+            alt="TypeScript" class="inline h-6 mx-2 align-middle" />
+          TypeScript •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP"
+            class="inline h-6 mx-2 align-middle" />
+          PHP •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"
+            class="inline h-6 mx-2 align-middle" />
+          Python •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"
+            class="inline h-6 mx-2 align-middle" />
+          HTML •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"
+            class="inline h-6 mx-2 align-middle" />
+          CSS •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"
+            class="inline h-6 mx-2 align-middle" />
+          SQL •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"
+            class="inline h-6 mx-2 align-middle" />
+          Java •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"
+            class="inline h-6 mx-2 align-middle" />
+          C# •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"
+            class="inline h-6 mx-2 align-middle" />
+          C++ •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" alt="Ruby"
+            class="inline h-6 mx-2 align-middle" />
+          Ruby •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go"
+            class="inline h-6 mx-2 align-middle" />
+          Go •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" alt="Swift"
+            class="inline h-6 mx-2 align-middle" />
+          Swift •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin"
+            class="inline h-6 mx-2 align-middle" />
+          Kotlin •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+            alt="JavaScript" class="inline h-6 mx-2 align-middle" />
+          JavaScript •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+            alt="TypeScript" class="inline h-6 mx-2 align-middle" />
+          TypeScript •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP"
+            class="inline h-6 mx-2 align-middle" />
+          PHP •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"
+            class="inline h-6 mx-2 align-middle" />
+          Python •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"
+            class="inline h-6 mx-2 align-middle" />
+          HTML •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"
+            class="inline h-6 mx-2 align-middle" />
+          CSS •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"
+            class="inline h-6 mx-2 align-middle" />
+          SQL •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"
+            class="inline h-6 mx-2 align-middle" />
+          Java •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"
+            class="inline h-6 mx-2 align-middle" />
+          C# •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"
+            class="inline h-6 mx-2 align-middle" />
+          C++ •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" alt="Ruby"
+            class="inline h-6 mx-2 align-middle" />
+          Ruby •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go"
+            class="inline h-6 mx-2 align-middle" />
+          Go •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" alt="Swift"
+            class="inline h-6 mx-2 align-middle" />
+          Swift •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin"
+            class="inline h-6 mx-2 align-middle" />
+          Kotlin •
         </div>
       </div>
+
+      <!-- Frontend Frameworks Row -->
+      <div class="marquee-container bg-gray-100 py-3 overflow-hidden relative rounded-lg">
+
+        <div class="marquee-content whitespace-nowrap animate-marquee text-gray-700 font-medium inline-block">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js"
+            class="inline h-6 mx-2 align-middle" />
+          React.js •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js"
+            class="inline h-6 mx-2 align-middle" />
+          Vue.js •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg"
+            alt="Tailwind CSS" class="inline h-6 mx-2 align-middle" />
+          Tailwind CSS •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap"
+            class="inline h-6 mx-2 align-middle" />
+          Bootstrap •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"
+            class="inline h-6 mx-2 align-middle" />
+          HTML •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"
+            class="inline h-6 mx-2 align-middle" />
+          CSS •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="SASS"
+            class="inline h-6 mx-2 align-middle" />
+          SASS •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js"
+            class="inline h-6 mx-2 align-middle" />
+          React.js •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js"
+            class="inline h-6 mx-2 align-middle" />
+          Vue.js •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg"
+            alt="Tailwind CSS" class="inline h-6 mx-2 align-middle" />
+          Tailwind CSS •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap"
+            class="inline h-6 mx-2 align-middle" />
+          Bootstrap •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"
+            class="inline h-6 mx-2 align-middle" />
+          HTML •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"
+            class="inline h-6 mx-2 align-middle" />
+          CSS •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="SASS"
+            class="inline h-6 mx-2 align-middle" />
+          SASS •
+
+        </div>
+      </div>
+
+      <!-- Backend Frameworks + Tools Row -->
+      <div class="marquee-container bg-gray-100 py-3 overflow-hidden relative rounded-lg">
+
+        <div class="marquee-content whitespace-nowrap animate-marquee text-gray-700 font-medium inline-block">
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg" alt="Laravel"
+            class="inline h-6 mx-2 align-middle" />
+          Laravel •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"
+            class="inline h-6 mx-2 align-middle" />
+          Node.js •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express"
+            class="inline h-6 mx-2 align-middle bg-white rounded" />
+          Express •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"
+            class="inline h-6 mx-2 align-middle" />
+          Git •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"
+            class="inline h-6 mx-2 align-middle bg-white rounded" />
+          GitHub •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma"
+            class="inline h-6 mx-2 align-middle" />
+          Figma •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code"
+            class="inline h-6 mx-2 align-middle" />
+          VS Code •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman"
+            class="inline h-6 mx-2 align-middle" />
+          Postman •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"
+            class="inline h-6 mx-2 align-middle" />
+          MySQL •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB"
+            class="inline h-6 mx-2 align-middle" />
+          MongoDB •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase"
+            class="inline h-6 mx-2 align-middle" />
+          Firebase •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg" alt="Laravel"
+            class="inline h-6 mx-2 align-middle" />
+          Laravel •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"
+            class="inline h-6 mx-2 align-middle" />
+          Node.js •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express"
+            class="inline h-6 mx-2 align-middle bg-white rounded" />
+          Express •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"
+            class="inline h-6 mx-2 align-middle" />
+          Git •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"
+            class="inline h-6 mx-2 align-middle bg-white rounded" />
+          GitHub •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma"
+            class="inline h-6 mx-2 align-middle" />
+          Figma •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code"
+            class="inline h-6 mx-2 align-middle" />
+          VS Code •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman"
+            class="inline h-6 mx-2 align-middle" />
+          Postman •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"
+            class="inline h-6 mx-2 align-middle" />
+          MySQL •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB"
+            class="inline h-6 mx-2 align-middle" />
+          MongoDB •
+          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase"
+            class="inline h-6 mx-2 align-middle" />
+          Firebase •
+        </div>
+      </div>
+
     </div>
 
-    <hr class="border-yellow-500 dark:border-gray-600 mb-10 mt-10" />
+    <hr class="border-yellow-500 dark:border-gray-600 mb-6 sm:mb-10 mt-6 sm:mt-10" />
     <Aboutpage />
-    <hr class="border-yellow-500 dark:border-gray-600 mb-10" />
+    <hr class="border-yellow-500 dark:border-gray-600 mb-6 sm:mb-10" />
     <Contactpage />
   </div>
 </template>
@@ -57,102 +255,18 @@ import Aboutpage from '../components/Aboutpage.vue'
 import Contactpage from '@/components/Contactpage.vue'
 
 const isDark = ref(false)
-const showDetails = ref([])
-
-const projects = [
-  {
-    title: 'POS System',
-    duration: 'Feb 10, 2025 - May 02, 2025',
-    role: 'DevOps',
-    tasks: [
-      'Monitored server performance and resolved infrastructure issues.',
-      'Configured environments for development, testing, and production.',
-      'Designed responsive user interfaces with HTML, CSS, JavaScript, and Bootstrap 5.',
-      'Fetched and processed data using PHP and a connected database.'
-    ]
-  },
-  {
-    title: 'Inventory Management App',
-    duration: 'Jan 14, 2025 - Jan 29, 2025',
-    role: 'Designer',
-    tasks: [
-      'Designed responsive user interfaces with HTML, CSS, and Bootstrap 5.',
-      'Created wireframes and mockups using Figma.',
-      'Collaborated with developers to ensure design consistency.',
-      'Fetched and handled data using JavaScript.'
-    ]
-  },
-  {
-    title: 'Video Download',
-    duration: 'Nov 18, 2024 – Nov 28, 2024',
-    role: 'Team Leader',
-    tasks: [
-      'Led a team of 3 members to develop a video downloader tool.',
-      'Structured the project workflow and delegated tasks.',
-      'Integrated JSON for dynamic configuration and settings.'
-    ]
-  },
-  {
-    title: 'Bakery Shop',
-    duration: 'Oct 21, 2024 – Nov 5, 2024',
-    role: 'Designer',
-    tasks: [
-      'Designed a visually appealing bakery website using SASS.',
-      'Enhanced layout responsiveness for a better user experience.',
-      'Maintained design consistency across pages.'
-    ]
-  },
-  {
-    title: 'Brochure Design',
-    duration: 'June 18, 2024 – Aug 16, 2024',
-    role: 'Designer',
-    tasks: [
-      'Created professional marketing brochures using Figma.',
-      'Applied branding guidelines and visual design principles.',
-      'Presented final designs to stakeholders for feedback and approval.'
-    ]
-  },
-  {
-    title: 'Product Owner / UX/UI / Data / PM',
-    duration: 'Jan – Mar 2025',
-    role: 'Multidisciplinary Roles',
-    tasks: [
-      'Practiced defining product requirements and writing user stories.',
-      'Utilized Jira to manage and track tasks in an agile environment.',
-      'Translated user requirements into wireframes and prototypes.',
-      'Analyzed and visualized data using Python and Power BI.',
-      'Explored agile ceremonies (planning, stand-ups, reviews).'
-    ]
-  }
-]
-
-showDetails.value = Array(projects.length).fill(false)
 
 onMounted(() => {
   isDark.value = localStorage.getItem('theme') === 'dark'
   updateTheme()
 
   new Typed('#welcome-title', {
-    strings: ['Welcome to My Portfolio', 'Explore My IT Journey'],
+    strings: ['Welcome to My Portfolio', 'Explore My IT Journey', 'My name is Sreyneath'],
     typeSpeed: 50,
     backSpeed: 30,
     loop: true
   })
 })
-
-function toggleDetails(index) {
-  showDetails.value[index] = !showDetails.value[index]
-}
-
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
-function toggleDark() {
-  isDark.value = !isDark.value
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
-  updateTheme()
-}
 
 function updateTheme() {
   const html = document.documentElement
@@ -160,14 +274,6 @@ function updateTheme() {
 }
 </script>
 
-<style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
+<style scoped>
+/* Custom styles for extra small screens if needed */
 </style>
