@@ -1,7 +1,6 @@
 
 
-import Aboutpage from '@/components/Aboutpage.vue';
-import Contactpage from '@/components/Contactpage.vue';
+
 import Homepage from '@/pages/Homepage.vue';
 import PortfolioPage from '@/pages/PortfolioPage.vue';
 
@@ -12,16 +11,7 @@ const routes = [
         name: 'Home',
         component: Homepage
     },
-    {
-        path: '/About',
-        name: 'About',
-        component: Aboutpage
-    },
-    {
-        path: '/Contact',
-        name: 'Contact',
-        component: Contactpage
-    },
+
 
 
     {
