@@ -3,6 +3,7 @@
     class="min-h-screen mt-16 sm:mt-24 text-12 font-Verdana leading-relaxed p-3 sm:p-6 text-black dark:text-white dark:bg-gray-900 animate-fadeIn">
     <!-- Welcome Section -->
     <div class="flex flex-col  sm:flex-row justify-between items-center mb-10 sm:mb-20">
+   
       <!-- Text Left -->
       <div class="sm:mr-20 w-full sm:w-1/2 text-center sm:text-left mb-6 sm:mb-0 max-w-xl">
         <h1 id="welcome-title" class="text-3xl sm:text-4xl font-bold text-yellow-600 mb-2 ml-0 sm:ml-20"></h1>
@@ -26,7 +27,7 @@
     </div>
 
     <hr class="border-yellow-500 dark:border-gray-600 mb-6 sm:mb-10 mt-6 sm:mt-10" />
-    <Aboutpage />
+    <Aboutpage class="animate-fadeIn" />
     <Footer/>
   </div>
 </template>
@@ -38,6 +39,7 @@ import Aboutpage from '@/components/Aboutpage.vue'
 import Footer from '@/components/Footer.vue'
 import Marquee from '@/components/Marquee.vue'
 
+
 const isDark = ref(false)
 
 onMounted(() => {
@@ -46,9 +48,12 @@ onMounted(() => {
 
   new Typed('#welcome-title', {
     strings: ['Welcome to My Portfolio', 'Explore My IT Journey', 'My name is Sreyneath'],
-    typeSpeed: 50,
+    typeSpeed: 100,
     backSpeed: 30,
-    loop: true
+    loop: true,
+    showCursor: false,
+    
+
   })
 })
 
