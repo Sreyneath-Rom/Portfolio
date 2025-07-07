@@ -104,7 +104,7 @@
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js"
                     class="inline h-6 mx-2 align-middle" />
                 Vue.js •
-                <img src="https://avatars.githubusercontent.com/u/30317862?s=200&v=4"
+                <img src="https://w7.pngwing.com/pngs/293/485/png-transparent-tailwind-css-hd-logo.png"
                     alt="Tailwind CSS" class="inline h-6 mx-2 align-middle" />
                 Tailwind CSS •
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
