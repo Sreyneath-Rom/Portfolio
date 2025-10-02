@@ -8,89 +8,89 @@
 
             <div class="marquee-content whitespace-nowrap animate-marquee text-gray-700 font-medium inline-block">
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-                    alt="JavaScript" class="inline h-6 mx-2 align-middle" />
-                JavaScript •
+                    alt="JavaScript" class="inline h-12 mx-6 align-middle" />
+              
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
-                    alt="TypeScript" class="inline h-6 mx-2 align-middle" />
-                TypeScript •
+                    alt="TypeScript" class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP"
-                    class="inline h-6 mx-2 align-middle" />
-                PHP •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"
-                    class="inline h-6 mx-2 align-middle" />
-                Python •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"
-                    class="inline h-6 mx-2 align-middle" />
-                HTML •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"
-                    class="inline h-6 mx-2 align-middle" />
-                CSS •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"
-                    class="inline h-6 mx-2 align-middle" />
-                SQL •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"
-                    class="inline h-6 mx-2 align-middle" />
-                Java •
+                    class="inline h-12 mx-6 align-middle" />
+              
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"
-                    class="inline h-6 mx-2 align-middle" />
-                C# •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"
-                    class="inline h-6 mx-2 align-middle" />
-                C++ •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" alt="Ruby"
-                    class="inline h-6 mx-2 align-middle" />
-                Ruby •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go"
-                    class="inline h-6 mx-2 align-middle" />
-                Go •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" alt="Swift"
-                    class="inline h-6 mx-2 align-middle" />
-                Swift •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin"
-                    class="inline h-6 mx-2 align-middle" />
-                Kotlin •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-                    alt="JavaScript" class="inline h-6 mx-2 align-middle" />
-                JavaScript •
+                    alt="JavaScript" class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
-                    alt="TypeScript" class="inline h-6 mx-2 align-middle" />
-                TypeScript •
+                    alt="TypeScript" class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP"
-                    class="inline h-6 mx-2 align-middle" />
-                PHP •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"
-                    class="inline h-6 mx-2 align-middle" />
-                Python •
+                    class="inline h-12 mx-6 align-middle" />
+              
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"
-                    class="inline h-6 mx-2 align-middle" />
-                HTML •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"
-                    class="inline h-6 mx-2 align-middle" />
-                CSS •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL"
-                    class="inline h-6 mx-2 align-middle" />
-                SQL •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"
-                    class="inline h-6 mx-2 align-middle" />
-                Java •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#"
-                    class="inline h-6 mx-2 align-middle" />
-                C# •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++"
-                    class="inline h-6 mx-2 align-middle" />
-                C++ •
+                    class="inline h-12 mx-6 align-middle" />
+              
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" alt="Ruby"
-                    class="inline h-6 mx-2 align-middle" />
-                Ruby •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go"
-                    class="inline h-6 mx-2 align-middle" />
-                Go •
+                    class="inline h-12 mx-6 align-middle" />
+              
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" alt="Swift"
-                    class="inline h-6 mx-2 align-middle" />
-                Swift •
+                    class="inline h-12 mx-6 align-middle" />
+              
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" alt="Kotlin"
-                    class="inline h-6 mx-2 align-middle" />
-                Kotlin •
+                    class="inline h-12 mx-6 align-middle" />
+               
             </div>
         </div>
 
@@ -99,68 +99,68 @@
             <div class="marquee-content whitespace-nowrap animate-marquee-right text-gray-700 font-medium inline-block">
 
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js"
-                    class="inline h-6 mx-2 align-middle" />
-                React.js •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js"
-                    class="inline h-6 mx-2 align-middle" />
-                Vue.js •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png"
-                    alt="Tailwind CSS" class="inline h-6 mx-2 align-middle" />
-                Tailwind CSS •
+                    alt="Tailwind CSS" class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
-                    alt="Bootstrap" class="inline h-6 mx-2 align-middle" />
-                Bootstrap •
+                    alt="Bootstrap" class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"
-                    class="inline h-6 mx-2 align-middle" />
-                HTML •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"
-                    class="inline h-6 mx-2 align-middle" />
-                CSS •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="SASS"
-                    class="inline h-6 mx-2 align-middle" />
-                SASS •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js"
-                    class="inline h-6 mx-2 align-middle" />
-                React.js •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js"
-                    class="inline h-6 mx-2 align-middle" />
-                Vue.js •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png"
-                    alt="Tailwind CSS" class="inline h-6 mx-2 align-middle" />
-                Tailwind CSS •
+                    alt="Tailwind CSS" class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
-                    alt="Bootstrap" class="inline h-6 mx-2 align-middle" />
-                Bootstrap •
+                    alt="Bootstrap" class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"
-                    class="inline h-6 mx-2 align-middle" />
-                HTML •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"
-                    class="inline h-6 mx-2 align-middle" />
-                CSS •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="SASS"
-                    class="inline h-6 mx-2 align-middle" />
-                SASS •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React.js"
-                    class="inline h-6 mx-2 align-middle" />
-                React.js •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js"
-                    class="inline h-6 mx-2 align-middle" />
-                Vue.js •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png"
-                    alt="Tailwind CSS" class="inline h-6 mx-2 align-middle" />
-                Tailwind CSS •
+                    alt="Tailwind CSS" class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
-                    alt="Bootstrap" class="inline h-6 mx-2 align-middle" />
-                Bootstrap •
+                    alt="Bootstrap" class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"
-                    class="inline h-6 mx-2 align-middle" />
-                HTML •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"
-                    class="inline h-6 mx-2 align-middle" />
-                CSS •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="SASS"
-                    class="inline h-6 mx-2 align-middle" />
-                SASS •
+                    class="inline h-12 mx-6 align-middle" />
+                
 
             </div>
         </div>
@@ -171,71 +171,71 @@
 
             
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/800px-Laravel.svg.png" alt="Laravel"
-                    class="inline h-6 mx-2 align-middle" />
-                Laravel •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"
-                    class="inline h-6 mx-2 align-middle" />
-                Node.js •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express"
-                    class="inline h-6 mx-2 align-middle bg-white rounded" />
-                Express •
+                    class="inline h-12 mx-6 align-middle bg-white rounded" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"
-                    class="inline h-6 mx-2 align-middle" />
-                Git •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"
-                    class="inline h-6 mx-2 align-middle bg-white rounded" />
-                GitHub •
+                    class="inline h-12 mx-6 align-middle bg-white rounded" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma"
-                    class="inline h-6 mx-2 align-middle" />
-                Figma •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code"
-                    class="inline h-6 mx-2 align-middle" />
-                VS Code •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman"
-                    class="inline h-6 mx-2 align-middle" />
-                Postman •
+                    class="inline h-12 mx-6 align-middle" />
+              
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"
-                    class="inline h-6 mx-2 align-middle" />
-                MySQL •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB"
-                    class="inline h-6 mx-2 align-middle" />
-                MongoDB •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase"
-                    class="inline h-6 mx-2 align-middle" />
-                Firebase •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/800px-Laravel.svg.png" alt="Laravel"
-                    class="inline h-6 mx-2 align-middle" />
-                Laravel •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js"
-                    class="inline h-6 mx-2 align-middle" />
-                Node.js •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express"
-                    class="inline h-6 mx-2 align-middle bg-white rounded" />
-                Express •
+                    class="inline h-12 mx-6 align-middle bg-white rounded" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"
-                    class="inline h-6 mx-2 align-middle" />
-                Git •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"
-                    class="inline h-6 mx-2 align-middle bg-white rounded" />
-                GitHub •
+                    class="inline h-12 mx-6 align-middle bg-white rounded" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" alt="Figma"
-                    class="inline h-6 mx-2 align-middle" />
-                Figma •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code"
-                    class="inline h-6 mx-2 align-middle" />
-                VS Code •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman"
-                    class="inline h-6 mx-2 align-middle" />
-                Postman •
+                    class="inline h-12 mx-6 align-middle" />
+                
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"
-                    class="inline h-6 mx-2 align-middle" />
-                MySQL •
+                    class="inline h-12 mx-6 align-middle" />
+              
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB"
-                    class="inline h-6 mx-2 align-middle" />
-                MongoDB •
+                    class="inline h-12 mx-6 align-middle" />
+               
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" alt="Firebase"
-                    class="inline h-6 mx-2 align-middle" />
-                Firebase •
+                    class="inline h-12 mx-6 align-middle" />
+               
             
             </div>
         </div>

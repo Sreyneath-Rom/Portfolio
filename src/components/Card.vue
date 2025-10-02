@@ -94,7 +94,7 @@ const cards = [
 const showDetails = ref(cards.map(() => false));
 
 function toggleDetails(index) {
-  showDetails.value[index] = !showDetails.value[index];
+  showDetails.value = showDetails.value.map((val, i) => i === index ? !val : false);
 }
 </script>
 
@@ -107,4 +107,5 @@ function toggleDetails(index) {
 .fade-leave-to {
   opacity: 0;
 }
+
 </style>

@@ -13,7 +13,7 @@
             >work</span
           >
           <span class="text-xl md:text-2xl font-semibold text-yellow-600"
-            >Portfolio</span
+            >SREYNEATH ROM</span
           >
         </router-link>
       </div>
@@ -51,8 +51,8 @@
       </div>
       <!-- Dark Mode Toggle -->
        <div class="hidden md:block ml-10">
-        <DarkMode :isDark="isDark" @toggle="isDark = !isDark" />
-        </div>
+    <DarkMode :isDark="isDark" @toggle="toggle" />
+  </div>
      
 
       <!-- Hamburger Menu (visible on mobile/tablet only) -->
@@ -116,6 +116,9 @@
 import { ref } from "vue";
 import NavigationItem from "./NavigationItem.vue";
 import DarkMode from "@/components/DarkMode.vue";
+import { useDarkMode } from '@/composables/useDarkMode';  // Import the composable
+
+const { isDark, toggle } = useDarkMode();  // Use shared state
 
 const navItems = ref([
   { label: "Home", path: "/", icon: "home" },
@@ -124,14 +127,3 @@ const navItems = ref([
 
 const showMobileMenu = ref(false);
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
