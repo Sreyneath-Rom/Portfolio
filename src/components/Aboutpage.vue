@@ -1,14 +1,20 @@
 <template>
-  <div class="max-w-5xl mx-auto p-6 md:p-12">
+  <div class="max-w-5xl mx-auto p-6 md:p-12 transition-colors duration-300" :class="themeClasses">
     <!-- Heading -->
-    <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 text-yellow-500">About Me</h1>
+    <h1 class="text-3xl font-bold text-center mb-8 md:text-4xl" :class="themeAccent">
+      About Me
+    </h1>
 
     <!-- Profile Section -->
-    <div class="flex flex-col md:flex-row items-center gap-8 mb-12">
-      <img src="@/assets/image/1.png" alt="Sreyneath Rom" class="w-32 h-32 md:w-48 md:h-48 rounded-full shadow-lg object-cover" />
+    <div class="flex flex-col items-center gap-6 mb-12 md:flex-row md:gap-8">
+      <img
+        src="@/assets/image/1.png"
+        alt="Sreyneath Rom"
+        class="w-32 h-32 rounded-full shadow-lg object-cover md:w-48 md:h-48"
+      />
       <div class="text-center md:text-left">
-        <p class="text-xl font-semibold text-sky-500 mb-2">Sreyneath Rom</p>
-        <p class="text-base text-gray-600 dark:text-gray-400">
+        <p class="text-xl font-semibold mb-2" :class="themeAccent">Sreyneath Rom</p>
+        <p class="text-base" :class="themeTextSecondary">
           Age: 21<br />
           Address: Phnom Penh, Cambodia<br />
           Place of Birth: Siem Reap Province
@@ -17,20 +23,52 @@
     </div>
 
     <!-- Biography -->
-    <p class="text-base text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-12">
-      Hello! I’m Sreyneath, a passionate learner and aspiring developer with a focus on building responsive web applications using Vue.js and Laravel. I’m on a journey to deepen my skills in frontend and backend development.
+    <p class="text-base max-w-3xl mx-auto mb-12" :class="themeText">
+      Hello! I’m Sreyneath, a passionate learner and aspiring developer with a
+      focus on building responsive web applications using Vue.js and Laravel.
     </p>
+
+    <!-- Skills Highlights -->
+    <div class="w-full">
+      <h2 class="text-xl font-semibold text-center mb-6" :class="themeAccent">
+        Key Skills
+      </h2>
+      <Marquee />
+    </div>
 
     <!-- Social Links -->
     <div class="px-4">
-      <p class="text-gray-600 dark:text-gray-400 text-center mb-6">Connect with me:</p>
+      <p class="text-center mb-6" :class="themeTextSecondary">
+        Connect with me or
+        <a :href="cvLink" class="hover:underline" :class="themeAccent">download my CV</a>:
+      </p>
       <div class="flex justify-center gap-6">
-        <a v-for="social in socialLinks" :key="social.name" :href="social.url" target="_blank" rel="noopener noreferrer" class="transform hover:scale-110 transition">
-          <div :class="social.class" class="w-12 h-12 rounded-lg flex items-center justify-center shadow-md">
-            <svg :viewBox="social.viewBox" fill="currentColor" class="h-8 w-8 text-white">
+        <a
+          v-for="social in socialLinks"
+          :key="social.name"
+          :href="social.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          :aria-label="`Connect via ${social.name}`"
+          class="relative group"
+        >
+          <div
+            :class="social.class"
+            class="w-12 h-12 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition"
+          >
+            <svg
+              :viewBox="social.viewBox"
+              fill="currentColor"
+              class="h-8 w-8 text-white"
+            >
               <path :d="social.path" />
             </svg>
           </div>
+          <!-- Tooltip -->
+          <span
+            class="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2"
+            >{{ social.name }}</span
+          >
         </a>
       </div>
     </div>
@@ -38,7 +76,42 @@
 </template>
 
 <script setup>
-// Social media links data
+import { computed } from 'vue';
+import Marquee from '@/components/Marquee.vue';
+import { useDarkMode } from '@/composables/useDarkMode';
+
+// Theme management
+const { currentTheme } = useDarkMode();
+
+// Theme classes
+const themeClasses = computed(() => ({
+  'bg-white text-gray-800': currentTheme.value === 'Light',
+  'bg-gray-800 text-gray-200': currentTheme.value === 'Dark',
+  'bg-sepia-100 text-sepia-900': currentTheme.value === 'Sepia',
+  'bg-blue-900 text-blue-100': currentTheme.value === 'Blue',
+}));
+const themeText = computed(() => ({
+  'text-gray-800': currentTheme.value === 'Light',
+  'text-gray-200': currentTheme.value === 'Dark',
+  'text-sepia-900': currentTheme.value === 'Sepia',
+  'text-blue-100': currentTheme.value === 'Blue',
+}));
+const themeTextSecondary = computed(() => ({
+  'text-gray-600': currentTheme.value === 'Light',
+  'text-gray-400': currentTheme.value === 'Dark',
+  'text-sepia-700': currentTheme.value === 'Sepia',
+  'text-blue-200': currentTheme.value === 'Blue',
+}));
+const themeAccent = computed(() => ({
+  'text-yellow-500': currentTheme.value === 'Light' || currentTheme.value === 'Dark',
+  'text-amber-600': currentTheme.value === 'Sepia',
+  'text-blue-400': currentTheme.value === 'Blue',
+}));
+
+// CV link
+const cvLink = 'https://www.canva.com/design/DAGjQTop64Q/Y7LRgoDTg1TlutXgBb9YxQ/view?utm_content=DAGjQTop64Q&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h8cec6f4468';
+
+// Social links
 const socialLinks = [
   {
     name: 'GitHub',
@@ -76,5 +149,10 @@ const socialLinks = [
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Smooth transitions for theme changes */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 </style>

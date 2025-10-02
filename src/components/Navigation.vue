@@ -1,129 +1,86 @@
 <template>
-  <div class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
-    <nav
-      class="h-16 w-full max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 gap-4"
-    >
-      <!-- Left: Logo + Title -->
-      <div class="flex items-center gap-4">
-        <router-link
-          to="/"
-          class="flex items-center gap-2 hover:opacity-80 transition"
-        >
-          <span class="material-symbols-outlined text-3xl text-yellow-600"
-            >work</span
-          >
-          <span class="text-xl md:text-2xl font-semibold text-yellow-600"
-            >SREYNEATH ROM</span
-          >
+  <div class="bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-50">
+    <nav class="max-w-5xl mx-auto h-16 flex items-center justify-between px-4">
+      <!-- Logo -->
+      <router-link to="/" class="flex items-center gap-2 hover:opacity-90 transition" aria-label="Go to homepage">
+        <span class="material-symbols-outlined text-2xl text-yellow-500 md:text-3xl">work</span>
+        <span class="text-lg font-semibold text-yellow-500 md:text-xl">SREYNEATH ROM</span>
+      </router-link>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden items-center gap-4 md:flex">
+        <router-link v-for="item in navItems" :key="item.label" :to="item.path" class="flex items-center gap-2 px-3 py-2 text-sky-500 hover:text-sky-400 transition" :aria-label="`Go to ${item.label} page`">
+          <span class="material-symbols-outlined text-xl">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
         </router-link>
+        <DarkMode :isDark="isDark" @toggle="toggle" />
       </div>
 
-      <!-- Center: Search Bar (hidden on mobile, visible on md+) -->
-      <div class="hidden md:flex flex-1 justify-center">
-        <div class="relative w-full max-w-xs">
-          <span
-            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-sky-400"
-          >
-            search
-          </span>
-          <input
-            type="text"
-            placeholder="Search..."
-            aria-label="Search library"
-            class="w-full px-10 py-2 text-black bg-transparent border border-sky-400 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-600 shadow-inner"
-          />
-          <span
-            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sky-400 cursor-pointer hover:text-sky-600"
-          >
-            mic
-          </span>
-        </div>
-      </div>
-
-      <!-- Right: Navigation Links (hidden on mobile, visible on md+) -->
-      <div class="hidden md:flex items-center gap-6">
-        <NavigationItem
-          v-for="item in navItems"
-          :key="item.label"
-          :item="item"
-          :to="item.path"
-        />
-      </div>
-      <!-- Dark Mode Toggle -->
-       <div class="hidden md:block ml-10">
-    <DarkMode :isDark="isDark" @toggle="toggle" />
-  </div>
-     
-
-      <!-- Hamburger Menu (visible on mobile/tablet only) -->
-      <button
-        class="md:hidden flex items-center"
-        @click="showMobileMenu = !showMobileMenu"
-      >
-        <span class="material-symbols-outlined text-3xl text-yellow-600"
-          >menu</span
-        >
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden" @click="showMobileMenu = !showMobileMenu" aria-label="Toggle mobile menu">
+        <span class="material-symbols-outlined text-3xl text-yellow-500">{{ showMobileMenu ? 'close' : 'menu' }}</span>
       </button>
-    </nav>
 
-    <!-- Mobile Menu Drawer -->
-    <transition name="fade">
-      <div
-        v-if="showMobileMenu"
-        class="md:hidden fixed inset-0 bg-black bg-opacity-40 z-50"
-        @click="showMobileMenu = false"
-      >
-        <div
-          class="absolute top-0 right-0 w-5/6 max-w-xs h-full bg-white shadow-lg p-6 flex flex-col gap-6"
-          @click.stop
-        >
-          <button class="self-end mb-4" @click="showMobileMenu = false">
-            <span class="material-symbols-outlined text-2xl">close</span>
-          </button>
-          <NavigationItem
-            v-for="item in navItems"
-            :key="item.label"
-            :item="item"
-            :to="item.path"
-            @click="showMobileMenu = false"
-          />
-          <!-- Mobile Search Bar -->
-          <div class="relative mt-4">
-            <span
-              class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-sky-400"
-            >
-              search
-            </span>
-            <input
-              type="text"
-              placeholder="Search..."
-              aria-label="Search library"
-              class="w-full px-10 py-2 text-black bg-transparent border border-sky-400 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-600 shadow-inner"
-            />
-            <span
-              class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sky-400 cursor-pointer hover:text-sky-600"
-            >
-              mic
-            </span>
+      <!-- Mobile Menu -->
+      <transition name="slide">
+        <div v-if="showMobileMenu" class="md:hidden fixed inset-0 bg-black bg-opacity-50 z-50" @click="showMobileMenu = false">
+          <div class="absolute inset-y-0 right-0 w-full max-w-sm bg-white dark:bg-gray-800 p-6 flex flex-col gap-6" @click.stop>
+            <!-- Close Button -->
+            <button class="self-end" @click="showMobileMenu = false" aria-label="Close mobile menu">
+              <span class="material-symbols-outlined text-3xl text-gray-600 dark:text-gray-300">close</span>
+            </button>
+            <!-- Menu Items -->
+            <router-link v-for="item in navItems" :key="item.label" :to="item.path" @click="showMobileMenu = false" class="flex items-center gap-3 px-4 py-3 text-lg text-sky-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition" :aria-label="`Go to ${item.label} page`">
+              <span class="material-symbols-outlined text-2xl">{{ item.icon }}</span>
+              <span>{{ item.label }}</span>
+            </router-link>
+            <!-- Dark Mode Toggle -->
+            <div class="flex items-center gap-3 px-4 py-3">
+              <span class="text-lg text-gray-600 dark:text-gray-300">Theme</span>
+              <DarkMode :isDark="isDark" @toggle="toggle" />
+            </div>
           </div>
         </div>
-      </div>
-    </transition>
+      </transition>
+    </nav>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import NavigationItem from "./NavigationItem.vue";
-import DarkMode from "@/components/DarkMode.vue";
-import { useDarkMode } from '@/composables/useDarkMode';  // Import the composable
+import { ref } from 'vue';
+import DarkMode from '@/components/DarkMode.vue';
+import { useDarkMode } from '@/composables/useDarkMode';
 
-const { isDark, toggle } = useDarkMode();  // Use shared state
+// Dark mode
+const { isDark, toggle } = useDarkMode();
 
+// Navigation items
 const navItems = ref([
-  { label: "Home", path: "/", icon: "home" },
-  { label: "Portfolio", path: "/portfolio", icon: "work" },
+  { label: 'Home', path: '/', icon: 'home' },
+  { label: 'Portfolio', path: '/portfolio', icon: 'work' },
 ]);
 
+// Mobile menu state
 const showMobileMenu = ref(false);
 </script>
+
+<style scoped>
+/* Slide animation for mobile menu */
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* Adjust for very small screens */
+@media (max-width: 320px) {
+  .max-w-5xl {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+</style>

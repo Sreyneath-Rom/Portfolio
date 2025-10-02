@@ -1,31 +1,79 @@
 <template>
-  <label class="switch" aria-label="Toggle dark mode">
-    <span class="sun"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="#ffd43b"><circle r="5" cy="12" cx="12"></circle><path d="m21 13h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm-17 0h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 0 2zm13.66-5.66a1 1 0 0 1 -.66-.29 1 1 0 0 1 0-1.41l.71-.71a1 1 0 1 1 1.41 1.41l-.71.71a1 1 0 0 1 -.75.29zm-12.02 12.02a1 1 0 0 1 -.71-.29 1 1 0 0 1 0-1.41l.71-.66a1 1 0 0 1 1.41 1.41l-.71.71a1 1 0 0 1 -.7.24zm6.36-14.36a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm0 17a1 1 0 0 1 -1-1v-1a1 1 0 0 1 2 0v1a1 1 0 0 1 -1 1zm-5.66-14.66a1 1 0 0 1 -.7-.29l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.29zm12.02 12.02a1 1 0 0 1 -.7-.29l-.66-.71a1 1 0 0 1 1.36-1.36l.71.71a1 1 0 0 1 0 1.41 1 1 0 0 1 -.71.24z"></path></g></svg></span>
-    <span class="moon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="m223.5 32c-123.5 0-223.5 100.3-223.5 224s100 224 223.5 224c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"></path></svg></span>   
-    <input type="checkbox" class="input" v-model="localIsDark" @change="handleToggle">
-    <span class="slider"></span>
-  </label>
+  <div class="relative">
+    <!-- Theme Toggle Button -->
+    <button @click="toggleDropdown" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition" aria-label="Select theme">
+      <span class="material-symbols-outlined text-xl" :class="themeIconClass">{{ themeIcon }}</span>
+      <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ currentTheme }}</span>
+    </button>
+
+    <!-- Theme Dropdown -->
+    <transition name="fade">
+      <div v-if="showDropdown" class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-2 z-50">
+        <button v-for="theme in themes" :key="theme.name" @click="selectTheme(theme.name)" class="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition" :aria-label="`Switch to ${theme.name} theme`">
+          <span class="material-symbols-outlined text-lg" :class="theme.class">{{ theme.icon }}</span>
+          <span>{{ theme.name }}</span>
+        </button>
+      </div>
+    </transition>
+  </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, computed } from 'vue';
+import { useDarkMode } from '@/composables/useDarkMode';
 
-const props = defineProps({
-  isDark: Boolean
+// Theme management
+const { currentTheme, setTheme } = useDarkMode();
+const showDropdown = ref(false);
+
+// Theme options
+const themes = [
+  { name: 'Light', icon: 'light_mode', class: 'text-yellow-500' },
+  { name: 'Dark', icon: 'dark_mode', class: 'text-gray-200' },
+  { name: 'Sepia', icon: 'palette', class: 'text-sepia-700' },
+  { name: 'Blue', icon: 'water', class: 'text-blue-400' },
+];
+
+// Toggle dropdown
+const toggleDropdown = () => {
+  showDropdown.value = !showDropdown.value;
+};
+
+// Select theme
+const selectTheme = (theme) => {
+  setTheme(theme);
+  showDropdown.value = false;
+};
+
+// Current theme icon
+const themeIcon = computed(() => {
+  const theme = themes.find(t => t.name === currentTheme.value);
+  return theme ? theme.icon : 'light_mode';
 });
-const emit = defineEmits(['toggle']);
-
-const localIsDark = ref(props.isDark);
-
-watch(() => props.isDark, (newVal) => {
-  localIsDark.value = newVal;
+const themeIconClass = computed(() => {
+  const theme = themes.find(t => t.name === currentTheme.value);
+  return theme ? theme.class : 'text-yellow-500';
 });
-
-function handleToggle() {
-  emit('toggle');
-}
 </script>
 
 <style scoped>
-/* Existing styles remain unchanged */
+/* Fade animation for dropdown */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Theme-specific styles */
+.sepia-theme {
+  background-color: #f4f1e9;
+  color: #5c4033;
+}
+.blue-theme {
+  background-color: #1e3a8a;
+  color: #dbeafe;
+}
 </style>

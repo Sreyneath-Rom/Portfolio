@@ -1,104 +1,130 @@
 <template>
-  <div class="flex flex-wrap justify-center gap-8 mt-10">
+  <div class="max-w-5xl mx-auto flex flex-wrap justify-center gap-6 transition-colors duration-300" :class="themeClasses">
     <div
-      v-for="(card, index) in cards"
-      :key="card.title"
-      class="relative flex w-80 flex-col rounded-xl bg-white text-gray-700 overflow-hidden border-2 border-sky-200 shadow-[0_10px_20px_rgba(0,0,0,0.2)] transition-all duration-500 hover:shadow-[0_0_20px_rgba(9,117,241,0.8)] hover:border-sky-400"
+      v-for="(experience, index) in experiences"
+      :key="experience.title"
+      class="w-full sm:w-80 p-6 rounded-lg shadow-lg transition hover:shadow-xl hover:scale-105"
+      :class="themeCard"
+      style="min-height: 300px;"
     >
-      <div
-        class="relative mx-4 -mt-6 h-40 flex items-end px-6 py-4 rounded-xl bg-gradient-to-r from-yellow-700 to-yellow-400 shadow-lg shadow-sky-500/40"
-      >
-        <h5 class="text-xl font-semibold text-white leading-snug">
-          {{ card.title }}
-        </h5>
+      <img
+        :src="experience.logo"
+        :alt="`${experience.title} logo`"
+        class="w-16 h-16 object-contain mb-4 mx-auto"
+      />
+      <div class="w-full px-4 py-3 rounded-lg" :class="themeCardHeader">
+        <p class="font-bold text-xl mb-2 text-center" :class="themeText">{{ experience.title }}</p>
+        <p class="text-sm text-center" :class="themeTextSecondary">{{ experience.role }} | {{ experience.duration }}</p>
       </div>
-
+      <button
+        @click="toggleDetails(index)"
+        class="w-full mt-4 py-2 px-4 rounded-lg font-semibold text-sm uppercase transition hover:scale-105"
+        :class="themeButtonSecondary"
+        :aria-label="showDetails[index] ? `Hide details of ${experience.title}` : `Show details of ${experience.title}`"
+      >
+        {{ showDetails[index] ? 'Hide Details' : 'Read More' }}
+      </button>
       <transition name="fade">
-        <div
-          v-show="showDetails[index]"
-          class="p-6 text-[12pt] leading-relaxed text-gray-700 space-y-4"
-        >
-          <template v-if="card.link">
-            <a
-              :href="card.link"
-              target="_blank"
-              class="inline-block text-sm font-bold text-sky-400 underline hover:text-sky-400 transition"
-            >
-              {{ card.linkText }}
-            </a>
-          </template>
-          <template v-if="card.content">
-            <p v-html="card.content"></p>
-          </template>
-          <template v-if="card.list">
-            <ul class="list-disc list-inside">
-              <li v-for="(item, i) in card.list" :key="i">{{ item }}</li>
-            </ul>
-          </template>
+        <div v-if="showDetails[index]" class="mt-4 text-sm max-h-32 overflow-y-auto" :class="themeTextSecondary">
+          <ul class="list-disc list-inside space-y-2">
+            <li v-for="(task, i) in experience.tasks" :key="i">{{ task }}</li>
+          </ul>
         </div>
       </transition>
-
-      <div class="p-6 pt-0">
-        <button
-          type="button"
-          @click="toggleDetails(index)"
-          class="w-32 rounded-lg bg-sky-500 py-3 px-2 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 mt-6"
-        >
-          {{ showDetails[index] ? "Hide Details" : "Read more" }}
-        </button>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from 'vue';
+import { useDarkMode } from '@/composables/useDarkMode';
 
-const cards = [
+// Theme management
+const { currentTheme } = useDarkMode();
+
+// Theme classes
+const themeClasses = computed(() => ({
+  'bg-white text-gray-800': currentTheme.value === 'Light',
+  'bg-gray-800 text-gray-200': currentTheme.value === 'Dark',
+  'bg-sepia-100 text-sepia-900': currentTheme.value === 'Sepia',
+  'bg-blue-900 text-blue-100': currentTheme.value === 'Blue',
+}));
+const themeText = computed(() => ({
+  'text-gray-800': currentTheme.value === 'Light',
+  'text-gray-200': currentTheme.value === 'Dark',
+  'text-sepia-900': currentTheme.value === 'Sepia',
+  'text-blue-100': currentTheme.value === 'Blue',
+}));
+const themeTextSecondary = computed(() => ({
+  'text-gray-600': currentTheme.value === 'Light',
+  'text-gray-400': currentTheme.value === 'Dark',
+  'text-sepia-700': currentTheme.value === 'Sepia',
+  'text-blue-200': currentTheme.value === 'Blue',
+}));
+const themeCard = computed(() => ({
+  'bg-white': currentTheme.value === 'Light',
+  'bg-gray-800': currentTheme.value === 'Dark',
+  'bg-sepia-100': currentTheme.value === 'Sepia',
+  'bg-blue-900': currentTheme.value === 'Blue',
+}));
+const themeCardHeader = computed(() => ({
+  'bg-yellow-100': currentTheme.value === 'Light',
+  'bg-gray-600': currentTheme.value === 'Dark',
+  'bg-sepia-300': currentTheme.value === 'Sepia',
+  'bg-blue-700': currentTheme.value === 'Blue',
+}));
+const themeButtonSecondary = computed(() => ({
+  'bg-sky-500 text-white hover:bg-sky-400': currentTheme.value === 'Light' || currentTheme.value === 'Dark',
+  'bg-amber-500 text-sepia-900 hover:bg-amber-400': currentTheme.value === 'Sepia',
+  'bg-blue-500 text-white hover:bg-blue-400': currentTheme.value === 'Blue',
+}));
+
+// Experience data
+const experiences = [
   {
-    title: "CV and Cover Letter",
-    link: "https://www.canva.com/design/DAGjQTop64Q/Y7LRgoDTg1TlutXgBb9YxQ/view?utm_content=DAGjQTop64Q&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h8cec6f4468",
-    linkText: "View My CV",
-    content:
-      "My CV and cover letter for a Web Developer role, highlighting hard skills in HTML, CSS, Node.js, JavaScript, TypeScript, PHP, Python, Vue.js, Laravel, and teamwork experience from group projects.",
-  },
-  {
-    title: "Progress and Challenges Report",
-    content: `<p><strong>Progress:</strong> I applied to seven IT positions, optimized my LinkedIn, and attended workshops, resulting in recruiter inquiries and one technical interview.</p>
-            <p><strong>Challenges:</strong> Low response rates, difficulty with behavioral questions, and time management struggles during applications and coursework.</p>
-            <p><strong>Reflection:</strong> Learned to follow up proactively, enrolled in a React course, and improved both technical and soft skills for future opportunities.</p>`,
-  },
-  {
-    title: "Practical Advice for IT Interviews",
-    list: [
-      "Research the company's tech stack and tailor your responses.",
-      "Practice coding challenges and clearly explain your logic.",
-      "Use the STAR method for behavioral questions.",
-      "Ask insightful questions about workflow and team culture.",
-      "Be transparent about skill gaps and show a growth mindset.",
-      "Conduct mock interviews to build confidence and communication skills.",
+    title: 'Frontend Developer at Tech Startup',
+    role: 'Developer',
+    duration: 'Jan 2025 - Present',
+    logo: 'https://via.placeholder.com/64?text=Tech+Startup',
+    tasks: [
+      'Developed web applications using Vue.js and Laravel.',
+      'Collaborated with teams to deliver scalable solutions.',
+      'Optimized performance and improved user experience.',
     ],
   },
   {
-    title: "Reflection on Mock Interview",
-    content: `<p><strong>Preparation:</strong> Reviewed Vue.js, Laravel, CRUD apps, and practiced STAR responses for behavioral questions.</p>
-            <p><strong>Strengths:</strong> Confidently explained architecture and problem-solving, showcasing technical depth.</p>
-            <p><strong>Improvements:</strong> Needed more clarity in STAR examples and deeper framework-specific technical details.</p>
-            <p><strong>Lessons:</strong> Learned to give concise behavioral responses, improved confidence, and refined technical articulation for real interviews.</p>`,
+    title: 'Intern at Web Agency',
+    role: 'Web Development Intern',
+    duration: 'Jun 2024 - Dec 2024',
+    logo: 'https://via.placeholder.com/64?text=Web+Agency',
+    tasks: [
+      'Assisted in building responsive websites with HTML, CSS, and JavaScript.',
+      'Integrated APIs for dynamic content.',
+      'Participated in code reviews and agile workflows.',
+    ],
   },
   {
-    title: "Work at Company",
+    title: 'Freelance Developer',
+    role: 'Freelancer',
+    duration: 'Mar 2024 - May 2024',
+    logo: 'https://via.placeholder.com/64?text=Freelance',
+    tasks: [
+      'Built custom websites for small businesses using Vue.js.',
+      'Designed responsive layouts with Tailwind CSS.',
+      'Managed client requirements and delivered on time.',
+    ],
   },
 ];
 
-const showDetails = ref(cards.map(() => false));
+const showDetails = ref(Array(experiences.length).fill(false));
 
-function toggleDetails(index) {
-  showDetails.value = showDetails.value.map((val, i) => i === index ? !val : false);
-}
+const toggleDetails = (index) => {
+  showDetails.value = showDetails.value.map((val, i) => (i === index ? !val : false));
+};
 </script>
 
 <style scoped>
+/* Fade animation for card details */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -108,4 +134,8 @@ function toggleDetails(index) {
   opacity: 0;
 }
 
+/* Smooth transitions for theme changes and hover effects */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
 </style>
