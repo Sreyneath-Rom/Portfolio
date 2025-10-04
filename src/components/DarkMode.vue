@@ -1,15 +1,35 @@
 <template>
   <div class="relative">
     <!-- Theme Toggle Button -->
-    <button @click="toggleDropdown" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition" aria-label="Select theme">
+    <button
+      @click="toggleDropdown"
+      @keydown.enter="toggleDropdown"
+      @keydown.space.prevent="toggleDropdown"
+      class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 focus:ring-2 focus:ring-yellow-400 dark:focus:ring-yellow-500 transition"
+      aria-label="Select theme"
+      ref="toggleButton"
+    >
       <span class="material-symbols-outlined text-xl" :class="themeIconClass">{{ themeIcon }}</span>
       <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ currentTheme }}</span>
     </button>
 
     <!-- Theme Dropdown -->
     <transition name="fade">
-      <div v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-2 z-50">
-        <button v-for="theme in themes" :key="theme.name" @click="selectTheme(theme.name)" class="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition" :aria-label="`Switch to ${theme.name} theme`">
+      <div
+        v-if="showDropdown"
+        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-2 z-50"
+        ref="dropdown"
+        @keydown.escape="showDropdown = false"
+      >
+        <button
+          v-for="theme in themes"
+          :key="theme.name"
+          @click="selectTheme(theme.name)"
+          @keydown.enter="selectTheme(theme.name)"
+          @keydown.space.prevent="selectTheme(theme.name)"
+          class="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700 transition"
+          :aria-label="`Switch to ${theme.name} theme`"
+        >
           <span class="material-symbols-outlined text-lg" :class="theme.iconColor">{{ theme.icon }}</span>
           <span>{{ theme.name }}</span>
         </button>
@@ -19,42 +39,31 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useDarkMode } from '@/composables/useDarkMode';
 
-const { currentTheme, setTheme } = useDarkMode();
+const { currentTheme, setTheme, themes } = useDarkMode();
 const showDropdown = ref(false);
+const toggleButton = ref(null);
+const dropdown = ref(null);
 
-// Theme options with body class names and icon color classes
-const themes = [
-  { name: 'Light', icon: 'light_mode', iconColor: 'text-yellow-500', bodyClass: '' },
-  { name: 'Dark', icon: 'dark_mode', iconColor: 'text-gray-200', bodyClass: '' },
-  { name: 'Sepia', icon: 'palette', iconColor: 'text-amber-700', bodyClass: 'sepia-theme' },
-  { name: 'Blue', icon: 'water', iconColor: 'text-sky-200', bodyClass: 'blue-theme' },
-  { name: 'Purple', icon: 'color_lens', iconColor: 'text-violet-400', bodyClass: 'purple-theme' },
-  { name: 'Green', icon: 'eco', iconColor: 'text-green-400', bodyClass: 'green-theme' },
-  { name: 'Orange', icon: 'local_fire_department', iconColor: 'text-orange-400', bodyClass: 'orange-theme' },
-  { name: 'Teal', icon: 'waves', iconColor: 'text-teal-300', bodyClass: 'teal-theme' },
-  { name: 'Pink', icon: 'local_florist', iconColor: 'text-pink-400', bodyClass: 'pink-theme' },
-  { name: 'Midnight', icon: 'nightlight', iconColor: 'text-indigo-200', bodyClass: 'midnight-theme' },
-];
-
-// Remove all theme classes from body and apply the selected one (if any)
-const allBodyClasses = themes.map(t => t.bodyClass).filter(Boolean);
-const applyThemeClass = (themeName) => {
-  document.body.classList.remove(...allBodyClasses);
-  const theme = themes.find(t => t.name === themeName);
-  if (theme && theme.bodyClass) {
-    document.body.classList.add(theme.bodyClass);
+// Close dropdown on outside click
+const handleOutsideClick = (event) => {
+  if (
+    showDropdown.value &&
+    !dropdown.value?.contains(event.target) &&
+    !toggleButton.value?.contains(event.target)
+  ) {
+    showDropdown.value = false;
   }
 };
 
 onMounted(() => {
-  applyThemeClass(currentTheme.value);
+  document.addEventListener('click', handleOutsideClick);
 });
 
-watch(currentTheme, (newTheme) => {
-  applyThemeClass(newTheme);
+onUnmounted(() => {
+  document.removeEventListener('click', handleOutsideClick);
 });
 
 // Toggle dropdown
@@ -71,11 +80,11 @@ const selectTheme = (theme) => {
 // Current theme icon & color class
 const themeIcon = computed(() => {
   const theme = themes.find(t => t.name === currentTheme.value);
-  return theme ? theme.icon : 'light_mode';
+  return theme ? theme.icon : 'dark_mode';
 });
 const themeIconClass = computed(() => {
   const theme = themes.find(t => t.name === currentTheme.value);
-  return theme ? theme.iconColor : 'text-yellow-500';
+  return theme ? theme.iconColor : 'text-gray-200';
 });
 </script>
 
@@ -134,5 +143,16 @@ body.teal-theme,
 body.pink-theme,
 body.midnight-theme {
   transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Dark mode adjustments */
+.bg-gray-700 {
+  background-color: #374151; /* Tailwind gray-700 */
+}
+.dark\:bg-gray-800 {
+  background-color: #1f2937; /* Tailwind gray-800 */
+}
+.dark\:text-gray-200 {
+  color: #e5e7eb; /* Tailwind gray-200 */
 }
 </style>

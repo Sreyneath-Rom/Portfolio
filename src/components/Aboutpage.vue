@@ -1,33 +1,122 @@
 <template>
-  <div class="max-w-5xl mx-auto p-6 md:p-12 transition-colors duration-300" :class="themeClasses">
+  <div class="max-w-5xl mx-auto p-6 transition-colors duration-300" :class="themeClasses">
     <!-- Heading -->
     <h1 class="text-3xl font-bold text-center mb-8 md:text-4xl" :class="themeAccent">
       About Me
     </h1>
 
-    <!-- Profile Section -->
-    <div class="flex flex-col items-center gap-6 mb-12 md:flex-row md:gap-8">
-      <img
-        src="@/assets/image/1.png"
-        alt="Sreyneath Rom"
-        class="w-32 h-32 rounded-full shadow-lg object-cover md:w-48 md:h-48"
-      />
-      <div class="text-center md:text-left">
-        <p class="text-xl font-semibold mb-2" :class="themeAccent">Sreyneath Rom</p>
-        <p class="text-base" :class="themeTextSecondary">
-          Age: 21<br />
-          Address: Phnom Penh, Cambodia<br />
-          Place of Birth: Siem Reap Province
-        </p>
+    <!-- Profile Section (responsive & compact) -->
+    <div
+      class="w-full max-w-3xl mx-auto p-4 md:p-6 rounded-2xl backdrop-blur-sm bg-white/20 dark:bg-black/20 border border-white/10 shadow-lg flex flex-col md:flex-row items-center gap-4 mb-8"
+    >
+      <!-- Avatar -->
+      <div class="flex-shrink-0" style="isolation:isolate;">
+      <div
+        class="relative rounded-xl overflow-hidden w-28 h-28 md:w-44 md:h-44 flex items-center justify-center shadow-2xl transform transition-transform duration-300 hover:scale-105 bg-transparent"
+      >
+        <!-- Animated multi-color glow behind the photo -->
+        <span
+        aria-hidden="true"
+        class="absolute -inset-2 rounded-2xl pointer-events-none animate-pulse"
+        style="background: conic-gradient(from 180deg at 50% 50%, #ffd54a, #ff6bcb, #6b8cff, #36d399, #ffd54a); filter: blur(18px) saturate(1.1); opacity:0.8; z-index:0; mix-blend-mode:screen;"
+        ></span>
+
+        <!-- Thin rim for contrast -->
+        <span
+        aria-hidden="true"
+        class="absolute inset-0 rounded-xl pointer-events-none"
+        style="z-index:1; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06); mix-blend-mode:overlay;"
+        ></span>
+
+        <picture class="relative z-10 w-full h-full rounded-xl overflow-hidden">
+        <img
+          :src="img1"
+          alt="Sreyneath Rom"
+          class="w-full h-full object-cover rounded-xl"
+          style="background:transparent; mix-blend-mode:multiply; filter: saturate(1.05) contrast(1.03) drop-shadow(0 10px 24px rgba(0,0,0,0.18));"
+        />
+        </picture>
+
+        <!-- Subtle vignette -->
+        <span
+        aria-hidden="true"
+        class="absolute inset-0 rounded-xl pointer-events-none"
+        style="z-index:2; background: radial-gradient(60% 60% at 50% 35%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.12) 100%);"
+        ></span>
+      </div>
+      </div>
+
+      <!-- Details -->
+      <div class="text-center md:text-left flex-1">
+      <p
+        class="text-xl md:text-2xl font-extrabold leading-tight mb-1 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-pink-400 to-indigo-400"
+        :class="themeAccent"
+      >
+        Sreyneath Rom
+      </p>
+
+      <p class="text-sm mb-2" :class="themeTextSecondary">
+        Age: 21 • Phnom Penh, Cambodia<br />
+        Born in Siem Reap Province
+      </p>
+
+      <!-- Skill badges (compact) -->
+      <div class="flex flex-wrap gap-2 mb-3 justify-center md:justify-start">
+        <span
+        class="text-xs px-2 py-0.5 rounded-full font-medium shadow-sm"
+        :class="[ 'bg-white/80 dark:bg-black/40', themeText ]"
+        >
+        Vue.js
+        </span>
+        <span
+        class="text-xs px-2 py-0.5 rounded-full font-medium shadow-sm"
+        :class="[ 'bg-white/80 dark:bg-black/40', themeText ]"
+        >
+        Laravel
+        </span>
+        <span
+        class="text-xs px-2 py-0.5 rounded-full font-medium shadow-sm"
+        :class="[ 'bg-white/80 dark:bg-black/40', themeText ]"
+        >
+        Responsive
+        </span>
+        <span
+        class="text-xs px-2 py-0.5 rounded-full font-medium shadow-sm"
+        :class="[ 'bg-white/80 dark:bg-black/40', themeText ]"
+        >
+        UI/UX
+        </span>
+      </div>
+
+      <!-- Quick tagline -->
+      <p class="text-sm mb-2" :class="themeTextSecondary">
+        <svg
+        class="inline-block mr-1 align-middle"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        >
+        <path
+          d="M12 2v6l4 2"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1" />
+        </svg>
+        Lifelong learner. Building joyful, accessible web experiences.
+      </p>
+
+      <!-- Short biography (kept concise to fit) -->
+      <p class="text-base mb-0" :class="themeText">
+        Hello! I’m Sreyneath, an aspiring developer focused on responsive web apps using Vue.js and Laravel.
+      </p>
       </div>
     </div>
 
-    <!-- Biography -->
-    <p class="text-base max-w-3xl mx-auto mb-12" :class="themeText">
-      Hello! I’m Sreyneath, a passionate learner and aspiring developer with a
-      focus on building responsive web applications using Vue.js and Laravel.
-    </p>
-
+  
     <!-- Skills Highlights -->
     <div class="w-full">
       <h2 class="text-xl font-semibold text-center mb-6" :class="themeAccent">
@@ -53,8 +142,8 @@
           class="relative group"
         >
           <div
-            :class="social.class"
-            class="w-12 h-12 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition"
+            :class="[social.class, themeSocialBg]"
+            class="w-12 h-12 rounded-lg flex items-center justify-center shadow-md hover:shadow-lg transition-colors duration-200"
           >
             <svg
               :viewBox="social.viewBox"
@@ -66,7 +155,7 @@
           </div>
           <!-- Tooltip -->
           <span
-            class="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2"
+            class="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 dark:bg-gray-700 text-white text-xs rounded py-1 px-2"
             >{{ social.name }}</span
           >
         </a>
@@ -79,6 +168,9 @@
 import { computed } from 'vue';
 import Marquee from '@/components/Marquee.vue';
 import { useDarkMode } from '@/composables/useDarkMode';
+import img1 from '@/assets/image/1.png';
+
+// import cv from '@/components/CV.vue'; // Removed, use cvLink instead
 
 // Theme management
 const { currentTheme } = useDarkMode();
@@ -89,23 +181,59 @@ const themeClasses = computed(() => ({
   'bg-gray-800 text-gray-200': currentTheme.value === 'Dark',
   'bg-sepia-100 text-sepia-900': currentTheme.value === 'Sepia',
   'bg-blue-900 text-blue-100': currentTheme.value === 'Blue',
+  'bg-purple-900 text-purple-100': currentTheme.value === 'Purple',
+  'bg-green-900 text-green-100': currentTheme.value === 'Green',
+  'bg-orange-900 text-orange-100': currentTheme.value === 'Orange',
+  'bg-teal-900 text-teal-100': currentTheme.value === 'Teal',
+  'bg-pink-900 text-pink-100': currentTheme.value === 'Pink',
+  'bg-indigo-900 text-indigo-100': currentTheme.value === 'Midnight',
 }));
 const themeText = computed(() => ({
   'text-gray-800': currentTheme.value === 'Light',
   'text-gray-200': currentTheme.value === 'Dark',
   'text-sepia-900': currentTheme.value === 'Sepia',
   'text-blue-100': currentTheme.value === 'Blue',
+  'text-purple-100': currentTheme.value === 'Purple',
+  'text-green-100': currentTheme.value === 'Green',
+  'text-orange-100': currentTheme.value === 'Orange',
+  'text-teal-100': currentTheme.value === 'Teal',
+  'text-pink-100': currentTheme.value === 'Pink',
+  'text-indigo-100': currentTheme.value === 'Midnight',
 }));
 const themeTextSecondary = computed(() => ({
   'text-gray-600': currentTheme.value === 'Light',
   'text-gray-400': currentTheme.value === 'Dark',
   'text-sepia-700': currentTheme.value === 'Sepia',
   'text-blue-200': currentTheme.value === 'Blue',
+  'text-purple-200': currentTheme.value === 'Purple',
+  'text-green-200': currentTheme.value === 'Green',
+  'text-orange-200': currentTheme.value === 'Orange',
+  'text-teal-200': currentTheme.value === 'Teal',
+  'text-pink-200': currentTheme.value === 'Pink',
+  'text-indigo-200': currentTheme.value === 'Midnight',
 }));
 const themeAccent = computed(() => ({
   'text-yellow-500': currentTheme.value === 'Light' || currentTheme.value === 'Dark',
   'text-amber-600': currentTheme.value === 'Sepia',
   'text-blue-400': currentTheme.value === 'Blue',
+  'text-purple-400': currentTheme.value === 'Purple',
+  'text-green-400': currentTheme.value === 'Green',
+  'text-orange-400': currentTheme.value === 'Orange',
+  'text-teal-400': currentTheme.value === 'Teal',
+  'text-pink-400': currentTheme.value === 'Pink',
+  'text-indigo-400': currentTheme.value === 'Midnight',
+}));
+const themeSocialBg = computed(() => ({
+  'hover:bg-gray-700': currentTheme.value === 'Light',
+  'hover:bg-gray-600': currentTheme.value === 'Dark',
+  'hover:bg-sepia-600': currentTheme.value === 'Sepia',
+  'hover:bg-blue-800': currentTheme.value === 'Blue',
+  'hover:bg-purple-800': currentTheme.value === 'Purple',
+  'hover:bg-green-800': currentTheme.value === 'Green',
+  'hover:bg-orange-800': currentTheme.value === 'Orange',
+  'hover:bg-teal-800': currentTheme.value === 'Teal',
+  'hover:bg-pink-800': currentTheme.value === 'Pink',
+  'hover:bg-indigo-800': currentTheme.value === 'Midnight',
 }));
 
 // CV link
@@ -154,5 +282,109 @@ const socialLinks = [
 /* Smooth transitions for theme changes */
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Theme-specific background colors */
+.bg-sepia-100 {
+  background-color: #f3eadb; /* Matches DarkMode.vue sepia-theme */
+}
+.bg-blue-900 {
+  background-color: #0b3d91; /* Matches DarkMode.vue blue-theme */
+}
+.bg-purple-900 {
+  background-color: #4c1d95; /* Matches DarkMode.vue purple-theme */
+}
+.bg-green-900 {
+  background-color: #065f46; /* Matches DarkMode.vue green-theme */
+}
+.bg-orange-900 {
+  background-color: #a04000; /* Matches DarkMode.vue orange-theme */
+}
+.bg-teal-900 {
+  background-color: #0f766e; /* Matches DarkMode.vue teal-theme */
+}
+.bg-pink-900 {
+  background-color: #be185d; /* Matches DarkMode.vue pink-theme */
+}
+.bg-indigo-900 {
+  background-color: #021124; /* Matches DarkMode.vue midnight-theme */
+}
+
+/* Theme-specific text colors */
+.text-sepia-900 {
+  color: #5b4636; /* Matches DarkMode.vue sepia-theme */
+}
+.text-blue-100 {
+  color: #e6f2ff; /* Matches DarkMode.vue blue-theme */
+}
+.text-purple-100 {
+  color: #efe7ff; /* Matches DarkMode.vue purple-theme */
+}
+.text-green-100 {
+  color: #e6fff4; /* Matches DarkMode.vue green-theme */
+}
+.text-orange-100 {
+  color: #fff4e6; /* Matches DarkMode.vue orange-theme */
+}
+.text-teal-100 {
+  color: #e6fffb; /* Matches DarkMode.vue teal-theme */
+}
+.text-pink-100 {
+  color: #fff0f6; /* Matches DarkMode.vue pink-theme */
+}
+.text-indigo-100 {
+  color: #dfefff; /* Matches DarkMode.vue midnight-theme */
+}
+
+/* Theme-specific secondary text colors */
+.text-sepia-700 {
+  color: #8c552f; /* Derived from sepia palette */
+}
+.text-blue-200 {
+  color: #bfdbfe; /* Derived from blue palette */
+}
+.text-purple-200 {
+  color: #ddd6fe; /* Derived from purple palette */
+}
+.text-green-200 {
+  color: #a7f3d0; /* Derived from green palette */
+}
+.text-orange-200 {
+  color: #fed7aa; /* Derived from orange palette */
+}
+.text-teal-200 {
+  color: #99f6e4; /* Derived from teal palette */
+}
+.text-pink-200 {
+  color: #f9a8d4; /* Derived from pink palette */
+}
+.text-indigo-200 {
+  color: #c7d2fe; /* Derived from indigo palette */
+}
+
+/* Theme-specific hover background colors for social links */
+.hover\:bg-sepia-600 {
+  background-color: #a68a64; /* Derived from sepia palette */
+}
+.hover\:bg-blue-800 {
+  background-color: #1e3a8a; /* Derived from blue palette */
+}
+.hover\:bg-purple-800 {
+  background-color: #3b1476; /* Derived from purple palette */
+}
+.hover\:bg-green-800 {
+  background-color: #064e3b; /* Derived from green palette */
+}
+.hover\:bg-orange-800 {
+  background-color: #7c2d12; /* Derived from orange palette */
+}
+.hover\:bg-teal-800 {
+  background-color: #115e59; /* Derived from teal palette */
+}
+.hover\:bg-pink-800 {
+  background-color: #9d174d; /* Derived from pink palette */
+}
+.hover\:bg-indigo-800 {
+  background-color: #1e1b4b; /* Derived from indigo palette */
 }
 </style>
