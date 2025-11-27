@@ -237,7 +237,7 @@ const themeSocialBg = computed(() => ({
 }));
 
 // CV link
-const cvLink = 'https://www.canva.com/design/DAGjQTop64Q/Y7LRgoDTg1TlutXgBb9YxQ/view?utm_content=DAGjQTop64Q&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h8cec6f4468';
+const cvLink = 'https://cv-sreyneath.netlify.app/';
 
 // Social links
 const socialLinks = [
