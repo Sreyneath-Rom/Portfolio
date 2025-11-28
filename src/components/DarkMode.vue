@@ -1,158 +1,91 @@
 <template>
-  <div class="relative">
-    <!-- Theme Toggle Button -->
+  <div ref="root" class="relative">
     <button
-      @click="toggleDropdown"
-      @keydown.enter="toggleDropdown"
-      @keydown.space.prevent="toggleDropdown"
-      class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 focus:ring-2 focus:ring-yellow-400 dark:focus:ring-yellow-500 transition"
-      aria-label="Select theme"
-      ref="toggleButton"
+      @click="toggle()"
+      @keydown.enter.prevent="toggle()"
+      @keydown.space.prevent="toggle()"
+      :aria-expanded="open"
+      aria-haspopup="menu"
+      class="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      type="button"
     >
-      <span class="material-symbols-outlined text-xl" :class="themeIconClass">{{ themeIcon }}</span>
-      <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ currentTheme }}</span>
+      <span class="material-symbols-outlined text-xl" :class="iconColor">{{ icon }}</span>
+      <span class="text-sm font-medium">{{ currentTheme }}</span>
     </button>
 
-    <!-- Theme Dropdown -->
-    <transition name="fade">
-      <div
-        v-if="showDropdown"
-        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-2 z-50"
-        ref="dropdown"
-        @keydown.escape="showDropdown = false"
+    <div
+      v-if="open"
+      class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl py-2 z-50 overflow-hidden"
+      role="menu"
+      aria-label="Theme selector"
+    >
+      <button
+        v-for="t in themes"
+        :key="t.name"
+        @click="selectTheme(t.name)"
+        @keydown.enter.prevent="selectTheme(t.name)"
+        @keydown.space.prevent="selectTheme(t.name)"
+        role="menuitemradio"
+        :aria-checked="currentTheme === t.name"
+        tabindex="0"
+        class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-3 transition focus:outline-none"
+        :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold': currentTheme === t.name }"
+        type="button"
       >
-        <button
-          v-for="theme in themes"
-          :key="theme.name"
-          @click="selectTheme(theme.name)"
-          @keydown.enter="selectTheme(theme.name)"
-          @keydown.space.prevent="selectTheme(theme.name)"
-          class="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700 transition"
-          :aria-label="`Switch to ${theme.name} theme`"
-        >
-          <span class="material-symbols-outlined text-lg" :class="theme.iconColor">{{ theme.icon }}</span>
-          <span>{{ theme.name }}</span>
-        </button>
-      </div>
-    </transition>
+        <span class="material-symbols-outlined" :class="t.iconColor">{{ t.icon }}</span>
+        <span>{{ t.name }}</span>
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useDarkMode } from '@/composables/useDarkMode';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useDarkMode, themes } from '@/composables/useDarkMode'
 
-const { currentTheme, setTheme, themes } = useDarkMode();
-const showDropdown = ref(false);
-const toggleButton = ref(null);
-const dropdown = ref(null);
+const { currentTheme, setTheme } = useDarkMode()
+const open = ref(false)
+const root = ref(null)
 
-// Close dropdown on outside click
-const handleOutsideClick = (event) => {
-  if (
-    showDropdown.value &&
-    !dropdown.value?.contains(event.target) &&
-    !toggleButton.value?.contains(event.target)
-  ) {
-    showDropdown.value = false;
+const toggle = () => {
+  open.value = !open.value
+  if (open.value) {
+    // focus first selectable item for keyboard users
+    // using nextTick would be fine but keeping simple and robust
+    const first = root.value?.querySelector('[role="menuitemradio"]')
+    first?.focus()
   }
-};
+}
+
+const selectTheme = (name) => {
+  setTheme(name)
+  open.value = false
+}
+
+const icon = computed(() => {
+  const t = themes.find((x) => x.name === currentTheme.value)
+  return t?.icon ?? 'dark_mode'
+})
+const iconColor = computed(() => {
+  const t = themes.find((x) => x.name === currentTheme.value)
+  return t?.iconColor ?? 'text-gray-300'
+})
+
+const onDocumentClick = (e) => {
+  if (!root.value) return
+  if (!root.value.contains(e.target)) open.value = false
+}
+
+const onKeyDown = (e) => {
+  if (e.key === 'Escape') open.value = false
+}
 
 onMounted(() => {
-  document.addEventListener('click', handleOutsideClick);
-});
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleOutsideClick);
-});
-
-// Toggle dropdown
-const toggleDropdown = () => {
-  showDropdown.value = !showDropdown.value;
-};
-
-// Select theme
-const selectTheme = (theme) => {
-  setTheme(theme);
-  showDropdown.value = false;
-};
-
-// Current theme icon & color class
-const themeIcon = computed(() => {
-  const theme = themes.find(t => t.name === currentTheme.value);
-  return theme ? theme.icon : 'dark_mode';
-});
-const themeIconClass = computed(() => {
-  const theme = themes.find(t => t.name === currentTheme.value);
-  return theme ? theme.iconColor : 'text-gray-200';
-});
+  document.addEventListener('click', onDocumentClick)
+  document.addEventListener('keydown', onKeyDown)
+})
+onBeforeUnmount(() => {
+  document.removeEventListener('click', onDocumentClick)
+  document.removeEventListener('keydown', onKeyDown)
+})
 </script>
-
-<style scoped>
-/* Fade animation for dropdown */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-/* Theme-specific styles */
-.sepia-theme {
-  background-color: #f3eadb;
-  color: #5b4636;
-}
-.blue-theme {
-  background-color: #0b3d91;
-  color: #e6f2ff;
-}
-.purple-theme {
-  background-color: #4c1d95;
-  color: #efe7ff;
-}
-.green-theme {
-  background-color: #065f46;
-  color: #e6fff4;
-}
-.orange-theme {
-  background-color: #a04000;
-  color: #fff4e6;
-}
-.teal-theme {
-  background-color: #0f766e;
-  color: #e6fffb;
-}
-.pink-theme {
-  background-color: #be185d;
-  color: #fff0f6;
-}
-.midnight-theme {
-  background-color: #021124;
-  color: #dfefff;
-}
-
-/* Ensure background covers body nicely */
-body.sepia-theme,
-body.blue-theme,
-body.purple-theme,
-body.green-theme,
-body.orange-theme,
-body.teal-theme,
-body.pink-theme,
-body.midnight-theme {
-  transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-/* Dark mode adjustments */
-.bg-gray-700 {
-  background-color: #374151; /* Tailwind gray-700 */
-}
-.dark\:bg-gray-800 {
-  background-color: #1f2937; /* Tailwind gray-800 */
-}
-.dark\:text-gray-200 {
-  color: #e5e7eb; /* Tailwind gray-200 */
-}
-</style>

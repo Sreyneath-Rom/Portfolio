@@ -11,20 +11,23 @@ const routes = [
         name: 'Home',
         component: Homepage
     },
-
-
-
     {
-        path: '/Portfolio',
+        // use lowercase path to match links in templates
+        path: '/portfolio',
         name: 'Portfolio',
+        component: PortfolioPage
+    },
+    {
+        // simple contact route — PortfolioPage already contains a contact modal
+        path: '/contact',
+        name: 'Contact',
         component: PortfolioPage
     }
 ]
 
-
-
 const router = createRouter({
-    'history': createWebHistory(),
+    history: createWebHistory(),
     routes
 });
+
 export default router;

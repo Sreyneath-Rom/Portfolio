@@ -1,7 +1,6 @@
-
 <template>
   <div class="shadow-md fixed top-0 left-0 right-0 z-50" :class="themeClasses">
-    <nav class="max-w-5xl mx-auto h-16 flex items-center justify-between px-4 md:px-6">
+    <nav class="max-w-5xl mx-auto h-16 flex items-center justify-between px-4 md:px-6" :aria-hidden="showMobileMenu ? 'true' : 'false'">
       <!-- Logo -->
       <router-link to="/" class="flex items-center gap-3 hover:opacity-95 transition-colors duration-200" aria-label="Go to homepage">
         <span class="material-symbols-outlined text-2xl md:text-3xl" :class="themeAccent">work</span>
@@ -21,7 +20,7 @@
           :aria-label="`Go to ${item.label} page`"
           :aria-current="isActive(item) ? 'page' : null"
         >
-          <span class="material-symbols-outlined text-xl" :class="isActive(item) ? themeText : themeButtonSecondary"> {{ item.icon }}</span>
+          <span class="material-symbols-outlined text-xl" :class="isActive(item) ? themeText : themeTextSecondary"> {{ item.icon }}</span>
           <span class="font-medium">{{ item.label }}</span>
         </router-link>
 
@@ -41,7 +40,7 @@
 
       <!-- Mobile Menu -->
       <transition name="overlay-fade">
-        <div v-if="showMobileMenu" class="md:hidden fixed inset-0 z-50" @click="showMobileMenu = false">
+        <div v-if="showMobileMenu" class="md:hidden fixed inset-0 z-50" @click="showMobileMenu = false" aria-hidden="false">
           <!-- Backdrop -->
           <div class="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-sm transition-opacity"></div>
 
@@ -51,6 +50,10 @@
               class="absolute inset-y-0 right-0 w-80 p-6 flex flex-col gap-5 shadow-xl rounded-l-lg"
               :class="themePanel"
               @click.stop
+              role="dialog"
+              aria-modal="true"
+              tabindex="-1"
+              ref="panelRef"
             >
               <!-- Close Button -->
               <div class="flex justify-between items-center">
@@ -59,6 +62,7 @@
                   <span class="font-semibold" :class="themeAccent">Menu</span>
                 </div>
                 <button
+                  ref="closeBtnRef"
                   class="p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2"
                   @click="showMobileMenu = false"
                   aria-label="Close mobile menu"
@@ -69,7 +73,7 @@
               </div>
 
               <!-- Menu Items -->
-              <nav class="flex flex-col gap-2">
+              <nav class="flex flex-col gap-2" aria-label="Mobile navigation">
                 <router-link
                   v-for="item in navItems"
                   :key="item.label"
@@ -82,7 +86,7 @@
                   :aria-label="`Go to ${item.label} page`"
                   :aria-current="isActive(item) ? 'page' : null"
                 >
-                  <span class="material-symbols-outlined text-2xl" :class="isActive(item) ? themeText : themeButtonSecondary">{{ item.icon }}</span>
+                  <span class="material-symbols-outlined text-2xl" :class="isActive(item) ? themeText : themeTextSecondary">{{ item.icon }}</span>
                   <span class="font-medium">{{ item.label }}</span>
                 </router-link>
               </nav>
@@ -103,7 +107,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onUnmounted, computed } from 'vue'; // Added 'computed' import
+import { ref, watch, onUnmounted, computed, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import DarkMode from '@/components/DarkMode.vue';
 import { useDarkMode } from '@/composables/useDarkMode';
@@ -111,7 +115,7 @@ import { useDarkMode } from '@/composables/useDarkMode';
 // Theme management
 const { currentTheme } = useDarkMode();
 
-// Theme classes
+// Each computed returns an object of className -> boolean so Vue will apply the single matching key.
 const themeClasses = computed(() => ({
   'bg-white text-gray-800': currentTheme.value === 'Light',
   'bg-gray-900 text-gray-200': currentTheme.value === 'Dark',
@@ -201,26 +205,43 @@ const navItems = ref([
   { label: 'Portfolio', path: '/portfolio', icon: 'work' },
 ]);
 
-// Mobile menu state
+// Mobile menu state + refs for focus management
 const showMobileMenu = ref(false);
+const closeBtnRef = ref(null);
+const panelRef = ref(null);
+const previousActive = ref(null);
 
 const route = useRoute();
 const isActive = (item) => {
   return route.path === item.path || (item.path !== '/' && route.path.startsWith(item.path));
 };
 
-// Close mobile menu on Escape
+// Escape key closes menu
 const onKeydown = (e) => {
   if (e.key === 'Escape') showMobileMenu.value = false;
 };
 
-watch(showMobileMenu, (val) => {
-  if (val) window.addEventListener('keydown', onKeydown);
-  else window.removeEventListener('keydown', onKeydown);
+// Manage body scroll and focus when menu opens/closes
+watch(showMobileMenu, async (val) => {
+  if (val) {
+    previousActive.value = document.activeElement;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeydown);
+    await nextTick();
+    // focus the close button (if available) or the panel for screen readers
+    if (closeBtnRef.value && closeBtnRef.value.focus) closeBtnRef.value.focus();
+    else if (panelRef.value && panelRef.value.focus) panelRef.value.focus();
+  } else {
+    document.body.style.overflow = '';
+    window.removeEventListener('keydown', onKeydown);
+    // restore previous focus
+    if (previousActive.value && previousActive.value.focus) previousActive.value.focus();
+  }
 });
 
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown);
+  document.body.style.overflow = '';
 });
 </script>
 

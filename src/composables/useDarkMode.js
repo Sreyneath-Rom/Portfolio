@@ -1,45 +1,78 @@
-import { ref, watch } from 'vue';
+// src/composables/useDarkMode.js
+import { ref, watch, readonly, computed } from 'vue'
 
-const THEMES = {
-  Light: { class: 'light', icon: 'light_mode', iconColor: 'text-yellow-500' },
-  Dark: { class: 'dark', icon: 'dark_mode', iconColor: 'text-gray-200' },
-  Sepia: { class: 'sepia-theme', icon: 'palette', iconColor: 'text-amber-700' },
-  Blue: { class: 'blue-theme', icon: 'water', iconColor: 'text-sky-200' },
-  Purple: { class: 'purple-theme', icon: 'color_lens', iconColor: 'text-violet-400' },
-  Green: { class: 'green-theme', icon: 'eco', iconColor: 'text-green-400' },
-  Orange: { class: 'orange-theme', icon: 'local_fire_department', iconColor: 'text-orange-400' },
-  Teal: { class: 'teal-theme', icon: 'waves', iconColor: 'text-teal-300' },
-  Pink: { class: 'pink-theme', icon: 'local_florist', iconColor: 'text-pink-400' },
-  Midnight: { class: 'midnight-theme', icon: 'nightlight', iconColor: 'text-indigo-200' }
-};
+export const themes = [
+  { name: 'Light',    icon: 'light_mode',           iconColor: 'text-yellow-500' },
+  { name: 'Dark',     icon: 'dark_mode',            iconColor: 'text-gray-300' },
+  { name: 'Sepia',    icon: 'palette',              iconColor: 'text-amber-700' },
+  { name: 'Blue',     icon: 'water_drop',           iconColor: 'text-blue-400' },
+  { name: 'Purple',   icon: 'auto_fix_high',        iconColor: 'text-purple-400' },
+  { name: 'Green',    icon: 'eco',                  iconColor: 'text-green-400' },
+  { name: 'Orange',   icon: 'local_fire_department',iconColor: 'text-orange-400' },
+  { name: 'Teal',     icon: 'waves',                iconColor: 'text-teal-400' },
+  { name: 'Pink',     icon: 'local_florist',        iconColor: 'text-pink-400' },
+  { name: 'Midnight', icon: 'nightlight',           iconColor: 'text-indigo-400' },
+]
 
-const currentTheme = ref(localStorage.getItem('theme') || 'Dark');
+const themeMap = {
+  Light:    { bg: 'bg-white',       text: 'text-gray-900',   accent: 'text-yellow-500' },
+  Dark:     { bg: 'bg-gray-900',    text: 'text-gray-100',   accent: 'text-gray-300' },
+  Sepia:    { bg: 'bg-yellow-100',  text: 'text-yellow-900',  accent: 'text-yellow-700' },
+  Blue:     { bg: 'bg-blue-900',    text: 'text-blue-100',   accent: 'text-blue-400' },
+  Purple:   { bg: 'bg-purple-900',  text: 'text-purple-100', accent: 'text-purple-400' },
+  Green:    { bg: 'bg-green-900',   text: 'text-green-100',  accent: 'text-green-400' },
+  Orange:   { bg: 'bg-orange-900',  text: 'text-orange-100', accent: 'text-orange-400' },
+  Teal:     { bg: 'bg-teal-900',    text: 'text-teal-100',   accent: 'text-teal-400' },
+  Pink:     { bg: 'bg-pink-900',    text: 'text-pink-100',   accent: 'text-pink-400' },
+  Midnight: { bg: 'bg-indigo-900',  text: 'text-indigo-100', accent: 'text-indigo-400' },
+}
 
-const themes = Object.keys(THEMES).map(name => ({
-  name,
-  icon: THEMES[name].icon,
-  iconColor: THEMES[name].iconColor
-}));
+function getValidTheme(name) {
+  return themeMap[name] ? name : 'Dark'
+}
 
-const setTheme = (theme) => {
-  if (!Object.keys(THEMES).includes(theme)) theme = 'Dark';
-  currentTheme.value = theme;
-  localStorage.setItem('theme', theme);
-  updateTheme();
-};
+const getInitialTheme = () => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const stored = localStorage.getItem('theme')
+    return getValidTheme(stored || 'Dark')
+  }
+  return 'Dark'
+}
 
-const updateTheme = () => {
-  const html = document.documentElement;
-  Object.values(THEMES).forEach(theme => html.classList.remove(theme.class));
-  html.classList.add(THEMES[currentTheme.value]?.class || THEMES.Dark.class);
-};
+const currentTheme = ref(getInitialTheme())
 
-updateTheme();
+export const setTheme = (name) => {
+  const validTheme = getValidTheme(name)
+  currentTheme.value = validTheme
+  try {
+    localStorage.setItem('theme', validTheme)
+  } catch (e) {
+    // ignore localStorage errors (e.g. privacy mode)
+  }
+}
 
-watch(currentTheme, () => {
-  updateTheme();
-});
+// Keep root element classes in sync
+watch(currentTheme, (name) => {
+  const target = themeMap[name] || themeMap.Dark
+  // Remove all known bg/text classes
+  Object.values(themeMap).forEach(({ bg, text }) => {
+    document.documentElement.classList.remove(bg, text)
+  })
+  // Add the chosen ones
+  document.documentElement.classList.add(target.bg, target.text, 'transition-colors', 'duration-300')
+}, { immediate: true })
 
 export function useDarkMode() {
-  return { currentTheme, setTheme, themes };
+  const bgClass = computed(() => (themeMap[currentTheme.value] || themeMap.Dark).bg)
+  const textClass = computed(() => (themeMap[currentTheme.value] || themeMap.Dark).text)
+  const accentClass = computed(() => (themeMap[currentTheme.value] || themeMap.Dark).accent)
+
+  return {
+    currentTheme: readonly(currentTheme),
+    setTheme,
+    themes,
+    bgClass,
+    textClass,
+    accentClass,
+  }
 }

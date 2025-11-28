@@ -1,26 +1,16 @@
-```
 <template>
-  <div class="px-4 py-10 md:py-16 transition-colors duration-300" :class="themeClasses">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-8 mt-10">
-        <h2 class="text-3xl md:text-4xl font-extrabold mb-2" :class="themeAccent">Experience</h2>
-        <div class="mx-auto h-1 w-24 rounded-full mb-4" :class="[themeAccent, 'opacity-90']"></div>
-        <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed" :class="themeText">
-          Hands-on projects using HTML, CSS, JavaScript, TypeScript, PHP, Python, Vue.js, Laravel, and collaborative teamwork.
-        </p>
-      </div>
+  <div class="min-h-screen py-20 px-6" :class="[bgClass, textClass]">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-5xl font-bold mb-4" :class="accentClass">Experience</h2>
+      <div class="h-1 w-24 bg-current opacity-70 mx-auto mb-8 rounded-full"></div>
 
-      <!-- Contact Button -->
-      <div class="text-center mb-10">
-        <button
-          @click="openContactModal"
-          class="px-6 py-3 rounded-lg font-semibold transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
-          :class="themeButton"
-          aria-label="Open contact form"
-        >
-          Contact Me
-        </button>
-      </div>
+      <button
+        @click="openContactModal"
+        class="px-8 py-3 rounded-xl text-white font-bold mb-12 transition"
+        :class="themeButton"
+      >
+        Contact Me
+      </button>
 
       <!-- Filter Bar -->
       <div class="flex flex-wrap justify-center gap-3 mb-10">
@@ -41,12 +31,12 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           v-for="(project, index) in filteredProjects"
-          :key="project.title"
+          :key="project.id"
           :class="[
             'relative p-4 rounded-2xl transition-transform duration-300 ease-out overflow-hidden',
             themeCard,
-            'hover:translate-y-[-6px] hover:shadow-2xl',
-            !cardAnimated[index] ? 'opacity-0 translate-y-8' : 'opacity-100'
+            'hover:-translate-y-1 hover:shadow-2xl',
+            !cardAnimated[project.id] ? 'opacity-0 translate-y-8' : 'opacity-100'
           ]"
           :style="{ animationDelay: `${index * 0.12}s` }"
           role="region"
@@ -80,8 +70,8 @@
             <span
               v-for="tech in project.technologies"
               :key="tech"
-              class="px-3 py-1 text-xs font-semibold rounded-full shadow-sm"
-              :class="[themeButtonSecondary, 'bg-opacity-90']"
+              class="px-3 py-1 text-xs font-semibold rounded-full shadow-sm bg-opacity-90"
+              :class="themeBadge"
             >
               {{ tech }}
             </span>
@@ -114,17 +104,17 @@
           </div>
 
           <button
-            @click="toggleDetails(index)"
+            @click="toggleDetails(project.id)"
             class="w-full mt-4 py-2 rounded-lg text-sm font-semibold transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
             :class="themeButtonSecondary"
-            :aria-expanded="detailsState[index] ? 'true' : 'false'"
-            :aria-label="detailsState[index] ? `Hide details of ${project.title}` : `Show details of ${project.title}`"
+            :aria-expanded="detailsState[project.id] ? 'true' : 'false'"
+            :aria-label="detailsState[project.id] ? `Hide details of ${project.title}` : `Show details of ${project.title}`"
           >
-            {{ detailsState[index] ? 'Hide Details' : 'Read More' }}
+            {{ detailsState[project.id] ? 'Hide Details' : 'Read More' }}
           </button>
 
           <transition name="fade">
-            <div v-if="detailsState[index]" class="mt-3 text-sm max-h-44 overflow-y-auto pr-2" :class="themeTextSecondary">
+            <div v-if="detailsState[project.id]" class="mt-3 text-sm max-h-44 overflow-y-auto pr-2" :class="themeTextSecondary">
               <ul class="list-disc list-inside space-y-2">
                 <li v-for="(task, i) in project.tasks" :key="i">{{ task }}</li>
               </ul>
@@ -145,11 +135,11 @@
         <div class="w-full max-w-lg rounded-2xl p-6 sm:p-8 shadow-2xl" :class="themeCard" role="dialog" aria-labelledby="contact-modal-title">
           <h2 id="contact-modal-title" class="text-2xl font-bold mb-4" :class="themeText">Contact Me</h2>
 
-          <div v-if="formSuccess" class="mb-4 p-3 rounded-lg" :class="[themeSuccess, themeTextSuccess]">
+          <div v-if="formSuccess" class="mb-4 p-3 rounded-lg" :class="themeSuccess">
             Message sent successfully!
           </div>
 
-          <form @submit.prevent="sendContact" class="space-y-4">
+          <form @submit.prevent="sendContact" class="space-y-4" novalidate>
             <div>
               <input
                 ref="nameInputRef"
@@ -225,148 +215,175 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch, nextTick, onUnmounted } from 'vue';
 import { useDarkMode } from '@/composables/useDarkMode';
 
 // Theme management
 const { currentTheme } = useDarkMode();
 
-// Theme classes
-const themeClasses = computed(() => ({
-  'bg-white text-gray-800': currentTheme.value === 'Light',
-  'bg-gray-900 text-gray-200': currentTheme.value === 'Dark',
-  'bg-sepia-100 text-sepia-900': currentTheme.value === 'Sepia',
-  'bg-blue-900 text-blue-100': currentTheme.value === 'Blue',
-  'bg-purple-900 text-purple-100': currentTheme.value === 'Purple',
-  'bg-green-900 text-green-100': currentTheme.value === 'Green',
-  'bg-orange-900 text-orange-100': currentTheme.value === 'Orange',
-  'bg-teal-900 text-teal-100': currentTheme.value === 'Teal',
-  'bg-pink-900 text-pink-100': currentTheme.value === 'Pink',
-  'bg-indigo-900 text-indigo-100': currentTheme.value === 'Midnight',
-}));
-const themeText = computed(() => ({
-  'text-gray-800': currentTheme.value === 'Light',
-  'text-gray-200': currentTheme.value === 'Dark',
-  'text-sepia-900': currentTheme.value === 'Sepia',
-  'text-blue-100': currentTheme.value === 'Blue',
-  'text-purple-100': currentTheme.value === 'Purple',
-  'text-green-100': currentTheme.value === 'Green',
-  'text-orange-100': currentTheme.value === 'Orange',
-  'text-teal-100': currentTheme.value === 'Teal',
-  'text-pink-100': currentTheme.value === 'Pink',
-  'text-indigo-100': currentTheme.value === 'Midnight',
-}));
-const themeTextSecondary = computed(() => ({
-  'text-gray-600': currentTheme.value === 'Light',
-  'text-gray-400': currentTheme.value === 'Dark',
-  'text-sepia-700': currentTheme.value === 'Sepia',
-  'text-blue-200': currentTheme.value === 'Blue',
-  'text-purple-200': currentTheme.value === 'Purple',
-  'text-green-200': currentTheme.value === 'Green',
-  'text-orange-200': currentTheme.value === 'Orange',
-  'text-teal-200': currentTheme.value === 'Teal',
-  'text-pink-200': currentTheme.value === 'Pink',
-  'text-indigo-200': currentTheme.value === 'Midnight',
-}));
-const themeAccent = computed(() => ({
-  'text-yellow-500': currentTheme.value === 'Light' || currentTheme.value === 'Dark',
-  'text-amber-600': currentTheme.value === 'Sepia',
-  'text-blue-400': currentTheme.value === 'Blue',
-  'text-purple-400': currentTheme.value === 'Purple',
-  'text-green-400': currentTheme.value === 'Green',
-  'text-orange-400': currentTheme.value === 'Orange',
-  'text-teal-400': currentTheme.value === 'Teal',
-  'text-pink-400': currentTheme.value === 'Pink',
-  'text-indigo-400': currentTheme.value === 'Midnight',
-}));
-const themeButton = computed(() => ({
-  'bg-yellow-500 text-white hover:bg-yellow-400 focus:ring-yellow-500': currentTheme.value === 'Light' || currentTheme.value === 'Dark',
-  'bg-amber-600 text-sepia-900 hover:bg-amber-500 focus:ring-amber-500': currentTheme.value === 'Sepia',
-  'bg-blue-400 text-blue-900 hover:bg-blue-300 focus:ring-blue-400': currentTheme.value === 'Blue',
-  'bg-purple-400 text-purple-900 hover:bg-purple-300 focus:ring-purple-400': currentTheme.value === 'Purple',
-  'bg-green-400 text-green-900 hover:bg-green-300 focus:ring-green-400': currentTheme.value === 'Green',
-  'bg-orange-400 text-orange-900 hover:bg-orange-300 focus:ring-orange-400': currentTheme.value === 'Orange',
-  'bg-teal-400 text-teal-900 hover:bg-teal-300 focus:ring-teal-400': currentTheme.value === 'Teal',
-  'bg-pink-400 text-pink-900 hover:bg-pink-300 focus:ring-pink-400': currentTheme.value === 'Pink',
-  'bg-indigo-400 text-indigo-900 hover:bg-indigo-300 focus:ring-indigo-400': currentTheme.value === 'Midnight',
-}));
-const themeButtonSecondary = computed(() => ({
-  'text-sky-500 hover:bg-gray-100 hover:text-sky-400 focus:ring-sky-500': currentTheme.value === 'Light',
-  'text-sky-400 hover:bg-gray-800 hover:text-sky-300 focus:ring-sky-400': currentTheme.value === 'Dark',
-  'text-amber-500 hover:bg-sepia-200 hover:text-amber-400 focus:ring-amber-500': currentTheme.value === 'Sepia',
-  'text-blue-400 hover:bg-blue-800 hover:text-blue-300 focus:ring-blue-400': currentTheme.value === 'Blue',
-  'text-purple-400 hover:bg-purple-800 hover:text-purple-300 focus:ring-purple-400': currentTheme.value === 'Purple',
-  'text-green-400 hover:bg-green-800 hover:text-green-300 focus:ring-green-400': currentTheme.value === 'Green',
-  'text-orange-400 hover:bg-orange-800 hover:text-orange-300 focus:ring-orange-400': currentTheme.value === 'Orange',
-  'text-teal-400 hover:bg-teal-800 hover:text-teal-300 focus:ring-teal-400': currentTheme.value === 'Teal',
-  'text-pink-400 hover:bg-pink-800 hover:text-pink-300 focus:ring-pink-400': currentTheme.value === 'Pink',
-  'text-indigo-400 hover:bg-indigo-800 hover:text-indigo-300 focus:ring-indigo-400': currentTheme.value === 'Midnight',
-}));
-const themeCard = computed(() => ({
-  'bg-white border-gray-300': currentTheme.value === 'Light',
-  'bg-gray-800 border-gray-600': currentTheme.value === 'Dark',
-  'bg-sepia-100 border-sepia-400': currentTheme.value === 'Sepia',
-  'bg-blue-900 border-blue-600': currentTheme.value === 'Blue',
-  'bg-purple-900 border-purple-600': currentTheme.value === 'Purple',
-  'bg-green-900 border-green-600': currentTheme.value === 'Green',
-  'bg-orange-900 border-orange-600': currentTheme.value === 'Orange',
-  'bg-teal-900 border-teal-600': currentTheme.value === 'Teal',
-  'bg-pink-900 border-pink-600': currentTheme.value === 'Pink',
-  'bg-indigo-900 border-indigo-600': currentTheme.value === 'Midnight',
-}));
-const themeCardHeader = computed(() => ({
-  'bg-yellow-100': currentTheme.value === 'Light',
-  'bg-gray-600': currentTheme.value === 'Dark',
-  'bg-sepia-300': currentTheme.value === 'Sepia',
-  'bg-blue-700': currentTheme.value === 'Blue',
-  'bg-purple-700': currentTheme.value === 'Purple',
-  'bg-green-700': currentTheme.value === 'Green',
-  'bg-orange-700': currentTheme.value === 'Orange',
-  'bg-teal-700': currentTheme.value === 'Teal',
-  'bg-pink-700': currentTheme.value === 'Pink',
-  'bg-indigo-700': currentTheme.value === 'Midnight',
-}));
-const themeInput = computed(() => ({
-  'bg-gray-50 border-gray-300': currentTheme.value === 'Light',
-  'bg-gray-900 border-gray-600': currentTheme.value === 'Dark',
-  'bg-sepia-50 border-sepia-300': currentTheme.value === 'Sepia',
-  'bg-blue-950 border-blue-600': currentTheme.value === 'Blue',
-  'bg-purple-950 border-purple-600': currentTheme.value === 'Purple',
-  'bg-green-950 border-green-600': currentTheme.value === 'Green',
-  'bg-orange-950 border-orange-600': currentTheme.value === 'Orange',
-  'bg-teal-950 border-teal-600': currentTheme.value === 'Teal',
-  'bg-pink-950 border-pink-600': currentTheme.value === 'Pink',
-  'bg-indigo-950 border-indigo-600': currentTheme.value === 'Midnight',
-}));
-const themeSuccess = computed(() => ({
-  'bg-green-50 text-green-800': currentTheme.value === 'Light',
-  'bg-green-900 text-green-100': currentTheme.value === 'Dark',
-  'bg-green-50 text-green-800': currentTheme.value === 'Sepia',
-  'bg-green-900 text-green-100': currentTheme.value === 'Blue',
-  'bg-green-900 text-green-100': currentTheme.value === 'Purple',
-  'bg-green-900 text-green-100': currentTheme.value === 'Green',
-  'bg-green-900 text-green-100': currentTheme.value === 'Orange',
-  'bg-green-900 text-green-100': currentTheme.value === 'Teal',
-  'bg-green-900 text-green-100': currentTheme.value === 'Pink',
-  'bg-green-900 text-green-100': currentTheme.value === 'Midnight',
-}));
+// Map theme names to Tailwind utility class strings
+const bgClass = computed(() => {
+  switch (currentTheme.value) {
+    case 'Dark': return 'bg-gray-900';
+    case 'Sepia': return 'bg-yellow-50';
+    case 'Blue': return 'bg-blue-950';
+    case 'Purple': return 'bg-purple-950';
+    case 'Green': return 'bg-green-950';
+    case 'Orange': return 'bg-orange-950';
+    case 'Teal': return 'bg-teal-950';
+    case 'Pink': return 'bg-pink-950';
+    case 'Midnight': return 'bg-indigo-950';
+    default: return 'bg-white';
+  }
+});
 
-// Projects
-/**
- * @typedef {Object} Project
- * @property {string} title - The project title.
- * @property {string} duration - The duration of the project.
- * @property {string} role - The role played in the project.
- * @property {string} image - URL to the project image.
- * @property {string} demoLink - URL to the live demo (optional).
- * @property {string} githubLink - URL to the source code repository (optional).
- * @property {string[]} technologies - List of technologies used.
- * @property {string[]} tasks - List of tasks or responsibilities.
- */
+const textClass = computed(() => {
+  switch (currentTheme.value) {
+    case 'Dark': return 'text-gray-200';
+    case 'Sepia': return 'text-yellow-900';
+    case 'Blue': return 'text-blue-100';
+    case 'Purple': return 'text-purple-100';
+    case 'Green': return 'text-green-100';
+    case 'Orange': return 'text-orange-100';
+    case 'Teal': return 'text-teal-100';
+    case 'Pink': return 'text-pink-100';
+    case 'Midnight': return 'text-indigo-100';
+    default: return 'text-gray-800';
+  }
+});
 
-/** @type {Project[]} */
+const accentClass = computed(() => {
+  switch (currentTheme.value) {
+    case 'Sepia': return 'text-amber-600';
+    case 'Blue': return 'text-blue-400';
+    case 'Purple': return 'text-purple-400';
+    case 'Green': return 'text-green-400';
+    case 'Orange': return 'text-orange-400';
+    case 'Teal': return 'text-teal-400';
+    case 'Pink': return 'text-pink-400';
+    case 'Midnight': return 'text-indigo-400';
+    default: return 'text-yellow-500';
+  }
+});
+
+const themeButton = computed(() => {
+  switch (currentTheme.value) {
+    case 'Sepia': return 'bg-amber-600 text-yellow-900 hover:bg-amber-500 focus:ring-amber-500';
+    case 'Blue': return 'bg-blue-400 text-blue-900 hover:bg-blue-300 focus:ring-blue-400';
+    case 'Purple': return 'bg-purple-400 text-purple-900 hover:bg-purple-300 focus:ring-purple-400';
+    case 'Green': return 'bg-green-400 text-green-900 hover:bg-green-300 focus:ring-green-400';
+    case 'Orange': return 'bg-orange-400 text-orange-900 hover:bg-orange-300 focus:ring-orange-400';
+    case 'Teal': return 'bg-teal-400 text-teal-900 hover:bg-teal-300 focus:ring-teal-400';
+    case 'Pink': return 'bg-pink-400 text-pink-900 hover:bg-pink-300 focus:ring-pink-400';
+    case 'Midnight': return 'bg-indigo-400 text-indigo-900 hover:bg-indigo-300 focus:ring-indigo-400';
+    case 'Dark':
+    case 'Light':
+    default: return 'bg-yellow-500 text-white hover:bg-yellow-400 focus:ring-yellow-500';
+  }
+});
+
+const themeButtonSecondary = computed(() => {
+  switch (currentTheme.value) {
+    case 'Sepia': return 'text-amber-500 hover:bg-yellow-50 focus:ring-amber-500';
+    case 'Blue': return 'text-blue-400 hover:bg-blue-800 hover:text-blue-300 focus:ring-blue-400';
+    case 'Purple': return 'text-purple-400 hover:bg-purple-800 hover:text-purple-300 focus:ring-purple-400';
+    case 'Green': return 'text-green-400 hover:bg-green-800 hover:text-green-300 focus:ring-green-400';
+    case 'Orange': return 'text-orange-400 hover:bg-orange-800 hover:text-orange-300 focus:ring-orange-400';
+    case 'Teal': return 'text-teal-400 hover:bg-teal-800 hover:text-teal-300 focus:ring-teal-400';
+    case 'Pink': return 'text-pink-400 hover:bg-pink-800 hover:text-pink-300 focus:ring-pink-400';
+    case 'Midnight': return 'text-indigo-400 hover:bg-indigo-800 hover:text-indigo-300 focus:ring-indigo-400';
+    case 'Dark': return 'text-sky-400 hover:bg-gray-800 hover:text-sky-300 focus:ring-sky-400';
+    default: return 'text-sky-500 hover:bg-gray-100 hover:text-sky-400 focus:ring-sky-500';
+  }
+});
+
+const themeCard = computed(() => {
+  switch (currentTheme.value) {
+    case 'Dark': return 'bg-gray-800 border border-gray-700';
+    case 'Sepia': return 'bg-yellow-50 border border-yellow-200';
+    case 'Blue': return 'bg-blue-900 border border-blue-700';
+    case 'Purple': return 'bg-purple-900 border border-purple-700';
+    case 'Green': return 'bg-green-900 border border-green-700';
+    case 'Orange': return 'bg-orange-900 border border-orange-700';
+    case 'Teal': return 'bg-teal-900 border border-teal-700';
+    case 'Pink': return 'bg-pink-900 border border-pink-700';
+    case 'Midnight': return 'bg-indigo-900 border border-indigo-700';
+    default: return 'bg-white border border-gray-200';
+  }
+});
+
+const themeCardHeader = computed(() => {
+  switch (currentTheme.value) {
+    case 'Dark': return 'bg-gray-700';
+    case 'Sepia': return 'bg-yellow-100';
+    case 'Blue': return 'bg-blue-700';
+    case 'Purple': return 'bg-purple-700';
+    case 'Green': return 'bg-green-700';
+    case 'Orange': return 'bg-orange-700';
+    case 'Teal': return 'bg-teal-700';
+    case 'Pink': return 'bg-pink-700';
+    case 'Midnight': return 'bg-indigo-700';
+    default: return 'bg-yellow-100';
+  }
+});
+
+const themeInput = computed(() => {
+  switch (currentTheme.value) {
+    case 'Dark': return 'bg-gray-900 border border-gray-700';
+    case 'Sepia': return 'bg-yellow-50 border border-yellow-200';
+    case 'Blue': return 'bg-blue-950 border border-blue-700';
+    case 'Purple': return 'bg-purple-950 border border-purple-700';
+    case 'Green': return 'bg-green-950 border border-green-700';
+    case 'Orange': return 'bg-orange-950 border border-orange-700';
+    case 'Teal': return 'bg-teal-950 border border-teal-700';
+    case 'Pink': return 'bg-pink-950 border border-pink-700';
+    case 'Midnight': return 'bg-indigo-950 border border-indigo-700';
+    default: return 'bg-gray-50 border border-gray-300';
+  }
+});
+
+const themeText = computed(() => textClass.value);
+const themeTextSecondary = computed(() => {
+  switch (currentTheme.value) {
+    case 'Dark': return 'text-gray-400';
+    case 'Sepia': return 'text-yellow-800';
+    case 'Blue': return 'text-blue-200';
+    case 'Purple': return 'text-purple-200';
+    case 'Green': return 'text-green-200';
+    case 'Orange': return 'text-orange-200';
+    case 'Teal': return 'text-teal-200';
+    case 'Pink': return 'text-pink-200';
+    case 'Midnight': return 'text-indigo-200';
+    default: return 'text-gray-600';
+  }
+});
+
+const themeBadge = computed(() => {
+  switch (currentTheme.value) {
+    case 'Dark': return 'bg-gray-700 text-gray-200';
+    case 'Sepia': return 'bg-yellow-100 text-yellow-800';
+    case 'Blue': return 'bg-blue-800 text-blue-100';
+    case 'Purple': return 'bg-purple-800 text-purple-100';
+    case 'Green': return 'bg-green-800 text-green-100';
+    case 'Orange': return 'bg-orange-800 text-orange-100';
+    case 'Teal': return 'bg-teal-800 text-teal-100';
+    case 'Pink': return 'bg-pink-800 text-pink-100';
+    case 'Midnight': return 'bg-indigo-800 text-indigo-100';
+    default: return 'bg-gray-100 text-gray-800';
+  }
+});
+
+const themeSuccess = computed(() => {
+  switch (currentTheme.value) {
+    case 'Dark': return 'bg-green-900 text-green-100';
+    default: return 'bg-green-50 text-green-800';
+  }
+});
+
+// Projects - added stable id for keys
 const projects = [
   {
+    id: 'pos-001',
     title: 'POS System',
     duration: 'Feb 10, 2025 - May 02, 2025',
     role: 'DevOps',
@@ -382,6 +399,7 @@ const projects = [
     ],
   },
   {
+    id: 'ecom-002',
     title: 'E-Commerce Platform',
     duration: 'Jan 15, 2025 - Apr 30, 2025',
     role: 'Frontend Developer',
@@ -397,6 +415,7 @@ const projects = [
     ],
   },
   {
+    id: 'task-003',
     title: 'Task Manager App',
     duration: 'Mar 01, 2025 - Jun 15, 2025',
     role: 'Full-Stack Developer',
@@ -438,13 +457,25 @@ const formSuccess = ref(false);
 const formErrors = ref({ name: false, email: false, message: false });
 const isSubmitting = ref(false);
 
-const detailsState = ref(Array(projects.length).fill(false));
+const detailsState = ref({});     // keyed by project.id
+const cardAnimated = ref({});     // keyed by project.id
 
-const toggleDetails = (index) => {
-  if (detailsState.value.length !== projects.length) {
-    detailsState.value = Array(projects.length).fill(false);
-  }
-  detailsState.value = detailsState.value.map((val, i) => (i === index ? !val : false));
+// initialize states for all projects
+function initProjectStates() {
+  projects.forEach(p => {
+    if (!(p.id in detailsState.value)) detailsState.value[p.id] = false;
+    if (!(p.id in cardAnimated.value)) cardAnimated.value[p.id] = false;
+  });
+}
+initProjectStates();
+
+const toggleDetails = (id) => {
+  // ensure states exist
+  initProjectStates();
+  // close others and toggle requested
+  Object.keys(detailsState.value).forEach(k => {
+    detailsState.value[k] = k === id ? !detailsState.value[k] : false;
+  });
 };
 
 const nameInputRef = ref(null);
@@ -456,10 +487,32 @@ const openContactModal = () => {
   isSubmitting.value = false;
 };
 
+// focus input when modal opens and prevent body scroll
+watch(showContactModal, async (val) => {
+  if (val) {
+    // prevent background scroll
+    document.body.style.overflow = 'hidden';
+    await nextTick();
+    if (nameInputRef.value && typeof nameInputRef.value.focus === 'function') {
+      nameInputRef.value.focus();
+    }
+  } else {
+    document.body.style.overflow = '';
+  }
+});
+
+onUnmounted(() => {
+  // restore scroll if component unmounts while modal open
+  document.body.style.overflow = '';
+});
+
+// simple email regex
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+
 const sendContact = async () => {
   formErrors.value = {
     name: !contactForm.value.name.trim(),
-    email: !contactForm.value.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/i),
+    email: !emailRe.test(contactForm.value.email || ''),
     message: !contactForm.value.message.trim(),
   };
 
@@ -470,29 +523,30 @@ const sendContact = async () => {
       formSuccess.value = true;
       isSubmitting.value = false;
       contactForm.value = { name: '', email: '', message: '' };
-    }, 2000);
+    }, 1200);
   }
 };
 
 // Card animation on mount
-const cardAnimated = ref(Array(projects.length).fill(false));
 onMounted(() => {
+  initProjectStates();
+  // stagger animation per visible project; mark all as animated after a short delay
   setTimeout(() => {
-    cardAnimated.value = cardAnimated.value.map(() => true);
+    Object.keys(cardAnimated.value).forEach(k => cardAnimated.value[k] = true);
   }, 50);
 });
 </script>
 
 <style scoped>
-/* Smooth transitions for theme changes */
+/* Transitions only; styling uses Tailwind utilities */
 * {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 /* Modal transition */
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 .modal-enter-from,
 .modal-leave-to {
@@ -502,191 +556,11 @@ onMounted(() => {
 /* Fade transition for details */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s ease, max-height 0.3s ease;
+  transition: opacity 0.2s ease, max-height 0.2s ease;
 }
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
   max-height: 0;
-}
-
-/* Theme-specific background colors */
-.bg-sepia-50 {
-  background-color: #f7f2e7; /* Derived from sepia palette */
-}
-.bg-sepia-100 {
-  background-color: #f3eadb; /* Matches DarkMode.vue sepia-theme */
-}
-.bg-sepia-200 {
-  background-color: #f5f0e1; /* Derived from sepia palette */
-}
-.bg-sepia-300 {
-  background-color: #ede4d3; /* Derived from sepia palette */
-}
-.bg-blue-700 {
-  background-color: #1d4ed8; /* Derived from blue palette */
-}
-.bg-blue-800 {
-  background-color: #1e3a8a; /* Derived from blue palette */
-}
-.bg-blue-900 {
-  background-color: #0b3d91; /* Matches DarkMode.vue blue-theme */
-}
-.bg-blue-950 {
-  background-color: #172554; /* Derived from blue palette */
-}
-.bg-purple-700 {
-  background-color: #6d28d9; /* Derived from purple palette */
-}
-.bg-purple-800 {
-  background-color: #3b1476; /* Derived from purple palette */
-}
-.bg-purple-900 {
-  background-color: #4c1d95; /* Matches DarkMode.vue purple-theme */
-}
-.bg-purple-950 {
-  background-color: #2e1065; /* Derived from purple palette */
-}
-.bg-green-700 {
-  background-color: #047857; /* Derived from green palette */
-}
-.bg-green-800 {
-  background-color: #064e3b; /* Derived from green palette */
-}
-.bg-green-900 {
-  background-color: #065f46; /* Matches DarkMode.vue green-theme */
-}
-.bg-green-950 {
-  background-color: #022c22; /* Derived from green palette */
-}
-.bg-orange-700 {
-  background-color: #c2410c; /* Derived from orange palette */
-}
-.bg-orange-800 {
-  background-color: #7c2d12; /* Derived from orange palette */
-}
-.bg-orange-900 {
-  background-color: #a04000; /* Matches DarkMode.vue orange-theme */
-}
-.bg-orange-950 {
-  background-color: #431407; /* Derived from orange palette */
-}
-.bg-teal-700 {
-  background-color: #0d9488; /* Derived from teal palette */
-}
-.bg-teal-800 {
-  background-color: #115e59; /* Derived from teal palette */
-}
-.bg-teal-900 {
-  background-color: #0f766e; /* Matches DarkMode.vue teal-theme */
-}
-.bg-teal-950 {
-  background-color: #042f2e; /* Derived from teal palette */
-}
-.bg-pink-700 {
-  background-color: #db2777; /* Derived from pink palette */
-}
-.bg-pink-800 {
-  background-color: #9d174d; /* Derived from pink palette */
-}
-.bg-pink-900 {
-  background-color: #be185d; /* Matches DarkMode.vue pink-theme */
-}
-.bg-pink-950 {
-  background-color: #4a044e; /* Derived from pink palette */
-}
-.bg-indigo-700 {
-  background-color: #4f46e5; /* Derived from indigo palette */
-}
-.bg-indigo-800 {
-  background-color: #1e1b4b; /* Derived from indigo palette */
-}
-.bg-indigo-900 {
-  background-color: #021124; /* Matches DarkMode.vue midnight-theme */
-}
-.bg-indigo-950 {
-  background-color: #0f172a; /* Derived from indigo palette */
-}
-
-/* Theme-specific text colors */
-.text-sepia-900 {
-  color: #5b4636; /* Matches DarkMode.vue sepia-theme */
-}
-.text-sepia-700 {
-  color: #8c552f; /* Derived from sepia palette */
-}
-.text-blue-100 {
-  color: #e6f2ff; /* Matches DarkMode.vue blue-theme */
-}
-.text-blue-200 {
-  color: #bfdbfe; /* Derived from blue palette */
-}
-.text-purple-100 {
-  color: #efe7ff; /* Matches DarkMode.vue purple-theme */
-}
-.text-purple-200 {
-  color: #ddd6fe; /* Derived from purple palette */
-}
-.text-green-100 {
-  color: #e6fff4; /* Matches DarkMode.vue green-theme */
-}
-.text-green-200 {
-  color: #a7f3d0; /* Derived from green palette */
-}
-.text-orange-100 {
-  color: #fff4e6; /* Matches DarkMode.vue orange-theme */
-}
-.text-orange-200 {
-  color: #fed7aa; /* Derived from orange palette */
-}
-.text-teal-100 {
-  color: #e6fffb; /* Matches DarkMode.vue teal-theme */
-}
-.text-teal-200 {
-  color: #99f6e4; /* Derived from teal palette */
-}
-.text-pink-100 {
-  color: #fff0f6; /* Matches DarkMode.vue pink-theme */
-}
-.text-pink-200 {
-  color: #f9a8d4; /* Derived from pink palette */
-}
-.text-indigo-100 {
-  color: #dfefff; /* Matches DarkMode.vue midnight-theme */
-}
-.text-indigo-200 {
-  color: #c7d2fe; /* Derived from indigo palette */
-}
-.text-green-800 {
-  color: #065f46; /* Derived from green palette */
-}
-
-/* Theme-specific border colors */
-.border-sepia-300 {
-  border-color: #e7d5b3; /* Derived from sepia palette */
-}
-.border-sepia-400 {
-  border-color: #d4a373; /* Derived from sepia palette */
-}
-.border-blue-600 {
-  border-color: #2563eb; /* Derived from blue palette */
-}
-.border-purple-600 {
-  border-color: #6d28d9; /* Derived from purple palette */
-}
-.border-green-600 {
-  border-color: #059669; /* Derived from green palette */
-}
-.border-orange-600 {
-  border-color: #ea580c; /* Derived from orange palette */
-}
-.border-teal-600 {
-  border-color: #0d9488; /* Derived from teal palette */
-}
-.border-pink-600 {
-  border-color: #db2777; /* Derived from pink palette */
-}
-.border-indigo-600 {
-  border-color: #4f46e5; /* Derived from indigo palette */
 }
 </style>
