@@ -1,41 +1,82 @@
+<!-- src/pages/Homepage.vue -->
 <template>
-  <div class="min-h-screen pt-20 px-6" :class="[bgClass, textClass]">
-    <section class="max-w-6xl mx-auto py-20 text-center flex flex-col items-center gap-6">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight" :class="accentClass" aria-hidden="false">
-        <span ref="typedEl" class="inline-block"></span>
+  <div class="relative min-h-screen overflow-hidden" :class="[bgClass, textClass]">
+    <!-- Animated Background Gradient (theme-aware) -->
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute inset-0" :class="gradientClass"></div>
+      <div class="absolute inset-0 bg-black/20 backdrop-blur-3xl"></div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="floating-particles">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative max-w-7xl mx-auto px-6 py-32 md:py-40 text-center flex flex-col items-center justify-center gap-12">
+      <!-- Main Heading with Typed.js -->
+      <h1 class="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight">
+        <span ref="typedEl" class="inline-block bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-2xl"></span>
+        <span class="block text-4xl md:text-5xl mt-6 opacity-90 font-bold" :class="accentClass">
+          Full-Stack Developer
+        </span>
       </h1>
 
-      <p class="text-lg sm:text-xl opacity-85 max-w-2xl">
-        Explore my journey preparing for a career in the IT sector — projects, skills, and learnings.
+      <!-- Subtitle -->
+      <p class="text-xl md:text-2xl font-light opacity-90 max-w-4xl leading-relaxed">
+        Crafting <span class="font-bold text-cyan-400">beautiful</span>,
+        <span class="font-bold text-emerald-400">performant</span>, and
+        <span class="font-bold text-pink-400">accessible</span> web experiences with passion and precision.
       </p>
 
-      <div class="flex gap-4 items-center flex-wrap justify-center">
+      <!-- Action Buttons -->
+      <div class="flex flex-col sm:flex-row gap-6 mt-10 items-center justify-center">
         <router-link
           to="/portfolio"
-          :class="['inline-block px-6 py-3 rounded-xl font-semibold transition transform hover:scale-[1.03] focus:outline-none focus:ring-2 focus:ring-offset-2', buttonClass]"
-          aria-label="View portfolio"
+          class="group relative inline-flex items-center gap-4 px-10 py-5 rounded-2xl font-bold text-lg tracking-wide overflow-hidden shadow-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-3xl"
+          :class="[primaryButtonBg, 'text-white']"
         >
-          View Portfolio
+          <span class="relative z-10">View My Work</span>
+          <span class="material-symbols-outlined text-2xl relative z-10 group-hover:translate-x-1 transition-transform">
+            arrow_forward
+          </span>
+          <!-- Shine effect -->
+          <span class="absolute inset-0 -translate-x-full bg-white/30 skew-x-12 transition-transform duration-1000 group-hover:translate-x-full"></span>
         </router-link>
 
         <router-link
           to="/contact"
-          class="inline-block px-6 py-3 rounded-xl border border-current bg-transparent hover:bg-white/5 transition text-sm"
-          aria-label="Contact me"
+          class="inline-flex items-center gap-3 px-8 py-5 rounded-2xl font-semibold text-lg border-2 border-current hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+          :class="accentClass"
         >
-          Contact
+          <span class="material-symbols-outlined">mail</span>
+          Let's Talk
         </router-link>
       </div>
 
-      <div class="flex gap-2 mt-4 flex-wrap justify-center items-center">
-        <!-- simple badges for quick scan -->
-        <span class="px-3 py-1 rounded-full bg-white/8 text-sm">Vue 3</span>
-        <span class="px-3 py-1 rounded-full bg-white/8 text-sm">TypeScript</span>
-        <span class="px-3 py-1 rounded-full bg-white/8 text-sm">Tailwind</span>
-        <span class="px-3 py-1 rounded-full bg-white/8 text-sm">Node</span>
+      <!-- Tech Badges -->
+      <div class="flex flex-wrap gap-4 mt-16 justify-center">
+        <span
+          v-for="tech in techStack"
+          :key="tech"
+          class="px-6 py-3 rounded-full text-sm font-medium backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
+          :class="badgeGlow"
+        >
+          {{ tech }}
+        </span>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        <span class="material-symbols-outlined text-5xl opacity-60" :class="accentClass">
+          keyboard_arrow_down
+        </span>
       </div>
     </section>
 
+    <!-- About Section -->
     <Aboutpage />
     <Footer />
   </div>
@@ -49,43 +90,107 @@ import Footer from '@/components/Footer.vue'
 import { useDarkMode } from '@/composables/useDarkMode'
 
 const typedEl = ref(null)
-let typedInstance = null
+const typedInstance = ref(null)
 
 const { bgClass, textClass, accentClass, currentTheme } = useDarkMode()
 
-// map theme names to concrete Tailwind classes to avoid dynamic class generation issues
-const buttonClass = computed(() => {
-  const theme = currentTheme && currentTheme.value ? String(currentTheme.value).toLowerCase() : ''
+// Dynamic gradient background
+const gradientClass = computed(() => {
   const map = {
-    blue: 'bg-blue-600 hover:bg-blue-700 text-white focus:ring-blue-400',
-    green: 'bg-green-600 hover:bg-green-700 text-white focus:ring-green-400',
-    purple: 'bg-purple-600 hover:bg-purple-700 text-white focus:ring-purple-400',
-    red: 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-400',
-    yellow: 'bg-yellow-500 hover:bg-yellow-600 text-black focus:ring-yellow-300',
-    teal: 'bg-teal-600 hover:bg-teal-700 text-white focus:ring-teal-400',
-    indigo: 'bg-indigo-600 hover:bg-indigo-700 text-white focus:ring-indigo-400',
+    Light: 'bg-gradient-to-br from-gray-100 via-white to-gray-50',
+    Dark: 'bg-gradient-to-br from-gray-900 via-black to-purple-900',
+    Sepia: 'bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100',
+    Blue: 'bg-gradient-to-br from-blue-950 via-indigo-900 to-cyan-900',
+    Purple: 'bg-gradient-to-br from-purple-950 via-pink-900 to-rose-900',
+    Green: 'bg-gradient-to-br from-emerald-950 via-teal-900 to-cyan-900',
+    Orange: 'bg-gradient-to-br from-orange-900 via-red-900 to-amber-900',
+    Teal: 'bg-gradient-to-br from-teal-950 via-cyan-900 to-blue-900',
+    Pink: 'bg-gradient-to-br from-pink-950 via-rose-900 to-purple-900',
+    Midnight: 'bg-gradient-to-br from-indigo-950 via-black to-purple-950',
   }
-  return map[theme] ?? 'bg-gray-700 hover:bg-gray-800 text-white focus:ring-gray-500'
+  return map[currentTheme.value] || 'bg-gradient-to-br from-gray-900 to-black'
 })
+
+// Primary button background
+const primaryButtonBg = computed(() => {
+  const map = {
+    Light: 'bg-gray-800 hover:bg-gray-900',
+    Dark: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
+    Sepia: 'bg-gradient-to-r from-amber-600 to-orange-600',
+    Blue: 'bg-gradient-to-r from-blue-600 to-cyan-600',
+    Purple: 'bg-gradient-to-r from-purple-600 to-pink-600',
+    Green: 'bg-gradient-to-r from-emerald-600 to-teal-600',
+    Orange: 'bg-gradient-to-r from-orange-600 to-red-600',
+    Teal: 'bg-gradient-to-r from-teal-600 to-cyan-600',
+    Pink: 'bg-gradient-to-r from-pink-600 to-rose-600',
+    Midnight: 'bg-gradient-to-r from-indigo-600 to-purple-600',
+  }
+  return map[currentTheme.value] || 'bg-gradient-to-r from-purple-600 to-pink-600'
+})
+
+// Glassmorphic badge
+const badgeGlow = computed(() => `
+  bg-white/10 dark:bg-black/30 
+  backdrop-blur-xl 
+  border-white/30 
+  ${textClass.value}
+  hover:bg-white/20 dark:hover:bg-black/50
+`)
+
+const techStack = ['Vue 3', 'TypeScript', 'Tailwind CSS', 'Laravel', 'Node.js', 'Git', 'Responsive Design']
 
 onMounted(() => {
   if (!typedEl.value) return
-  typedInstance = new Typed(typedEl.value, {
-    strings: ['Welcome to My Portfolio', 'I am Sreyneath Rom', 'Full‑Stack Developer'],
-    typeSpeed: 70,
-    backSpeed: 35,
-    backDelay: 1200,
+
+  typedInstance.value = new Typed(typedEl.value, {
+    strings: [
+      'Welcome to My Portfolio',
+      'I am Sreyneath Rom',
+      'Full-Stack Developer',
+      'Building the Future, One Line at a Time'
+    ],
+    typeSpeed: 80,
+    backSpeed: 40,
+    backDelay: 1500,
     smartBackspace: true,
     loop: true,
     showCursor: true,
-    cursorChar: '|',
+    cursorChar: '<span class="text-cyan-400">|</span>',
   })
 })
 
 onUnmounted(() => {
-  if (typedInstance) {
-    typedInstance.destroy()
-    typedInstance = null
-  }
+  typedInstance.value?.destroy()
 })
 </script>
+
+<style scoped>
+/* Floating particles */
+.floating-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.floating-particles span {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float 15s infinite linear;
+  bottom: -100px;
+}
+.floating-particles span:nth-child(1) { left: 10%; animation-delay: 2s; }
+.floating-particles span:nth-child(2) { left: 20%; animation-delay: 5s; }
+.floating-particles span:nth-child(3) { left: 40%; animation-delay: 8s; }
+.floating-particles span:nth-child(4) { left: 70%; animation-delay: 3s; }
+.floating-particles span:nth-child(5) { left: 90%; animation-delay: 6s; }
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+}
+</style>

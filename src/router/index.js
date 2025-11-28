@@ -17,12 +17,7 @@ const routes = [
         name: 'Portfolio',
         component: PortfolioPage
     },
-    {
-        // simple contact route — PortfolioPage already contains a contact modal
-        path: '/contact',
-        name: 'Contact',
-        component: PortfolioPage
-    }
+   
 ]
 
 const router = createRouter({

@@ -1,425 +1,321 @@
 <template>
-  <div class="px-4 py-10 md:py-16 transition-colors duration-300" :class="themeClasses">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl md:text-4xl font-extrabold mb-2" :class="themeAccent">Experience</h2>
-        <div class="mx-auto h-1 w-24 rounded-full mb-4" :class="[themeAccent, 'opacity-90']"></div>
-        <p class="max-w-3xl mx-auto text-base md:text-lg leading-relaxed" :class="themeText">
-          Hands-on projects using HTML, CSS, JavaScript, TypeScript, PHP, Python, Vue.js, Laravel, and collaborative teamwork.
+  <section class="relative min-h-screen py-20 px-6 overflow-hidden" :class="themeClasses">
+    <!-- Background gradient overlay -->
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-20">
+        <h2 class="text-5xl md:text-7xl font-black tracking-tighter mb-6">
+          <span class="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            My Projects
+          </span>
+        </h2>
+        <div class="mx-auto w-32 h-1 bg-gradient-to-r from-cyan-400 to-pink-400 rounded-full shadow-lg shadow-purple-500/50"></div>
+        <p class="mt-8 text-xl opacity-90" :class="themeText">
+          Real-world solutions built with passion, precision, and modern technology.
         </p>
       </div>
 
-      <!-- Filter Bar -->
-      <div class="flex flex-wrap justify-center gap-3 mb-10" role="tablist" aria-label="Project filters">
+      <!-- Filter Pills -->
+      <div class="flex flex-wrap justify-center gap-4 mb-16">
         <button
           v-for="filter in filters"
           :key="filter"
           @click="setFilter(filter)"
-          class="px-4 py-2 rounded-full text-sm font-medium transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
-          :class="[activeFilter === filter ? themeButton : themeButtonSecondary, 'shadow-sm']"
-          :aria-pressed="activeFilter === filter ? 'true' : 'false'"
-          :aria-label="`Filter projects by ${filter}`"
-          role="tab"
-          :aria-selected="activeFilter === filter"
+          class="group relative px-8 py-4 rounded-full font-bold text-sm tracking-wide transition-all duration-300 overflow-hidden"
+          :class="[
+            activeFilter === filter
+              ? 'text-white shadow-2xl shadow-purple-500/50'
+              : 'text-white/70 hover:text-white backdrop-blur-md border border-white/20'
+          ]"
         >
-          {{ filter }}
+          <span class="relative z-10">{{ filter }}</span>
+          <!-- Active glow -->
+          <span
+            v-if="activeFilter === filter"
+            class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-pink-500 rounded-full blur-xl opacity-70"
+          ></span>
+          <!-- Shine sweep -->
+          <span class="absolute inset-0 -translate-x-full bg-white/30 skew-x-12 transition-transform duration-1000 group-hover:translate-x-full"></span>
         </button>
       </div>
 
-      <!-- Project Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
-        <div
+      <!-- Project Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
+        <article
           v-for="(project, index) in filteredProjects"
           :key="project.id"
-          :class="[
-            'relative p-4 rounded-2xl transition-transform duration-300 ease-out overflow-hidden',
-            themeCard,
-            'hover:-translate-y-1 hover:shadow-2xl',
-            !cardAnimated.value[project.id] ? 'opacity-0 translate-y-8' : 'opacity-100'
-          ]"
-          :style="{ animationDelay: `${index * 0.12}s` }"
-          role="listitem"
-          :aria-label="`Project: ${project.title}`"
+          class="group relative"
+          :style="{ animationDelay: `${index * 0.15}s` }"
+          @mouseenter="hoveredCard = project.id"
+          @mouseleave="hoveredCard = null"
         >
-          <!-- Image -->
-          <div class="relative rounded-xl overflow-hidden mb-4 group">
-            <img
-              :src="project.image"
-              :alt="project.alt || `Screenshot of ${project.title}`"
-              loading="lazy"
-              @error="onImageError"
-              class="w-full h-44 sm:h-40 md:h-48 object-cover transition-transform duration-400 group-hover:scale-105 rounded-lg"
-            />
+          <!-- Glassmorphic Card -->
+          <div
+            class="relative h-full rounded-3xl overflow-hidden backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-700"
+            :class="[
+              'bg-white/10 dark:bg-black/30',
+              hoveredCard === project.id ? 'scale-105 shadow-3xl shadow-purple-500/50' : 'scale-100'
+            ]"
+          >
+            <!-- Gradient overlay on hover -->
             <div
-              class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            >
-              <div class="text-center text-white">
-                <div class="font-semibold text-lg">{{ project.title }}</div>
-                <div class="text-xs mt-1 opacity-90">{{ project.role }}</div>
+              class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+            ></div>
+
+            <!-- Floating particles -->
+            <div class="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+              <div class="floating-particles">
+                <span></span><span></span><span></span>
               </div>
             </div>
-          </div>
 
-          <!-- Header -->
-          <div class="p-3 rounded-lg mb-3 border" :class="[themeCardHeader, 'border-transparent']">
-            <h3 class="text-lg md:text-xl font-bold mb-1" :class="themeText">{{ project.title }}</h3>
-            <p class="text-sm" :class="themeTextSecondary">{{ project.role }} • <span class="opacity-80">{{ project.duration }}</span></p>
-          </div>
-
-          <!-- Tech Badges -->
-          <div class="flex flex-wrap gap-2 mb-3" aria-hidden="false">
-            <span
-              v-for="tech in project.technologies"
-              :key="tech"
-              class="px-3 py-1 text-xs font-semibold rounded-full shadow-sm"
-              :class="[themeButtonSecondary, 'bg-opacity-90']"
-            >
-              {{ tech }}
-            </span>
-          </div>
-
-          <!-- Actions -->
-          <div class="flex gap-3 mt-2">
-            <a
-              v-if="project.demoLink"
-              :href="project.demoLink"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex-1 py-2 rounded-lg text-sm font-semibold uppercase text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
-              :class="themeButton"
-              :aria-label="`View demo of ${project.title}`"
-            >
-              Demo
-            </a>
-            <a
-              v-if="project.githubLink"
-              :href="project.githubLink"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex-1 py-2 rounded-lg text-sm font-semibold uppercase text-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
-              :class="themeButtonSecondary"
-              :aria-label="`View source code of ${project.title}`"
-            >
-              Source
-            </a>
-          </div>
-
-          <button
-            @click="toggleDetails(project.id)"
-            class="w-full mt-4 py-2 rounded-lg text-sm font-semibold transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
-            :class="themeButtonSecondary"
-            :aria-expanded="isDetailsOpen(project.id) ? 'true' : 'false'"
-            :aria-controls="`details-${project.id}`"
-            :aria-label="isDetailsOpen(project.id) ? `Hide details of ${project.title}` : `Show details of ${project.title}`"
-          >
-            {{ isDetailsOpen(project.id) ? 'Hide Details' : 'Read More' }}
-          </button>
-
-          <transition name="fade">
-            <div
-              v-if="isDetailsOpen(project.id)"
-              :id="`details-${project.id}`"
-              class="mt-3 text-sm max-h-44 overflow-y-auto pr-2"
-              :class="themeTextSecondary"
-            >
-              <ul class="list-disc list-inside space-y-2">
-                <li v-for="(task, i) in project.tasks" :key="i">{{ task }}</li>
-              </ul>
+            <!-- Image -->
+            <div class="relative overflow-hidden">
+              <img
+                :src="project.image"
+                :alt="`Screenshot of ${project.title}`"
+                class="w-full h-64 object-cover transition-transform duration-1000 group-hover:scale-110"
+                loading="lazy"
+                @error="e => e.target.src = placeholderImage"
+              />
+              <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                <div class="text-center text-white">
+                  <h3 class="text-2xl font-bold">{{ project.title }}</h3>
+                  <p class="text-sm mt-2 opacity-90">{{ project.role }}</p>
+                </div>
+              </div>
             </div>
-          </transition>
-        </div>
+
+            <!-- Content -->
+            <div class="relative p-8 space-y-6">
+              <div>
+                <h3 class="text-2xl font-bold" :class="themeText">{{ project.title }}</h3>
+                <p class="text-sm mt-2" :class="themeTextSecondary">
+                  {{ project.role }} • {{ project.duration }}
+                </p>
+              </div>
+
+              <!-- Tech Stack -->
+              <div class="flex flex-wrap gap-3">
+                <span
+                  v-for="tech in project.technologies"
+                  :key="tech"
+                  class="px-4 py-2 rounded-full text-xs font-bold backdrop-blur-md border border-white/30 shadow-lg"
+                  :class="techGlow"
+                >
+                  {{ tech }}
+                </span>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex gap-4 pt-4">
+                <a
+                  v-if="project.demoLink"
+                  :href="project.demoLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex-1 group relative px-6 py-3 rounded-2xl font-bold text-center overflow-hidden shadow-xl transition-all duration-300 hover:scale-105"
+                  :class="primaryButton"
+                >
+                  <span class="relative z-10 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-xl">open_in_new</span>
+                    Live Demo
+                  </span>
+                  <span class="absolute inset-0 translate-x-[-100%] bg-white/30 skew-x-12 transition-transform duration-1000 group-hover:translate-x-full"></span>
+                </a>
+
+                <a
+                  v-if="project.githubLink"
+                  :href="project.githubLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex-1 px-6 py-3 rounded-2xl font-bold text-center border-2 border-white/30 backdrop-blur-md hover:bg-white/10 transition-all duration-300"
+                  :class="accentClass"
+                >
+                  <span class="flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">code</span>
+                    Source
+                  </span>
+                </a>
+              </div>
+
+              <!-- Read More -->
+              <button
+                @click="toggleDetails(project.id)"
+                class="w-full mt-6 py-3 rounded-2xl font-semibold border border-white/30 hover:bg-white/10 transition-all duration-300"
+                :class="isDetailsOpen(project.id) ? 'bg-white/10' : ''"
+              >
+                {{ isDetailsOpen(project.id) ? 'Hide Details' : 'Read More' }}
+              </button>
+
+              <!-- Details -->
+              <transition name="fade">
+                <div v-if="isDetailsOpen(project.id)" class="mt-4 text-sm space-y-3" :class="themeTextSecondary">
+                  <ul class="list-disc list-inside space-y-2">
+                    <li v-for="task in project.tasks" :key="task">{{ task }}</li>
+                  </ul>
+                </div>
+              </transition>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useDarkMode } from '@/composables/useDarkMode';
+import { ref, computed, onMounted } from 'vue'
+import { useDarkMode } from '@/composables/useDarkMode'
 
-const { currentTheme } = useDarkMode();
+const { currentTheme, accentClass, textClass } = useDarkMode()
+const hoveredCard = ref(null)
+const activeFilter = ref('All')
+const detailsState = ref({})
+const placeholderImage = 'https://via.placeholder.com/800x600/1a1a2e/ffffff?text=No+Image'
 
-// Keep theme computed props as in original (unchanged for brevity)
-const themeClasses = computed(() => (currentTheme.value === 'Light' ? 'bg-white text-gray-800' :
-  currentTheme.value === 'Dark' ? 'bg-gray-900 text-gray-200' :
-  currentTheme.value === 'Sepia' ? 'bg-sepia-100 text-sepia-900' :
-  currentTheme.value === 'Blue' ? 'bg-blue-900 text-blue-100' :
-  currentTheme.value === 'Purple' ? 'bg-purple-900 text-purple-100' :
-  currentTheme.value === 'Green' ? 'bg-green-900 text-green-100' :
-  currentTheme.value === 'Orange' ? 'bg-orange-900 text-orange-100' :
-  currentTheme.value === 'Teal' ? 'bg-teal-900 text-teal-100' :
-  currentTheme.value === 'Pink' ? 'bg-pink-900 text-pink-100' :
-  'bg-indigo-900 text-indigo-100'));
-
-const themeText = computed(() => (currentTheme.value === 'Light' ? 'text-gray-800' :
-  currentTheme.value === 'Dark' ? 'text-gray-200' :
-  currentTheme.value === 'Sepia' ? 'text-sepia-900' :
-  currentTheme.value === 'Blue' ? 'text-blue-100' :
-  currentTheme.value === 'Purple' ? 'text-purple-100' :
-  currentTheme.value === 'Green' ? 'text-green-100' :
-  currentTheme.value === 'Orange' ? 'text-orange-100' :
-  currentTheme.value === 'Teal' ? 'text-teal-100' :
-  currentTheme.value === 'Pink' ? 'text-pink-100' :
-  'text-indigo-100'));
-
-const themeTextSecondary = computed(() => (currentTheme.value === 'Light' ? 'text-gray-600' :
-  currentTheme.value === 'Dark' ? 'text-gray-400' :
-  currentTheme.value === 'Sepia' ? 'text-sepia-700' :
-  currentTheme.value === 'Blue' ? 'text-blue-200' :
-  currentTheme.value === 'Purple' ? 'text-purple-200' :
-  currentTheme.value === 'Green' ? 'text-green-200' :
-  currentTheme.value === 'Orange' ? 'text-orange-200' :
-  currentTheme.value === 'Teal' ? 'text-teal-200' :
-  currentTheme.value === 'Pink' ? 'text-pink-200' :
-  'text-indigo-200'));
-
-const themeAccent = computed(() => (currentTheme.value === 'Light' || currentTheme.value === 'Dark' ? 'text-yellow-500' :
-  currentTheme.value === 'Sepia' ? 'text-amber-600' :
-  currentTheme.value === 'Blue' ? 'text-blue-400' :
-  currentTheme.value === 'Purple' ? 'text-purple-400' :
-  currentTheme.value === 'Green' ? 'text-green-400' :
-  currentTheme.value === 'Orange' ? 'text-orange-400' :
-  currentTheme.value === 'Teal' ? 'text-teal-400' :
-  currentTheme.value === 'Pink' ? 'text-pink-400' :
-  'text-indigo-400'));
-
-const themeButton = computed(() => (currentTheme.value === 'Light' || currentTheme.value === 'Dark' ? 'bg-yellow-500 text-white hover:bg-yellow-400 focus:ring-yellow-500' :
-  currentTheme.value === 'Sepia' ? 'bg-amber-600 text-sepia-900 hover:bg-amber-500 focus:ring-amber-500' :
-  currentTheme.value === 'Blue' ? 'bg-blue-400 text-blue-900 hover:bg-blue-300 focus:ring-blue-400' :
-  currentTheme.value === 'Purple' ? 'bg-purple-400 text-purple-900 hover:bg-purple-300 focus:ring-purple-400' :
-  currentTheme.value === 'Green' ? 'bg-green-400 text-green-900 hover:bg-green-300 focus:ring-green-400' :
-  currentTheme.value === 'Orange' ? 'bg-orange-400 text-orange-900 hover:bg-orange-300 focus:ring-orange-400' :
-  currentTheme.value === 'Teal' ? 'bg-teal-400 text-teal-900 hover:bg-teal-300 focus:ring-teal-400' :
-  currentTheme.value === 'Pink' ? 'bg-pink-400 text-pink-900 hover:bg-pink-300 focus:ring-pink-400' :
-  'bg-indigo-400 text-indigo-900 hover:bg-indigo-300 focus:ring-indigo-400'));
-
-const themeButtonSecondary = computed(() => (currentTheme.value === 'Light' ? 'text-sky-500 hover:bg-gray-100 hover:text-sky-400 focus:ring-sky-500' :
-  currentTheme.value === 'Dark' ? 'text-sky-400 hover:bg-gray-800 hover:text-sky-300 focus:ring-sky-400' :
-  currentTheme.value === 'Sepia' ? 'text-amber-500 hover:bg-sepia-200 hover:text-amber-400 focus:ring-amber-500' :
-  currentTheme.value === 'Blue' ? 'text-blue-400 hover:bg-blue-800 hover:text-blue-300 focus:ring-blue-400' :
-  currentTheme.value === 'Purple' ? 'text-purple-400 hover:bg-purple-800 hover:text-purple-300 focus:ring-purple-400' :
-  currentTheme.value === 'Green' ? 'text-green-400 hover:bg-green-800 hover:text-green-300 focus:ring-green-400' :
-  currentTheme.value === 'Orange' ? 'text-orange-400 hover:bg-orange-800 hover:text-orange-300 focus:ring-orange-400' :
-  currentTheme.value === 'Teal' ? 'text-teal-400 hover:bg-teal-800 hover:text-teal-300 focus:ring-teal-400' :
-  currentTheme.value === 'Pink' ? 'text-pink-400 hover:bg-pink-800 hover:text-pink-300 focus:ring-pink-400' :
-  'text-indigo-400 hover:bg-indigo-800 hover:text-indigo-300 focus:ring-indigo-400'));
-
-const themeCard = computed(() => (currentTheme.value === 'Light' ? 'bg-white border-gray-300' :
-  currentTheme.value === 'Dark' ? 'bg-gray-800 border-gray-600' :
-  currentTheme.value === 'Sepia' ? 'bg-sepia-100 border-sepia-400' :
-  currentTheme.value === 'Blue' ? 'bg-blue-900 border-blue-600' :
-  currentTheme.value === 'Purple' ? 'bg-purple-900 border-purple-600' :
-  currentTheme.value === 'Green' ? 'bg-green-900 border-green-600' :
-  currentTheme.value === 'Orange' ? 'bg-orange-900 border-orange-600' :
-  currentTheme.value === 'Teal' ? 'bg-teal-900 border-teal-600' :
-  currentTheme.value === 'Pink' ? 'bg-pink-900 border-pink-600' :
-  'bg-indigo-900 border-indigo-600'));
-
-const themeCardHeader = computed(() => (currentTheme.value === 'Light' ? 'bg-yellow-100' :
-  currentTheme.value === 'Dark' ? 'bg-gray-600' :
-  currentTheme.value === 'Sepia' ? 'bg-sepia-300' :
-  currentTheme.value === 'Blue' ? 'bg-blue-700' :
-  currentTheme.value === 'Purple' ? 'bg-purple-700' :
-  currentTheme.value === 'Green' ? 'bg-green-700' :
-  currentTheme.value === 'Orange' ? 'bg-orange-700' :
-  currentTheme.value === 'Teal' ? 'bg-teal-700' :
-  currentTheme.value === 'Pink' ? 'bg-pink-700' :
-  'bg-indigo-700'));
-
-const placeholderImage = 'https://via.placeholder.com/800x480?text=No+Image';
-
-// Projects with stable ids
-/** @type {Array} */
 const projects = [
   {
     id: 'pos-system',
     title: 'POS System',
-    duration: 'Feb 10, 2025 - May 02, 2025',
-    role: 'DevOps',
+    duration: 'Feb - May 2025',
+    role: 'DevOps & Frontend',
     image: 'https://www.nchsoftware.com/point-of-sale/screenshots/main.jpg',
     demoLink: 'https://example.com/pos-demo',
     githubLink: 'https://github.com/Sreyneath-Rom/pos-system',
     technologies: ['PHP', 'JavaScript', 'Bootstrap'],
     tasks: [
       'Monitored server performance and resolved infrastructure issues.',
-      'Configured environments for development, testing, and production.',
-      'Designed responsive user interfaces with HTML, CSS, JavaScript, and Bootstrap 5.',
-      'Fetched and processed data using PHP and a connected database.',
+      'Configured CI/CD pipelines and deployment environments.',
+      'Designed responsive UI with Bootstrap 5 and vanilla JS.',
+      'Integrated payment gateways and real-time inventory.',
     ],
   },
   {
-    id: 'ecommerce-platform',
+    id: 'ecommerce',
     title: 'E-Commerce Platform',
-    duration: 'Jan 15, 2025 - Apr 30, 2025',
+    duration: 'Jan - Apr 2025',
     role: 'Frontend Developer',
     image: 'https://www.researchgate.net/publication/228647368/figure/fig1/AS:301863099486217@1448981179537/Screenshot-of-e-commerce-site-used-in-our-experiment.png',
-    demoLink: 'https://example.com/ecommerce-demo',
+    demoLink: 'https://example.com/ecommerce',
     githubLink: 'https://github.com/Sreyneath-Rom/ecommerce',
-    technologies: ['Vue.js', 'Tailwind CSS', 'JavaScript'],
+    technologies: ['Vue.js', 'Tailwind CSS', 'Pinia'],
     tasks: [
-      'Built responsive UI with Vue.js and Tailwind CSS.',
-      'Integrated REST APIs for product listings and user authentication.',
-      'Optimized page load times using lazy loading.',
-      'Collaborated with backend team for seamless data flow.',
+      'Built fully responsive storefront with Vue 3 + Composition API.',
+      'Implemented cart, wishlist, and user authentication.',
+      'Optimized performance with lazy loading and code splitting.',
+      'Integrated Stripe and PayPal payment gateways.',
     ],
   },
   {
-    id: 'task-manager-app',
-    title: 'Task Manager App',
-    duration: 'Mar 01, 2025 - Jun 15, 2025',
+    id: 'task-manager',
+    title: 'Task Manager Pro',
+    duration: 'Mar - Jun 2025',
     role: 'Full-Stack Developer',
-    image: 'https://cdn.dribbble.com/userupload/30407847/file/original-8bc7ddef427bc2323290790791f875e9.png?resize=752x&vertical=center',
-    demoLink: 'https://example.com/task-manager-demo',
+    image: 'https://cdn.dribbble.com/userupload/30407847/file/original-8bc7ddef427bc2323290790791f875e9.png',
+    demoLink: 'https://taskmanager.sreyneath.dev',
     githubLink: 'https://github.com/Sreyneath-Rom/task-manager',
-    technologies: ['Laravel', 'Vue.js', 'MySQL'],
+    technologies: ['Laravel', 'Vue.js', 'Inertia.js', 'MySQL'],
     tasks: [
-      'Developed backend APIs with Laravel and MySQL.',
-      'Created interactive frontend with Vue.js.',
-      'Implemented user authentication and task CRUD operations.',
-      'Ensured responsive design for mobile and desktop.',
+      'Developed RESTful APIs with Laravel Sanctum authentication.',
+      'Built real-time dashboard with Vue 3 and Inertia.js.',
+      'Implemented drag-and-drop task reordering.',
+      'Added team collaboration and file attachments.',
     ],
   },
-];
+]
 
-// Filter logic
 const filters = computed(() => {
-  const techSet = new Set();
-  projects.forEach(project => {
-    project.technologies.forEach(tech => techSet.add(tech));
-  });
-  return ['All', ...Array.from(techSet)];
-});
-const activeFilter = ref('All');
+  const techs = new Set()
+  projects.forEach(p => p.technologies.forEach(t => techs.add(t)))
+  return ['All', ...Array.from(techs)]
+})
+
 const filteredProjects = computed(() => {
-  if (activeFilter.value === 'All') return projects;
-  return projects.filter(project => project.technologies.includes(activeFilter.value));
-});
+  if (activeFilter.value === 'All') return projects
+  return projects.filter(p => p.technologies.includes(activeFilter.value))
+})
 
 const setFilter = (filter) => {
-  activeFilter.value = filter;
-  // close details for visible projects when filter changes
-  detailsState.value = {};
-};
+  activeFilter.value = filter
+  detailsState.value = {}
+}
 
-// Details state keyed by project id for stability across filters
-const detailsState = ref({});
-
-const isDetailsOpen = (id) => !!detailsState.value[id];
-
+const isDetailsOpen = (id) => !!detailsState.value[id]
 const toggleDetails = (id) => {
-  // toggle only the provided id and close others
-  detailsState.value = Object.fromEntries(
-    filteredProjects.value.map(p => [p.id, p.id === id ? !detailsState.value[id] : false])
-  );
-};
+  detailsState.value = { ...detailsState.value, [id]: !detailsState.value[id] }
+}
 
-// Card animation state keyed by id
-const cardAnimated = ref({});
+// Theme classes
+const themeClasses = computed(() => {
+  const map = {
+    Light: 'bg-gradient-to-br from-gray-50 to-white',
+    Dark: 'bg-gradient-to-br from-black via-gray-900 to-purple-900',
+    Sepia: 'bg-gradient-to-br from-amber-50 to-orange-100',
+    Blue: 'bg-gradient-to-br from-blue-950 to-cyan-900',
+    Purple: 'bg-gradient-to-br from-purple-950 to-pink-900',
+    Green: 'bg-gradient-to-br from-emerald-950 to-teal-900',
+    Orange: 'bg-gradient-to-br from-orange-900 to-red-900',
+    Teal: 'bg-gradient-to-br from-teal-950 to-cyan-900',
+    Pink: 'bg-gradient-to-br from-pink-950 to-rose-900',
+    Midnight: 'bg-gradient-to-br from-indigo-950 via-black to-purple-950',
+  }
+  return map[currentTheme.value] || 'bg-gradient-to-br from-black to-gray-900'
+})
 
-// animate cards in with a stagger using per-card timeouts
-onMounted(() => {
-  filteredProjects.value.forEach((p, i) => {
-    cardAnimated.value[p.id] = false;
-    setTimeout(() => {
-      cardAnimated.value = { ...cardAnimated.value, [p.id]: true };
-    }, 80 + i * 120);
-  });
-});
+const themeText = computed(() => textClass.value)
 
-// simplify image error fallback
-const onImageError = (e) => {
-  e.target.src = placeholderImage;
-  e.target.classList.add('opacity-70');
-};
+const primaryButton = computed(() => {
+  const map = {
+    Light: 'bg-gray-800 hover:bg-gray-900 text-white',
+    Dark: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white',
+    Sepia: 'bg-gradient-to-r from-amber-600 to-orange-600 text-white',
+    Blue: 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white',
+    Purple: 'bg-gradient-to-r from-purple-600 to-pink-600 text-white',
+    Green: 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white',
+    Orange: 'bg-gradient-to-r from-orange-600 to-red-600 text-white',
+    Teal: 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white',
+    Pink: 'bg-gradient-to-r from-pink-600 to-rose-600 text-white',
+    Midnight: 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white',
+  }
+  return map[currentTheme.value] || 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+})
+
+const techGlow = 'bg-white/20 backdrop-blur-md hover:bg-white/30 hover:shadow-xl hover:shadow-cyan-500/30'
 </script>
 
 <style scoped>
-/* Smooth transitions for theme changes */
-* {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+.floating-particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: float 8s infinite linear;
+}
+.floating-particles span:nth-child(1) { left: 20%; animation-delay: 0s; }
+.floating-particles span:nth-child(2) { left: 50%; animation-delay: 2s; }
+.floating-particles span:nth-child(3) { left: 80%; animation-delay: 4s; }
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-300px) rotate(360deg); opacity: 0; }
 }
 
-/* Modal transition */
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.3s ease;
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.4s ease;
 }
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-/* Fade transition for details */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease, max-height 0.3s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
+.fade-enter-from, .fade-leave-to {
   opacity: 0;
   max-height: 0;
 }
-
-/* Theme-specific background colors (kept as in original) */
-.bg-sepia-50 { background-color: #f7f2e7; }
-.bg-sepia-100 { background-color: #f3eadb; }
-.bg-sepia-200 { background-color: #f5f0e1; }
-.bg-sepia-300 { background-color: #ede4d3; }
-.bg-blue-700 { background-color: #1d4ed8; }
-.bg-blue-800 { background-color: #1e3a8a; }
-.bg-blue-900 { background-color: #0b3d91; }
-.bg-blue-950 { background-color: #172554; }
-.bg-purple-700 { background-color: #6d28d9; }
-.bg-purple-800 { background-color: #3b1476; }
-.bg-purple-900 { background-color: #4c1d95; }
-.bg-purple-950 { background-color: #2e1065; }
-.bg-green-700 { background-color: #047857; }
-.bg-green-800 { background-color: #064e3b; }
-.bg-green-900 { background-color: #065f46; }
-.bg-green-950 { background-color: #022c22; }
-.bg-orange-700 { background-color: #c2410c; }
-.bg-orange-800 { background-color: #7c2d12; }
-.bg-orange-900 { background-color: #a04000; }
-.bg-orange-950 { background-color: #431407; }
-.bg-teal-700 { background-color: #0d9488; }
-.bg-teal-800 { background-color: #115e59; }
-.bg-teal-900 { background-color: #0f766e; }
-.bg-teal-950 { background-color: #042f2e; }
-.bg-pink-700 { background-color: #db2777; }
-.bg-pink-800 { background-color: #9d174d; }
-.bg-pink-900 { background-color: #be185d; }
-.bg-pink-950 { background-color: #4a044e; }
-.bg-indigo-700 { background-color: #4f46e5; }
-.bg-indigo-800 { background-color: #1e1b4b; }
-.bg-indigo-900 { background-color: #021124; }
-.bg-indigo-950 { background-color: #0f172a; }
-
-/* Theme-specific text colors */
-.text-sepia-900 { color: #5b4636; }
-.text-sepia-700 { color: #8c552f; }
-.text-blue-100 { color: #e6f2ff; }
-.text-blue-200 { color: #bfdbfe; }
-.text-purple-100 { color: #efe7ff; }
-.text-purple-200 { color: #ddd6fe; }
-.text-green-100 { color: #e6fff4; }
-.text-green-200 { color: #a7f3d0; }
-.text-orange-100 { color: #fff4e6; }
-.text-orange-200 { color: #fed7aa; }
-.text-teal-100 { color: #e6fffb; }
-.text-teal-200 { color: #99f6e4; }
-.text-pink-100 { color: #fff0f6; }
-.text-pink-200 { color: #f9a8d4; }
-.text-indigo-100 { color: #dfefff; }
-.text-indigo-200 { color: #c7d2fe; }
-
-/* Theme-specific border colors */
-.border-sepia-300 { border-color: #e7d5b3; }
-.border-sepia-400 { border-color: #d4a373; }
-.border-blue-600 { border-color: #2563eb; }
-.border-purple-600 { border-color: #6d28d9; }
-.border-green-600 { border-color: #059669; }
-.border-orange-600 { border-color: #ea580c; }
-.border-teal-600 { border-color: #0d9488; }
-.border-pink-600 { border-color: #db2777; }
-.border-indigo-600 { border-color: #4f46e5; }
+.fade-enter-to, .fade-leave-from {
+  opacity: 1;
+  max-height: 200px;
+}
 </style>
