@@ -1,101 +1,54 @@
 <template>
-  <div
-    class="about-root min-h-screen py-20 px-6 transition-colors duration-500"
-    :class="themeClasses"
-  >
+  <div class="about-root min-h-screen py-20 px-6 transition-colors duration-500" :class="themeClasses">
     <!-- Heading -->
     <h1
       class="text-4xl md:text-5xl font-extrabold text-center mb-16 tracking-tight bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent"
-      :class="themeAccent"
     >
       About Me
     </h1>
 
     <!-- Profile Card -->
     <div class="max-w-4xl mx-auto">
-      <div
-        class="relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 dark:bg-black/20 backdrop-blur-xl shadow-2xl"
-      >
-        <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
-        
-        <div class="relative p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
-          <!-- Avatar with epic glowing aura -->
-          <div class="flex-shrink-0" style="isolation: isolate">
-            <div
-              class="relative group w-44 h-44 md:w-56 md:h-56 rounded-3xl overflow-hidden shadow-2xl ring-4 ring-white/20 transition-all duration-500 hover:ring-white/40 hover:scale-105"
-            >
-              <!-- Dynamic colorful glow -->
-              <span
-                aria-hidden="true"
-                class="absolute -inset-6 rounded-full opacity-80 animate-pulse"
-                :style="glowStyle"
-              ></span>
+      <div class="relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 dark:bg-black/20 backdrop-blur-xl shadow-2xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-10">
+        <!-- Avatar with glow -->
+        <div class="flex-shrink-0 relative w-44 h-44 md:w-56 md:h-56 rounded-3xl overflow-hidden shadow-2xl ring-4 ring-white/20 transition-all duration-500 hover:ring-white/40 hover:scale-105" style="isolation: isolate">
+          <span aria-hidden="true" class="absolute -inset-6 rounded-full opacity-80 animate-pulse" :style="glowStyle"></span>
+          <img :src="img1" alt="Sreyneath Rom – Full-Stack Developer" loading="lazy" class="relative z-10 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" style="mix-blend-mode: luminosity; filter: contrast(1.2) saturate(1.3);" />
+          <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at 50% 30%, transparent 40%, rgba(0,0,0,0.4) 100%)"></div>
+        </div>
 
-              <!-- Avatar Image -->
-              <img
-                :src="img1"
-                alt="Sreyneath Rom – Full-Stack Developer"
-                loading="lazy"
-                class="relative z-10 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                style="mix-blend-mode: luminosity; filter: contrast(1.2) saturate(1.3);"
-              />
-
-              <!-- Subtle vignette -->
-              <div
-                class="absolute inset-0 z-20 pointer-events-none"
-                style="background: radial-gradient(circle at 50% 30%, transparent 40%, rgba(0,0,0,0.4) 100%)"
-              ></div>
-            </div>
+        <!-- Info Section -->
+        <div class="flex-1 text-center md:text-left space-y-7">
+          <div>
+            <h2 class="text-4xl md:text-5xl font-black tracking-tight">
+              <span class="bg-gradient-to-r from-yellow-400 via-pink-500 to-indigo-500 bg-clip-text text-transparent">Sreyneath Rom</span>
+            </h2>
+            <p class="mt-3 text-xl font-medium">Full-Stack Developer</p>
+            <p class="text-sm opacity-75">Phnom Penh, Cambodia • Born in Siem Reap • Age 21</p>
           </div>
 
-          <!-- Info Section -->
-          <div class="flex-1 text-center md:text-left space-y-7">
-            <div>
-              <h2 class="text-4xl md:text-5xl font-black tracking-tight">
-                <span class="bg-gradient-to-r from-yellow-400 via-pink-500 to-indigo-500 bg-clip-text text-transparent">
-                  Sreyneath Rom
-                </span>
-              </h2>
-              <p class="mt-3 text-xl font-medium" :class="themeTextSecondary">
-                Full-Stack Developer
-              </p>
-              <p class="text-sm opacity-75">Phnom Penh, Cambodia • Born in Siem Reap • Age 21</p>
-            </div>
+          <p class="text-lg leading-relaxed max-w-2xl">
+            Passionate about building <strong class="text-cyan-400">beautiful</strong>, 
+            <strong class="text-emerald-400">performant</strong>, and 
+            <strong class="text-pink-400">accessible</strong> web experiences with 
+            <strong class="text-yellow-400">Vue.js</strong>, <strong class="text-purple-400">Laravel</strong>, 
+            and modern tools. Always learning. Always creating.
+          </p>
 
-            <p class="text-lg leading-relaxed max-w-2xl" :class="themeText">
-              Passionate about building <strong class="text-cyan-400">beautiful</strong>, 
-              <strong class="text-emerald-400">performant</strong>, and 
-              <strong class="text-pink-400">accessible</strong> web experiences with 
-              <strong class="text-yellow-400">Vue.js</strong>, <strong class="text-purple-400">Laravel</strong>, 
-              and modern tools. Always learning. Always creating.
-            </p>
+          <!-- Skill Badges -->
+          <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+            <span v-for="skill in skills" :key="skill" class="px-5 py-2.5 rounded-full text-sm font-bold shadow-lg backdrop-blur-md border border-white/30">
+              {{ skill }}
+            </span>
+          </div>
 
-            <!-- Skill Badges -->
-            <div class="flex flex-wrap gap-3 justify-center md:justify-start">
-              <span
-                v-for="skill in skills"
-                :key="skill"
-                class="px-5 py-2.5 rounded-full text-sm font-bold shadow-lg backdrop-blur-md border border-white/30"
-                :class="badgeClasses"
-              >
-                {{ skill }}
-              </span>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-col sm:flex-row gap-5 mt-10 justify-center md:justify-start">
-              <DownloadCVButton />
-              <a
-                href="mailto:romsreyneath4@gmail.com"
-                class="group inline-flex items-center gap-3 px-7 py-4 rounded-2xl font-bold text-lg border-2 border-current hover:bg-white/10 transition-all duration-300"
-                :class="themeAccent"
-              >
-                <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">
-                  mail
-                </span>
-                Hire Me
-              </a>
-            </div>
+          <!-- Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-5 mt-10 justify-center md:justify-start">
+            <DownloadCVButton />
+            <a href="mailto:romsreyneath4@gmail.com" class="group inline-flex items-center gap-3 px-7 py-4 rounded-2xl font-bold text-lg border-2 border-current hover:bg-white/10 transition-all duration-300">
+              <span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">mail</span>
+              Hire Me
+            </a>
           </div>
         </div>
       </div>
@@ -103,42 +56,23 @@
 
     <!-- Skills Marquee -->
     <section class="mt-24">
-      <h2 class="text-3xl font-bold text-center mb-12" :class="themeAccent">
-        Technologies I Work With
-      </h2>
+      
       <Marquee />
     </section>
 
     <!-- Social Links -->
     <section class="mt-28 text-center">
-      <p class="text-xl mb-10" :class="themeTextSecondary">Let's connect!</p>
+      <p class="text-xl mb-10">Let's connect!</p>
       <div class="flex justify-center gap-10">
-        <a
-          v-for="social in socialLinks"
-          :key="social.name"
-          :href="social.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group relative"
-          :aria-label="`Visit my ${social.name} profile`"
-        >
-          <div
-            class="w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-2 group-focus:scale-125 shadow-xl"
-            :class="social.bg"
-          >
+        <a v-for="social in socialLinks" :key="social.name" :href="social.url" target="_blank" rel="noopener noreferrer" class="group relative" :aria-label="`Visit my ${social.name} profile`">
+          <div class="w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-2 group-focus:scale-125 shadow-xl" :class="social.bg">
             <svg :viewBox="social.viewBox" class="w-9 h-9 text-white" fill="currentColor">
               <path :d="social.path" />
             </svg>
           </div>
-
-          <!-- Tooltip -->
-          <span
-            class="absolute -top-12 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs font-medium px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap"
-          >
+          <span class="absolute -top-12 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs font-medium px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap">
             {{ social.name }}
-            <span
-              class="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-8 border-transparent border-t-gray-900"
-            ></span>
+            <span class="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-8 border-transparent border-t-gray-900"></span>
           </span>
         </a>
       </div>
@@ -150,30 +84,19 @@
 import { computed } from 'vue'
 import Marquee from '@/components/Marquee.vue'
 import DownloadCVButton from '@/components/DownloadCVButton.vue'
-import { useDarkMode } from '@/composables/useDarkMode'
 import img1 from '@/assets/image/1.png'
 
-const { currentTheme, accentClass, textClass } = useDarkMode()
+const skills = ['Vue.js', 'Laravel', 'Tailwind CSS', 'TypeScript', 'Responsive Design', 'UI/UX', 'Git']
 
-// Dynamic glow based on theme
-const glowStyle = computed(() => {
-  const gradients = {
-    Light: 'conic-gradient(from 0deg, #fbbf24, #f472b6, #818cf8, #34d399, #fbbf24)',
-    Dark: 'conic-gradient(from 0deg, #60a5fa, #c084fc, #86efac, #f87171, #60a5fa)',
-    Sepia: 'conic-gradient(from 0deg, #d97706, #dc2626, #7c2d12, #92400e, #d97706)',
-    Blue: 'conic-gradient(from 0deg, #0ea5e9, #38bdf8, #7dd3fc, #0ea5e9)',
-    Purple: 'conic-gradient(from 0deg, #a855f7, #d946ef, #ec4899, #a855f7)',
-    Green: 'conic-gradient(from 0deg, #10b981, #34d399, #6ee7b7, #10b981)',
-    Orange: 'conic-gradient(from 0deg, #f97316, #fb923c, #fdba74, #f97316)',
-    Teal: 'conic-gradient(from 0deg, #14b8a6, #2dd4bf, #5eead4, #14b8a6)',
-    Pink: 'conic-gradient(from 0deg, #ec4899, #f472b6, #f9a8d4, #ec4899)',
-    Midnight: 'conic-gradient(from 0deg, #6366f1, #8b5cf6, #a78bfa, #6366f1)',
-  }
-  return {
-    background: gradients[currentTheme.value] || gradients.Dark,
-    filter: 'blur(32px)',
-  }
-})
+const socialLinks = [
+  { name: 'GitHub', url: 'https://github.com/Sreyneath-Rom', bg: 'bg-gray-800 hover:bg-gray-600', viewBox: '0 0 24 24', path: 'M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.4.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1 .8 2v3c0 .3.2.7.8.6C20.6 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z' },
+  { name: 'Email', url: 'mailto:romsreyneath4@gmail.com', bg: 'bg-rose-600 hover:bg-rose-500', viewBox: '0 0 24 24', path: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/sreyneath-rom-69b2a5321/', bg: 'bg-blue-700 hover:bg-blue-600', viewBox: '0 0 24 24', path: 'M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.45-2.13 2.94v5.66H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43c-1.14 0-2.06-.93-2.06-2.07 0-1.14.92-2.07 2.06-2.07 1.14 0 2.06.93 2.06 2.07 0 1.14-.92 2.07-2.06 2.07zm1.78 13.02H3.55V9h3.57v11.45z' },
+  { name: 'Facebook', url: 'https://www.facebook.com/neath1fly', bg: 'bg-blue-600 hover:bg-blue-500', viewBox: '0 0 24 24', path: 'M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2v-2c0-2.2 1.8-4 4-4h2v3h-2c-1.1 0-2 .9-2 2v2h4v3h-4v4.8c4.56-.93 8-4.96 8-9.8z' },
+]
+
+import { useDarkMode } from '@/composables/useDarkMode'
+const { currentTheme } = useDarkMode()
 
 const themeClasses = computed(() => {
   const map = {
@@ -191,41 +114,11 @@ const themeClasses = computed(() => {
   return map[currentTheme.value] || 'bg-gradient-to-br from-gray-900 to-black'
 })
 
-const themeText = computed(() => textClass.value)
-const themeTextSecondary = computed(() => 
-  currentTheme.value === 'Light' ? 'text-gray-600' : 'text-gray-400'
-)
-const themeAccent = computed(() => accentClass.value)
-
-const badgeClasses = computed(() => `
-  bg-white/20 dark:bg-black/40 
-  backdrop-blur-md border-white/30 
-  ${themeText.value} font-medium
-`)
-
-const skills = ['Vue.js', 'Laravel', 'Tailwind CSS', 'TypeScript', 'Responsive Design', 'UI/UX', 'Git']
-
-const socialLinks = [
-  { name: 'GitHub', url: 'https://github.com/Sreyneath-Rom', bg: 'bg-gray-800 hover:bg-gray-600', viewBox: '0 0 24 24', path: 'M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.4.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1 .8 2v3c0 .3.2.7.8.6C20.6 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z' },
-  { name: 'Email', url: 'mailto:romsreyneath4@gmail.com', bg: 'bg-rose-600 hover:bg-rose-500', viewBox: '0 0 24 24', path: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z' },
-  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/sreyneath-rom-69b2a5321/', bg: 'bg-blue-700 hover:bg-blue-600', viewBox: '0 0 24 24', path: 'M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.45-2.13 2.94v5.66H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43c-1.14 0-2.06-.93-2.06-2.07 0-1.14.92-2.07 2.06-2.07 1.14 0 2.06.93 2.06 2.07 0 1.14-.92 2.07-2.06 2.07zm1.78 13.02H3.55V9h3.57v11.45z' },
-  { name: 'Facebook', url: 'https://www.facebook.com/neath1fly', bg: 'bg-blue-600 hover:bg-blue-500', viewBox: '0 0 24 24', path: 'M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2v-2c0-2.2 1.8-4 4-4h2v3h-2c-1.1 0-2 .9-2 2v2h4v3h-4v4.8c4.56-.93 8-4.96 8-9.8z' },
-]
+const glowStyle = computed(() => {
+  const gradients = {
+    Light: 'conic-gradient(from 0deg, #fbbf24, #f472b6, #818cf8, #34d399, #fbbf24)',
+    Dark: 'conic-gradient(from 0deg, #60a5fa, #c084fc, #86efac, #f87171, #60a5fa)',
+  }
+  return { background: gradients[currentTheme.value] || gradients.Dark, filter: 'blur(32px)' }
+})
 </script>
-
-<style scoped>
-.about-root > * {
-  animation: fadeInUp 0.9s ease-out forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-</style>
