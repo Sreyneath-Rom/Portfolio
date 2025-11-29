@@ -1,196 +1,160 @@
-<!-- src/pages/Homepage.vue -->
 <template>
-  <div class="relative min-h-screen overflow-hidden" :class="[bgClass, textClass]">
-    <!-- Animated Background Gradient (theme-aware) -->
-    <div class="absolute inset-0 -z-10">
-      <div class="absolute inset-0" :class="gradientClass"></div>
-      <div class="absolute inset-0 bg-black/20 backdrop-blur-3xl"></div>
-    </div>
+  <div :class="['min-h-screen transition-colors duration-700', bgClass]" :style="themeVars">
+    <!-- Navigation -->
+    <Navigation />
 
-    <!-- Floating Particles -->
-    <div class="absolute inset-0 pointer-events-none">
-      <div class="floating-particles">
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
-    </div>
+    <!-- Background gradient + overlay -->
+    <div class="absolute inset-0 -z-20" :class="gradientClass"></div>
+    <div class="absolute inset-0 -z-10 bg-black/20 backdrop-blur-3xl transition-opacity duration-700"></div>
 
-    <!-- Hero Section -->
-    <section class="relative max-w-7xl mx-auto px-6 py-32 md:py-40 text-center flex flex-col items-center justify-center gap-12">
-      <!-- Main Heading with Typed.js -->
-      <h1 class="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight">
-        <span ref="typedEl" class="inline-block bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent drop-shadow-2xl"></span>
-        <span class="block text-4xl md:text-5xl mt-6 opacity-90 font-bold" :class="accentClass">
-          Full-Stack Developer
-        </span>
-      </h1>
+    <!-- Main Hero Section -->
+    <main class="relative pt-28 pb-16">
+      <section class="max-w-7xl mx-auto px-6 md:px-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <!-- Left: Hero text -->
+        <div class="space-y-6">
+          <h1
+            ref="heroTitle"
+            class="leading-tight font-extrabold text-4xl md:text-6xl lg:text-7xl tracking-tight transform transition-all duration-700"
+            :class="titleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
+          >
+            <span ref="typedEl" class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-pink-400"></span>
+            <span class="block mt-4 text-3xl md:text-4xl" :class="accentClass">Full-Stack Developer</span>
+          </h1>
 
-      <!-- Subtitle -->
-      <p class="text-xl md:text-2xl font-light opacity-90 max-w-4xl leading-relaxed">
-        Crafting <span class="font-bold text-cyan-400">beautiful</span>,
-        <span class="font-bold text-emerald-400">performant</span>, and
-        <span class="font-bold text-pink-400">accessible</span> web experiences with passion and precision.
-      </p>
+          <p class="max-w-2xl text-lg md:text-xl transition-all duration-700" :class="subVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'">
+            Crafting <strong class="text-cyan-400">beautiful</strong>, <strong class="text-emerald-400">performant</strong>, and <strong class="text-pink-400">accessible</strong> web experiences.
+          </p>
 
-      <!-- Action Buttons -->
-      <div class="flex flex-col sm:flex-row gap-6 mt-10 items-center justify-center">
-        <router-link
-          to="/portfolio"
-          class="group relative inline-flex items-center gap-4 px-10 py-5 rounded-2xl font-bold text-lg tracking-wide overflow-hidden shadow-2xl transition-all duration-500 transform hover:scale-105 hover:shadow-3xl"
-          :class="[primaryButtonBg, 'text-white']"
-        >
-          <span class="relative z-10">View My Work</span>
-          <span class="material-symbols-outlined text-2xl relative z-10 group-hover:translate-x-1 transition-transform">
-            arrow_forward
-          </span>
-          <!-- Shine effect -->
-          <span class="absolute inset-0 -translate-x-full bg-white/30 skew-x-12 transition-transform duration-1000 group-hover:translate-x-full"></span>
-        </router-link>
+          <div class="flex flex-col sm:flex-row gap-4 mt-6" :class="ctasVisible ? 'opacity-100' : 'opacity-0'">
+            <router-link
+              to="/portfolio"
+              class="group inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-bold shadow-lg transform transition duration-300 hover:scale-105"
+              :class="[primaryButtonBg, 'text-white']"
+            >
+              View My Work
+              <span class="material-symbols-outlined">arrow_forward</span>
+            </router-link>
+            <button
+              @click="scrollToAbout"
+              class="inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-semibold border-2 hover:bg-white/10 transition"
+              :class="accentClass"
+            >
+              Let's Talk
+              <span class="material-symbols-outlined">keyboard_arrow_down</span>
+            </button>
+          </div>
 
-        <router-link
-          to="/contact"
-          class="inline-flex items-center gap-3 px-8 py-5 rounded-2xl font-semibold text-lg border-2 border-current hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
-          :class="accentClass"
-        >
-          <span class="material-symbols-outlined">mail</span>
-          Let's Talk
-        </router-link>
-      </div>
+          <div class="flex flex-wrap gap-3 mt-8">
+            <span
+              v-for="t in techStack"
+              :key="t"
+              class="px-4 py-2 rounded-full text-sm font-medium shadow backdrop-blur-md border"
+              :class="badgeGlow"
+            >
+              {{ t }}
+            </span>
+          </div>
+        </div>
 
-      <!-- Tech Badges -->
-      <div class="flex flex-wrap gap-4 mt-16 justify-center">
-        <span
-          v-for="tech in techStack"
-          :key="tech"
-          class="px-6 py-3 rounded-full text-sm font-medium backdrop-blur-md border border-white/20 shadow-lg hover:shadow-xl hover:scale-110 transition-all duration-300"
-          :class="badgeGlow"
-        >
-          {{ tech }}
-        </span>
-      </div>
+        <!-- Right: Parallax Card -->
+        <div class="flex justify-center md:justify-end relative">
+          <div class="absolute -left-20 -top-20 w-40 h-40 rounded-full blur-3xl opacity-40" :class="orbClass"></div>
 
-      <!-- Scroll Indicator -->
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <span class="material-symbols-outlined text-5xl opacity-60" :class="accentClass">
-          keyboard_arrow_down
-        </span>
-      </div>
-    </section>
+          <div
+            ref="parallaxCard"
+            @pointermove="onPointerMove"
+            @pointerleave="resetPointer"
+            class="relative w-72 h-72 md:w-96 md:h-96 rounded-2xl shadow-2xl bg-white/10 backdrop-blur-lg border border-white/10 overflow-hidden transform transition-all duration-300"
+          >
+            <div class="absolute inset-0 pointer-events-none" :style="cardInnerStyle">
+              <div class="absolute inset-0" :class="innerGradient" />
+            </div>
+            <img src="@/assets/image/me.jpg" alt="Sreyneath" class="object-cover w-full h-full" />
+            <div class="absolute bottom-4 left-4 text-left">
+              <div class="text-sm font-semibold" :class="textClass">Sreyneath Rom</div>
+              <div class="text-xs opacity-80" :class="textClass">Full-Stack Developer</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <!-- About Section -->
-    <Aboutpage />
+      <!-- About Section -->
+      <section ref="aboutRef" class="max-w-6xl mx-auto px-6 py-16">
+        <Aboutpage />
+      </section>
+    </main>
+
+    <!-- Footer -->
     <Footer />
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, computed, reactive } from 'vue'
 import Typed from 'typed.js'
+import Navigation from '@/components/Navigation.vue'
 import Aboutpage from '@/components/Aboutpage.vue'
 import Footer from '@/components/Footer.vue'
 import { useDarkMode } from '@/composables/useDarkMode'
 
-const typedEl = ref(null)
-const typedInstance = ref(null)
+const { currentTheme, bgClass, textClass, accentClass } = useDarkMode()
 
-const { bgClass, textClass, accentClass, currentTheme } = useDarkMode()
+// Typed.js
+const typedEl = ref<HTMLElement | null>(null)
+let typedInstance: any = null
 
-// Dynamic gradient background
-const gradientClass = computed(() => {
-  const map = {
-    Light: 'bg-gradient-to-br from-gray-100 via-white to-gray-50',
-    Dark: 'bg-gradient-to-br from-gray-900 via-black to-purple-900',
-    Sepia: 'bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100',
-    Blue: 'bg-gradient-to-br from-blue-950 via-indigo-900 to-cyan-900',
-    Purple: 'bg-gradient-to-br from-purple-950 via-pink-900 to-rose-900',
-    Green: 'bg-gradient-to-br from-emerald-950 via-teal-900 to-cyan-900',
-    Orange: 'bg-gradient-to-br from-orange-900 via-red-900 to-amber-900',
-    Teal: 'bg-gradient-to-br from-teal-950 via-cyan-900 to-blue-900',
-    Pink: 'bg-gradient-to-br from-pink-950 via-rose-900 to-purple-900',
-    Midnight: 'bg-gradient-to-br from-indigo-950 via-black to-purple-950',
-  }
-  return map[currentTheme.value] || 'bg-gradient-to-br from-gray-900 to-black'
-})
+// Entrance animations
+const titleVisible = ref(false)
+const subVisible = ref(false)
+const ctasVisible = ref(false)
 
-// Primary button background
-const primaryButtonBg = computed(() => {
-  const map = {
-    Light: 'bg-gray-800 hover:bg-gray-900',
-    Dark: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700',
-    Sepia: 'bg-gradient-to-r from-amber-600 to-orange-600',
-    Blue: 'bg-gradient-to-r from-blue-600 to-cyan-600',
-    Purple: 'bg-gradient-to-r from-purple-600 to-pink-600',
-    Green: 'bg-gradient-to-r from-emerald-600 to-teal-600',
-    Orange: 'bg-gradient-to-r from-orange-600 to-red-600',
-    Teal: 'bg-gradient-to-r from-teal-600 to-cyan-600',
-    Pink: 'bg-gradient-to-r from-pink-600 to-rose-600',
-    Midnight: 'bg-gradient-to-r from-indigo-600 to-purple-600',
-  }
-  return map[currentTheme.value] || 'bg-gradient-to-r from-purple-600 to-pink-600'
-})
-
-// Glassmorphic badge
-const badgeGlow = computed(() => `
-  bg-white/10 dark:bg-black/30 
-  backdrop-blur-xl 
-  border-white/30 
-  ${textClass.value}
-  hover:bg-white/20 dark:hover:bg-black/50
-`)
-
+// Tech stack badges
 const techStack = ['Vue 3', 'TypeScript', 'Tailwind CSS', 'Laravel', 'Node.js', 'Git', 'Responsive Design']
+const badgeGlow = computed(() => `bg-white/10 dark:bg-black/30 backdrop-blur-xl border-white/30 ${textClass.value} hover:bg-white/20 dark:hover:bg-black/50`)
+
+// Backgrounds
+const gradientClass = computed(() => {
+  const map: Record<string,string> = {
+    Light: 'bg-gradient-to-br from-gray-100 via-white to-gray-50',
+    Dark: 'bg-gradient-to-br from-gray-900 via-indigo-900 to-black',
+    Sepia: 'bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100',
+    Purple: 'bg-gradient-to-br from-purple-950 via-pink-900 to-rose-900'
+  }
+  return map[currentTheme.value] ?? map.Dark
+})
+const orbClass = computed(() => ({ Light: 'bg-cyan-200/30', Dark: 'bg-pink-400/30', Purple: 'bg-purple-500/30' }[currentTheme.value] ?? 'bg-cyan-200/30'))
+const innerGradient = computed(() => 'bg-gradient-to-br from-black/10 to-white/5 mix-blend-overlay')
+
+// Primary button
+const primaryButtonBg = computed(() => ({ Light: 'bg-gray-800 hover:bg-gray-900', Dark: 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700' }[currentTheme.value] ?? 'bg-gray-800'))
+
+// Theme CSS variables
+const themeVars = computed(() => ({ '--accent-color': currentTheme.value==='Dark'?'#8b5cf6':'#06b6d4', transition:'background-color 0.6s ease, color 0.6s ease' }))
+
+// About section scroll
+const aboutRef = ref<HTMLElement | null>(null)
+function scrollToAbout() { aboutRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
+
+// 3D Parallax Card
+const parallaxCard = ref<HTMLElement | null>(null)
+const cardInnerStyle = reactive({ transform: 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)' })
+function onPointerMove(e: PointerEvent) {
+  const el = parallaxCard.value
+  if(!el) return
+  const rect = el.getBoundingClientRect()
+  const px = (e.clientX - rect.left)/rect.width - 0.5
+  const py = (e.clientY - rect.top)/rect.height - 0.5
+  cardInnerStyle.transform = `perspective(900px) rotateX(${-py*10}deg) rotateY(${px*14}deg) scale(1.03)`
+}
+function resetPointer() { cardInnerStyle.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)' }
 
 onMounted(() => {
-  if (!typedEl.value) return
-
-  typedInstance.value = new Typed(typedEl.value, {
-    strings: [
-      'Welcome to My Portfolio',
-      'I am Sreyneath Rom',
-      'Full-Stack Developer',
-      'Building the Future, One Line at a Time'
-    ],
-    typeSpeed: 80,
-    backSpeed: 40,
-    backDelay: 1500,
-    smartBackspace: true,
-    loop: true,
-    showCursor: true,
-    cursorChar: '<span class="text-cyan-400">|</span>',
-  })
+  if(typedEl.value){
+    typedInstance = new Typed(typedEl.value, { strings:['Welcome to My Portfolio','I am Sreyneath Rom','Full-Stack Developer'], typeSpeed:70, backSpeed:40, loop:true, showCursor:true, cursorChar:'|' })
+  }
+  setTimeout(()=> titleVisible.value=true,180)
+  setTimeout(()=> subVisible.value=true,420)
+  setTimeout(()=> ctasVisible.value=true,760)
 })
-
-onUnmounted(() => {
-  typedInstance.value?.destroy()
-})
+onUnmounted(()=> typedInstance?.destroy())
 </script>
-
-<style scoped>
-/* Floating particles */
-.floating-particles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-.floating-particles span {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  animation: float 15s infinite linear;
-  bottom: -100px;
-}
-.floating-particles span:nth-child(1) { left: 10%; animation-delay: 2s; }
-.floating-particles span:nth-child(2) { left: 20%; animation-delay: 5s; }
-.floating-particles span:nth-child(3) { left: 40%; animation-delay: 8s; }
-.floating-particles span:nth-child(4) { left: 70%; animation-delay: 3s; }
-.floating-particles span:nth-child(5) { left: 90%; animation-delay: 6s; }
-
-@keyframes float {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-}
-</style>
