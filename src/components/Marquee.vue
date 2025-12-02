@@ -16,12 +16,12 @@
       <div class="py-10 overflow-hidden">
         <div
           class="flex items-center gap-16"
-          :class="[i % 2 === 0 ? 'animate-marquee' : 'animate-marquee-reverse', hovered === i ? 'animation-paused' : '']"
+          :class="[i % 3 === 0 ? 'animate-marquee' : 'animate-marquee-reverse', hovered === i ? 'animation-paused' : '']"
         >
           <div
             v-for="icon in [...row, ...row]" 
             :key="icon.alt + i"
-            class="flex-shrink-0 w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-125 hover:bg-white/20"
+            class="flex-shrink-0 w-15 h-15 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-125 hover:bg-white/20"
           >
             <img :src="icon.src" :alt="icon.alt" class="w-12 h-12 object-contain" loading="lazy" />
           </div>

@@ -1,4 +1,3 @@
-<!-- src/components/DarkMode.vue -->
 <template>
   <div ref="root" class="relative group">
     <!-- Theme Toggle Button -->
@@ -8,17 +7,17 @@
       @keydown.space.prevent="toggle"
       :aria-expanded="open"
       :aria-haspopup="true"
-      class="relative flex items-center gap-3 px-5 py-3 rounded-2xl font-medium transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30 shadow-lg backdrop-blur-xl border border-white/20 text-white"
+      class="relative flex items-center gap-3 px-5 py-3 rounded-2xl font-medium transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white/30 shadow-lg backdrop-blur-xl border border-white/20"
       :class="toggleBg"
       type="button"
     >
       <span class="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"></span>
 
       <span class="relative flex items-center gap-3">
-        <span class="material-symbols-outlined text-2xl animate-pulse" :class="iconGlow">
+        <span class="material-symbols-outlined text-2xl animate-pulse" :class="activeIconClass">
           {{ icon }}
         </span>
-        <span class="text-sm tracking-wide">{{ currentTheme }}</span>
+        <span :class="activeTextClass" class="text-sm tracking-wide">{{ currentTheme }}</span>
       </span>
 
       <span class="material-symbols-outlined text-lg transition-transform duration-300" :class="open ? 'rotate-180' : ''">
@@ -57,7 +56,7 @@
               </span>
             </div>
 
-            <span class="font-medium">{{ t.name }}</span>
+            <span :class="getTextColor(t.name)" class="font-medium">{{ t.name }}</span>
 
             <span
               v-if="currentTheme === t.name"
@@ -98,45 +97,36 @@ const close = () => {
   open.value = false
 }
 
-// Close on click outside
 const handleClickOutside = (e) => {
-  if (root.value && !root.value.contains(e.target) && open.value) {
-    close()
-  }
+  if (root.value && !root.value.contains(e.target) && open.value) close()
 }
 
-// Close on Escape key
 const handleEscape = (e) => {
-  if (e.key === 'Escape' && open.value) {
-    close()
-  }
+  if (e.key === 'Escape' && open.value) close()
 }
 
-// Register global listeners (only once per component)
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
   document.addEventListener('keydown', handleEscape)
 })
-
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
   document.removeEventListener('keydown', handleEscape)
 })
 
-// Computed values
-const icon = computed(() => 
-  themes.find(t => t.name === currentTheme.value)?.icon ?? 'dark_mode'
+// Computed
+const icon = computed(() => themes.find(t => t.name === currentTheme.value)?.icon ?? 'dark_mode')
+
+const activeIconClass = computed(() =>
+  ['Light','Sepia'].includes(currentTheme.value) ? 'text-black drop-shadow-lg' : 'text-white drop-shadow-lg'
 )
 
-const iconGlow = computed(() => {
-  const map = {
-    Light: 'text-yellow-400', Dark: 'text-gray-300', Sepia: 'text-amber-500',
-    Blue: 'text-cyan-400', Purple: 'text-purple-400', Green: 'text-emerald-400',
-    Orange: 'text-orange-400', Teal: 'text-teal-400', Pink: 'text-pink-400',
-    Midnight: 'text-indigo-400',
-  }
-  return map[currentTheme.value] || 'text-gray-300'
-})
+const activeTextClass = computed(() =>
+  ['Light','Sepia'].includes(currentTheme.value) ? 'text-black font-bold' : 'text-white font-bold'
+)
+
+const getTextColor = (name) =>
+  ['Light','Sepia'].includes(name) ? 'text-black' : 'text-white'
 
 const getGlowClass = (name) => ({
   Light: 'bg-yellow-400/50', Dark: 'bg-gray-600/50', Sepia: 'bg-amber-600/50',
@@ -146,19 +136,17 @@ const getGlowClass = (name) => ({
 }[name] || 'bg-gray-500/50')
 
 const toggleBg = computed(() => 
-  ['Light', 'Sepia'].includes(currentTheme.value)
-    ? 'bg-white/30 hover:bg-white/50 text-gray-900'
+  ['Light', 'Sepia',].includes(currentTheme.value)
+    ? 'bg-white/30 hover:bg-white/50'
     : 'bg-black/40 hover:bg-black/60'
 )
 
-const menuBg = computed(() => 
-  ['Light', 'Sepia'].includes(currentTheme.value)
-    ? 'bg-white/80'
-    : 'bg-black/70'
+const menuBg = computed(() =>
+  ['Light', 'Sepia'].includes(currentTheme.value) ? 'bg-white/80' : 'bg-black/70'
 )
 
 const activeItem = computed(() => 'bg-white/20 font-bold')
-const inactiveItem = computed(() => 'text-white/80')
+const inactiveItem = computed(() => ['Light', 'Sepia', ].includes(currentTheme.value) ? 'text-black/80' : 'text-white/80')
 </script>
 
 <style scoped>

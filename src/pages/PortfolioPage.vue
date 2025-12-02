@@ -430,6 +430,22 @@ const projects = [
       'Ensured responsive design for mobile and desktop.',
     ],
   },
+   {
+    id: 'task-004',
+    title: 'Task Manager App',
+    duration: 'Mar 01, 2025 - Jun 15, 2025',
+    role: 'Full-Stack Developer',
+    image: 'https://via.placeholder.com/320x160?text=Task+Manager',
+    demoLink: 'https://example.com/task-manager-demo',
+    githubLink: 'https://github.com/Sreyneath-Rom/task-manager',
+    technologies: ['Laravel', 'Vue.js', 'MySQL'],
+    tasks: [
+      'Developed backend APIs with Laravel and MySQL.',
+      'Created interactive frontend with Vue.js.',
+      'Implemented user authentication and task CRUD operations.',
+      'Ensured responsive design for mobile and desktop.',
+    ],
+  },
 ];
 
 // Filter logic

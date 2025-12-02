@@ -13,19 +13,38 @@
       :aria-current="isActive ? 'page' : null"
       :aria-label="`Go to ${item.label}`"
     >
-      <!-- Glow & Underline (same as before) -->
-      <span class="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/20 via-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"
-            :class="{ 'opacity-100': isActive }"></span>
-      <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 rounded-full transition-all duration-500 group-hover:w-full"
-            :class="{ 'w-full': isActive }"></span>
+      <!-- Background Glow -->
+      <span
+        class="absolute inset-0 rounded-2xl bg-gradient-to-r 
+               from-cyan-500/20 via-purple-500/20 to-pink-500/20
+               opacity-0 blur-xl transition-opacity duration-500"
+        :class="{ 'opacity-100': isActive }"
+      ></span>
 
-      <span class="relative z-10 material-symbols-outlined text-2xl transition-all duration-300"
-            :class="isActive ? 'text-white drop-shadow-lg' : 'text-white/60 group-hover:text-white'">
+      <!-- Underline Effect -->
+      <span
+        class="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 
+               bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 
+               rounded-full transition-all duration-500 group-hover:w-full"
+        :class="{ 'w-full': isActive }"
+      ></span>
+
+      <!-- Icon -->
+      <span
+        class="relative z-10 material-symbols-outlined text-2xl transition-all duration-300"
+        :class="[
+          isActive ? activeIconClass : inactiveIconClass,
+          iconGlowClass
+        ]"
+      >
         {{ item.icon }}
       </span>
 
-      <span class="relative z-10 hidden xs:inline text-sm tracking-wide transition-all duration-300"
-            :class="isActive ? 'text-white font-bold' : 'text-white/70 group-hover:text-white'">
+      <!-- Label -->
+      <span
+        class="relative z-10 text-sm tracking-wide transition-all duration-300"
+        :class="isActive ? activeTextClass : inactiveTextClass"
+      >
         {{ item.label }}
       </span>
     </a>
@@ -33,12 +52,32 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { computed } from 'vue'
+import { useDarkMode } from '@/composables/useDarkMode'
 
-const props = defineProps({
+defineProps({
   item: { type: Object, required: true }
 })
 
-const activeClasses = 'scale-110 shadow-2xl shadow-purple-500/30'
-const inactiveClasses = 'hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/20'
+const { currentTheme, inactiveIconClass, iconGlowClass } = useDarkMode()
+
+// Active / Inactive Classes
+const activeClasses = 'scale-105 shadow-lg shadow-purple-500/30 bg-white/10 dark:bg-black/20 backdrop-blur-xl'
+const inactiveClasses = 'hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20'
+
+// Text Classes
+const activeTextClass = computed(() => currentTheme.value === 'Light' ? 'text-black font-bold' : 'text-white font-bold')
+const inactiveTextClass = computed(() => currentTheme.value === 'Light' ? 'text-black/70 group-hover:text-black' : 'text-white/70 group-hover:text-white')
+
+// Icon Classes
+const activeIconClass = computed(() => currentTheme.value === 'Light' ? 'text-black drop-shadow-lg' : 'text-white drop-shadow-lg')
 </script>
+
+<style scoped>
+/* Smooth material icon rendering */
+.material-symbols-outlined {
+  font-variation-settings:
+    "wght" 400,
+    "FILL" 1;
+}
+</style>

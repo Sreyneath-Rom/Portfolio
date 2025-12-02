@@ -63,7 +63,7 @@
         </div>
 
         <!-- Back to Top Button -->
-        <button
+        <!-- <button
           @click="scrollToTop"
           class="absolute -top-10 left-1/2 -translate-x-1/2 group p-4 rounded-full bg-white/10 backdrop-blur-md border border-white/30 shadow-xl hover:bg-white/20 transition-all duration-300 hover:scale-110"
           aria-label="Back to top"
@@ -71,7 +71,7 @@
           <span class="material-symbols-outlined text-3xl" :class="accentClass">
             arrow_upward
           </span>
-        </button>
+        </button> -->
       </div>
     </div>
   </footer>
