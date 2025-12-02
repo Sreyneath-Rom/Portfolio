@@ -14,65 +14,50 @@ export const themes = [
   { name: 'Midnight', icon: 'nightlight',           iconColor: 'text-indigo-400' },
 ]
 
-const themeMap = {
-  Light:    { bg: 'bg-white',       text: 'text-gray-900',   accent: 'text-yellow-500' },
-  Dark:     { bg: 'bg-gray-900',    text: 'text-gray-100',   accent: 'text-gray-300' },
-  Sepia:    { bg: 'bg-yellow-100',  text: 'text-yellow-900',  accent: 'text-yellow-700' },
-  Blue:     { bg: 'bg-blue-900',    text: 'text-blue-100',   accent: 'text-blue-400' },
-  Purple:   { bg: 'bg-purple-900',  text: 'text-purple-100', accent: 'text-purple-400' },
-  Green:    { bg: 'bg-green-900',   text: 'text-green-100',  accent: 'text-green-400' },
-  Orange:   { bg: 'bg-orange-900',  text: 'text-orange-100', accent: 'text-orange-400' },
-  Teal:     { bg: 'bg-teal-900',    text: 'text-teal-100',   accent: 'text-teal-400' },
-  Pink:     { bg: 'bg-pink-900',    text: 'text-pink-100',   accent: 'text-pink-400' },
-  Midnight: { bg: 'bg-indigo-900',  text: 'text-indigo-100', accent: 'text-indigo-400' },
+const themeClasses = {
+  Light:    { bg: 'bg-white',       text: 'text-gray-900',   accent: 'text-purple-600' },
+  Dark:     { bg: 'bg-gray-900',    text: 'text-gray-100',   accent: 'text-purple-400' },
+  Sepia:    { bg: 'bg-amber-50',    text: 'text-amber-900',  accent: 'text-amber-700' },
+  Blue:     { bg: 'bg-blue-950',    text: 'text-blue-100',   accent: 'text-cyan-400' },
+  Purple:   { bg: 'bg-purple-950',  text: 'text-purple-100', accent: 'text-pink-400' },
+  Green:    { bg: 'bg-emerald-950', text: 'text-emerald-100',accent: 'text-lime-400' },
+  Orange:   { bg: 'bg-orange-950',  text: 'text-orange-100', accent: 'text-orange-400' },
+  Teal:     { bg: 'bg-teal-950',    text: 'text-teal-100',   accent: 'text-cyan-400' },
+  Pink:     { bg: 'bg-pink-950',    text: 'text-pink-100',   accent: 'text-rose-400' },
+  Midnight: { bg: 'bg-indigo-950',  text: 'text-indigo-100', accent: 'text-purple-400' },
 }
 
-function getValidTheme(name) {
-  return themeMap[name] ? name : 'Dark'
+const currentTheme = ref('Dark')
+
+// Load from localStorage
+if (typeof window !== 'undefined') {
+  const saved = localStorage.getItem('theme')
+  if (saved && themeClasses[saved]) currentTheme.value = saved
 }
-
-const getInitialTheme = () => {
-  if (typeof window !== 'undefined' && window.localStorage) {
-    const stored = localStorage.getItem('theme')
-    return getValidTheme(stored || 'Dark')
-  }
-  return 'Dark'
-}
-
-const currentTheme = ref(getInitialTheme())
-
-export const setTheme = (name) => {
-  const validTheme = getValidTheme(name)
-  currentTheme.value = validTheme
-  try {
-    localStorage.setItem('theme', validTheme)
-  } catch (e) {
-    // ignore localStorage errors (e.g. privacy mode)
-  }
-}
-
-// Keep root element classes in sync
-watch(currentTheme, (name) => {
-  const target = themeMap[name] || themeMap.Dark
-  // Remove all known bg/text classes
-  Object.values(themeMap).forEach(({ bg, text }) => {
-    document.documentElement.classList.remove(bg, text)
-  })
-  // Add the chosen ones
-  document.documentElement.classList.add(target.bg, target.text, 'transition-colors', 'duration-300')
-}, { immediate: true })
 
 export function useDarkMode() {
-  const bgClass = computed(() => (themeMap[currentTheme.value] || themeMap.Dark).bg)
-  const textClass = computed(() => (themeMap[currentTheme.value] || themeMap.Dark).text)
-  const accentClass = computed(() => (themeMap[currentTheme.value] || themeMap.Dark).accent)
+  const setTheme = (name) => {
+    if (!themeClasses[name]) name = 'Dark'
+    currentTheme.value = name
+    localStorage.setItem('theme', name)
+
+    const classes = themeClasses[name]
+    document.documentElement.className = ''
+    document.documentElement.classList.add(
+      classes.bg, classes.text, 'transition-colors', 'duration-300'
+    )
+  }
+
+  watch(currentTheme, (name) => {
+    setTheme(name)
+  }, { immediate: true })
 
   return {
     currentTheme: readonly(currentTheme),
     setTheme,
     themes,
-    bgClass,
-    textClass,
-    accentClass,
+    bgClass: computed(() => themeClasses[currentTheme.value]?.bg || 'bg-gray-900'),
+    textClass: computed(() => themeClasses[currentTheme.value]?.text || 'text-gray-100'),
+    accentClass: computed(() => themeClasses[currentTheme.value]?.accent || 'text-purple-400'),
   }
 }
