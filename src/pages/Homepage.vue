@@ -1,8 +1,7 @@
-
 <template>
-  <div class="min-h-screen mt-16 md:mt-20 font-sans p-4 md:p-6 transition-colors duration-300" :class="themeClasses">
+  
     <!-- Hero Section -->
-    <section class="py-16 px-4 rounded-lg shadow-lg" :class="themeBg">
+    <section class="mt-8 py-16 px-4 rounded-lg shadow-lg" :class="themeBg">
       <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
         <!-- Text -->
         <div class="w-full md:w-1/2 text-center md:text-left">
@@ -10,7 +9,8 @@
           <p class="text-base md:text-lg mb-6" :class="themeText">
             Explore my journey in preparing for a career in the IT sector.
           </p>
-          <router-link to="/portfolio" class="px-6 py-3 rounded-lg font-semibold transition-colors duration-200" :class="themeButton">
+          <router-link to="/portfolio" class="px-6 py-3 rounded-lg font-semibold transition-colors duration-200"
+            :class="themeButton">
             View Portfolio
           </router-link>
         </div>
@@ -18,19 +18,26 @@
         <div class="w-full md:w-1/2 flex justify-center">
           <div class="relative">
             <div class="absolute w-36 h-36 md:w-56 md:h-56 rounded-full blur-2xl opacity-50" :class="themeBlur"></div>
-            <img src="@/assets/image/me.jpg" alt="Sreyneath Rom profile picture" class="relative w-32 h-32 md:w-48 md:h-48 rounded-full shadow-lg object-cover" />
+            <img src="@/assets/image/me.jpg" alt="Sreyneath Rom profile picture"
+              class="relative w-32 h-32 md:w-48 md:h-48 rounded-full shadow-lg object-cover" />
           </div>
         </div>
       </div>
     </section>
 
-    <!-- About Section -->
+    
+ 
+  <!-- About Section -->
     <hr class="my-8" :class="themeBorder" />
     <Aboutpage />
-
+    <hr class="my-8" :class="themeBorder" />
+      <!-- Skills Marquee -->
+    <section class="mt-24">
+      <Marquee />
+    </section>
+    <hr class="my-8" :class="themeBorder" />
     <!-- Footer -->
     <Footer />
-  </div>
 </template>
 
 <script setup>
@@ -39,6 +46,7 @@ import Typed from 'typed.js';
 import Aboutpage from '@/components/Aboutpage.vue';
 import Footer from '@/components/Footer.vue';
 import { useDarkMode } from '@/composables/useDarkMode';
+import Marquee from '@/components/Marquee.vue';
 
 // Theme management
 const { currentTheme } = useDarkMode();
@@ -142,9 +150,17 @@ onMounted(() => {
 .animate-fadeIn {
   animation: fadeIn 0.8s ease-out;
 }
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Smooth transitions for theme changes */
@@ -154,103 +170,164 @@ onMounted(() => {
 
 /* Theme-specific background colors */
 .bg-sepia-100 {
-  background-color: #f3eadb; /* Matches DarkMode.vue sepia-theme */
+  background-color: #f3eadb;
+  /* Matches DarkMode.vue sepia-theme */
 }
+
 .bg-blue-900 {
-  background-color: #0b3d91; /* Matches DarkMode.vue blue-theme */
+  background-color: #0b3d91;
+  /* Matches DarkMode.vue blue-theme */
 }
+
 .bg-purple-900 {
-  background-color: #4c1d95; /* Matches DarkMode.vue purple-theme */
+  background-color: #4c1d95;
+  /* Matches DarkMode.vue purple-theme */
 }
+
 .bg-green-900 {
-  background-color: #065f46; /* Matches DarkMode.vue green-theme */
+  background-color: #065f46;
+  /* Matches DarkMode.vue green-theme */
 }
+
 .bg-orange-900 {
-  background-color: #a04000; /* Matches DarkMode.vue orange-theme */
+  background-color: #a04000;
+  /* Matches DarkMode.vue orange-theme */
 }
+
 .bg-teal-900 {
-  background-color: #0f766e; /* Matches DarkMode.vue teal-theme */
+  background-color: #0f766e;
+  /* Matches DarkMode.vue teal-theme */
 }
+
 .bg-pink-900 {
-  background-color: #be185d; /* Matches DarkMode.vue pink-theme */
+  background-color: #be185d;
+  /* Matches DarkMode.vue pink-theme */
 }
+
 .bg-indigo-900 {
-  background-color: #021124; /* Matches DarkMode.vue midnight-theme */
+  background-color: #021124;
+  /* Matches DarkMode.vue midnight-theme */
 }
 
 /* Theme-specific text colors */
 .text-sepia-900 {
-  color: #5b4636; /* Matches DarkMode.vue sepia-theme */
+  color: #5b4636;
+  /* Matches DarkMode.vue sepia-theme */
 }
+
 .text-blue-100 {
-  color: #e6f2ff; /* Matches DarkMode.vue blue-theme */
+  color: #e6f2ff;
+  /* Matches DarkMode.vue blue-theme */
 }
+
 .text-purple-100 {
-  color: #efe7ff; /* Matches DarkMode.vue purple-theme */
+  color: #efe7ff;
+  /* Matches DarkMode.vue purple-theme */
 }
+
 .text-green-100 {
-  color: #e6fff4; /* Matches DarkMode.vue green-theme */
+  color: #e6fff4;
+  /* Matches DarkMode.vue green-theme */
 }
+
 .text-orange-100 {
-  color: #fff4e6; /* Matches DarkMode.vue orange-theme */
+  color: #fff4e6;
+  /* Matches DarkMode.vue orange-theme */
 }
+
 .text-teal-100 {
-  color: #e6fffb; /* Matches DarkMode.vue teal-theme */
+  color: #e6fffb;
+  /* Matches DarkMode.vue teal-theme */
 }
+
 .text-pink-100 {
-  color: #fff0f6; /* Matches DarkMode.vue pink-theme */
+  color: #fff0f6;
+  /* Matches DarkMode.vue pink-theme */
 }
+
 .text-indigo-100 {
-  color: #dfefff; /* Matches DarkMode.vue midnight-theme */
+  color: #dfefff;
+  /* Matches DarkMode.vue midnight-theme */
 }
 
 /* Theme-specific gradient colors */
 .bg-gradient-to-r.from-sepia-200 {
-  --tw-gradient-from: #f5f0e1; /* Derived from sepia palette */
+  --tw-gradient-from: #f5f0e1;
+  /* Derived from sepia palette */
 }
+
 .bg-gradient-to-r.to-sepia-300 {
-  --tw-gradient-to: #ede4d3; /* Derived from sepia palette */
+  --tw-gradient-to: #ede4d3;
+  /* Derived from sepia palette */
 }
+
 .bg-gradient-to-r.from-blue-800 {
-  --tw-gradient-from: #1e3a8a; /* Derived from blue palette */
+  --tw-gradient-from: #1e3a8a;
+  /* Derived from blue palette */
 }
+
 .bg-gradient-to-r.to-blue-900 {
-  --tw-gradient-to: #0b3d91; /* Matches DarkMode.vue blue-theme */
+  --tw-gradient-to: #0b3d91;
+  /* Matches DarkMode.vue blue-theme */
 }
+
 .bg-gradient-to-r.from-purple-800 {
-  --tw-gradient-from: #3b1476; /* Derived from purple palette */
+  --tw-gradient-from: #3b1476;
+  /* Derived from purple palette */
 }
+
 .bg-gradient-to-r.to-purple-900 {
-  --tw-gradient-to: #4c1d95; /* Matches DarkMode.vue purple-theme */
+  --tw-gradient-to: #4c1d95;
+  /* Matches DarkMode.vue purple-theme */
 }
+
 .bg-gradient-to-r.from-green-800 {
-  --tw-gradient-from: #064e3b; /* Derived from green palette */
+  --tw-gradient-from: #064e3b;
+  /* Derived from green palette */
 }
+
 .bg-gradient-to-r.to-green-900 {
-  --tw-gradient-to: #065f46; /* Matches DarkMode.vue green-theme */
+  --tw-gradient-to: #065f46;
+  /* Matches DarkMode.vue green-theme */
 }
+
 .bg-gradient-to-r.from-orange-800 {
-  --tw-gradient-from: #7c2d12; /* Derived from orange palette */
+  --tw-gradient-from: #7c2d12;
+  /* Derived from orange palette */
 }
+
 .bg-gradient-to-r.to-orange-900 {
-  --tw-gradient-to: #a04000; /* Matches DarkMode.vue orange-theme */
+  --tw-gradient-to: #a04000;
+  /* Matches DarkMode.vue orange-theme */
 }
+
 .bg-gradient-to-r.from-teal-800 {
-  --tw-gradient-from: #115e59; /* Derived from teal palette */
+  --tw-gradient-from: #115e59;
+  /* Derived from teal palette */
 }
+
 .bg-gradient-to-r.to-teal-900 {
-  --tw-gradient-to: #0f766e; /* Matches DarkMode.vue teal-theme */
+  --tw-gradient-to: #0f766e;
+  /* Matches DarkMode.vue teal-theme */
 }
+
 .bg-gradient-to-r.from-pink-800 {
-  --tw-gradient-from: #9d174d; /* Derived from pink palette */
+  --tw-gradient-from: #9d174d;
+  /* Derived from pink palette */
 }
+
 .bg-gradient-to-r.to-pink-900 {
-  --tw-gradient-to: #be185d; /* Matches DarkMode.vue pink-theme */
+  --tw-gradient-to: #be185d;
+  /* Matches DarkMode.vue pink-theme */
 }
+
 .bg-gradient-to-r.from-indigo-800 {
-  --tw-gradient-from: #1e1b4b; /* Derived from indigo palette */
+  --tw-gradient-from: #1e1b4b;
+  /* Derived from indigo palette */
 }
+
 .bg-gradient-to-r.to-indigo-900 {
-  --tw-gradient-to: #021124; /* Matches DarkMode.vue midnight-theme */
+  --tw-gradient-to: #021124;
+  /* Matches DarkMode.vue midnight-theme */
 }
 </style>

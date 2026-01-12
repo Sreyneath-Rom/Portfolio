@@ -1,12 +1,26 @@
+<!-- src/App.vue -->
 <template>
-  <header class="shadow-md">
+  <div class="min-h-screen">
     <Navigation />
-  </header>
-  <router-view></router-view>
+    <main class="pt-20">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </main>
+  </div>
 </template>
+
 <script setup>
-// components import
-import Navigation from "@/components/Navigation.vue";
-
-
+import Navigation from '@/components/Navigation.vue'
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+</style>

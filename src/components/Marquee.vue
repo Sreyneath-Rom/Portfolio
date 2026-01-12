@@ -1,346 +1,67 @@
-// Marquee.vue
 <template>
-  <div class="mt-8 space-y-4">
-    <!-- Programming Languages Row -->
-    <div
-      class="marquee-container py-3 overflow-hidden relative rounded-lg"
-      :class="themeContainer"
-    >
-      <div
-        class="marquee-content whitespace-nowrap animate-marquee font-medium inline-block"
-        :class="themeText"
-      >
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-          alt="JavaScript"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
-          alt="TypeScript"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
-          alt="PHP"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
-          alt="Python"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-          alt="HTML"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-          alt="CSS"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
-          alt="SQL"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
-          alt="Java"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
-          alt="C#"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg"
-          alt="C++"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg"
-          alt="Ruby"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg"
-          alt="Go"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg"
-          alt="Swift"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg"
-          alt="Kotlin"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-          alt="JavaScript"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
-          alt="TypeScript"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
-          alt="PHP"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
-          alt="Python"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-          alt="HTML"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-          alt="CSS"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
-          alt="SQL"
-          class="inline h-12 mx-6 align-middle"
-        />
-      </div>
-    </div>
+  <div class="mt-20 space-y-10">
+    <!-- Section Heading -->
+    <h3 class="text-center text-3xl md:text-4xl font-black tracking-tight" :class="accentClass">
+      Technologies I Master
+    </h3>
 
-    <!-- Frontend Frameworks Row -->
+    <!-- Marquee Rows -->
     <div
-      class="marquee-container py-3 overflow-hidden relative rounded-lg"
-      :class="themeContainer"
+      v-for="(row, i) in rows"
+      :key="i"
+      class="group relative overflow-hidden rounded-3xll"
+      @mouseenter="hovered = i"
+      @mouseleave="hovered = null"
     >
-      <div
-        class="marquee-content whitespace-nowrap animate-marquee-right font-medium inline-block"
-        :class="themeText"
-      >
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-          alt="React.js"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
-          alt="Vue.js"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png"
-          alt="Tailwind CSS"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
-          alt="Bootstrap"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
-          alt="HTML5"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
-          alt="CSS3"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg"
-          alt="SASS"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-          alt="React.js"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
-          alt="Vue.js"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2560px-Tailwind_CSS_Logo.svg.png"
-          alt="Tailwind CSS"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg"
-          alt="Bootstrap"
-          class="inline h-12 mx-6 align-middle"
-        />
-      </div>
-    </div>
-
-    <!-- Backend Frameworks + Tools Row -->
-    <div
-      class="marquee-container py-3 overflow-hidden relative rounded-lg"
-      :class="themeContainer"
-    >
-      <div
-        class="marquee-content whitespace-nowrap animate-marquee font-medium inline-block"
-        :class="themeText"
-      >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/800px-Laravel.svg.png"
-          alt="Laravel"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-          alt="Node.js"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
-          alt="Git"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-          alt="GitHub"
-          class="inline h-12 mx-6 align-middle bg-white rounded"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
-          alt="Figma"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
-          alt="VS Code"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg"
-          alt="Postman"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
-          alt="MySQL"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg"
-          alt="Firebase"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/800px-Laravel.svg.png"
-          alt="Laravel"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-          alt="Node.js"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
-          alt="Git"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-          alt="GitHub"
-          class="inline h-12 mx-6 align-middle bg-white rounded"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg"
-          alt="Figma"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg"
-          alt="VS Code"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg"
-          alt="Postman"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
-          alt="MySQL"
-          class="inline h-12 mx-6 align-middle"
-        />
-        <img
-          src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg"
-          alt="Firebase"
-          class="inline h-12 mx-6 align-middle"
-        />
+      <div class="py-10 overflow-hidden">
+        <div
+          class="flex items-center gap-16"
+          :class="[i % 3 === 0 ? 'animate-marquee' : 'animate-marquee-reverse', hovered === i ? 'animation-paused' : '']"
+        >
+          <div
+            v-for="icon in [...row, ...row]" 
+            :key="icon.alt + i"
+            class="flex-shrink-0 w-15 h-15 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl flex items-center justify-center overflow-hidden transition-all duration-500 hover:scale-125 hover:bg-white/20"
+          >
+            <img :src="icon.src" :alt="icon.alt" class="w-12 h-12 object-contain" loading="lazy" />
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useDarkMode } from '@/composables/useDarkMode';
+import { ref } from 'vue'
+import { useDarkMode } from '@/composables/useDarkMode'
 
-const { currentTheme } = useDarkMode();
+const { accentClass } = useDarkMode()
+const hovered = ref(null)
 
-const themeContainer = computed(() => ({
-  'bg-white': currentTheme.value === 'Light',
-  'bg-gray-800': currentTheme.value === 'Dark',
-  'bg-sepia-100': currentTheme.value === 'Sepia',
-  'bg-blue-900': currentTheme.value === 'Blue',
-}));
-const themeText = computed(() => ({
-  'text-gray-700': currentTheme.value === 'Light',
-  'text-gray-300': currentTheme.value === 'Dark',
-  'text-sepia-800': currentTheme.value === 'Sepia',
-  'text-blue-200': currentTheme.value === 'Blue',
-}));
+const rows = [
+  [
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg', alt: 'Vue.js' },
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', alt: 'React' },
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-original.svg', alt: 'Laravel' },
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg', alt: 'Tailwind' },
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg', alt: 'Node.js' },
+  ],
+  [
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg', alt: 'JavaScript' },
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg', alt: 'TypeScript' },
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg', alt: 'Git' },
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg', alt: 'Figma' },
+    { src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg', alt: 'MySQL' },
+  ]
+]
 </script>
 
 <style scoped>
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
+/* Marquee animation */
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes marquee-reverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 
-@keyframes marquee-right {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-.animate-marquee-right {
-  animation: marquee-right 30s linear infinite;
-}
-
-/* Dark mode adjustments */
-.bg-white {
-  background-color: #ffffff; /* Tailwind white */
-}
-.bg-gray-800 {
-  background-color: #1f2937; /* Tailwind gray-800 */
-}
+.animate-marquee { animation: marquee 40s linear infinite; }
+.animate-marquee-reverse { animation: marquee-reverse 40s linear infinite; }
+.animation-paused { animation-play-state: paused !important; }
 </style>
